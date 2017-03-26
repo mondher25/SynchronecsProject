@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      >
+
+
+<ui:composition template="templates/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:b="http://bootsfaces.net/ui"
+	>
+ 
+	
+	<ui:define  name="option" >
+	<div class="ui-g">
+	
+	<div class="ui-g-6">
+	          						<!-- 
+						
+									    AJOUT DE COMPARTIMENT
+						         
+						
+																        -->
+          <h:form id="panel"> 
+			    <p:panel header="Ajouter Compartiment" style="margin-bottom:10px;">
+			        <p:messages id="messages" />
+ 			        <h:panelGrid columns="2" cellpadding="5">
+			            <h:outputLabel for="name" value="Nom Compartiment :" />
+			            <p:inputText id="name" value="#{com.comp.nomCompartiment}" required="true"/>
+			        </h:panelGrid>
+			         <p:commandButton value="Submit" actionListener="#{com.addCom}" process="panel" update="listpanel"/>
+			    </p:panel>
+			</h:form>	
+			    
+		
+
+
+
+						<!-- 
+						
+									AFFICHAGE DE COMPARTIMENT_BY_PLANNER
+						         
+						
+																           -->
+		
+	<h:form id="listpanel"> 	   
+	 <p:dataTable id="eventsDT" var="cm" value="#{com.ListeCompByPlanner()}" rowKey="#{cm.id}">
+                  
+		<f:facet name="header">
+            Listes des Compartiment
+        </f:facet>
+  		    <p:column headerText="Id">
+		        <h:outputText value="#{cm.id}" />
+		    </p:column>	
+		    <p:column headerText="Nom">
+		        <h:outputText value="#{cm.nomCompartiment}" />
+		    </p:column>		
+			<p:column headerText="Action">
+			    	<p:commandButton  value="get" update="allPan"  >
+					  <f:setPropertyActionListener target="#{tacheCP.idCom}" value="#{cm.id}"/>
+					</p:commandButton>		        
+		  	</p:column>	
+		</p:dataTable>		 
+			</h:form>
+				
+		</div>
+		
+		<div class="ui-g-6">
+				
+						<!-- 
+						
+									AJOUT DES TACHES
+						         
+						
+															        -->
+	<p:outputPanel id="allPan" deferred="true">
+		<h:form id="formTache" rendered="#{not empty tacheCP.idCom}">
+		
+					<p:growl id="msgs" showDetail="true" />	
+			      <p:panel header="Ajouter Tache" style="margin-bottom:10px;">
+					<h:panelGrid columns="2" cellpadding="5">
+				
+						    <!--  calendar date Debut -->
+						    <p:outputLabel for="popup" value="date Debut:" />
+			        		<p:calendar id="popup" value="#{tacheCP.newTache.dateDebut}" />
+			     
+					      <!--  calendar date  écheance -->
+					        <p:outputLabel for="popup1" value="date D'écheance" />
+			        		<p:calendar id="popup1" value="#{tacheCP.newTache.dateEcheance}" />
+			        		
+			        		        <p:outputLabel for="console" value="Etat" />
+							        <p:selectOneMenu id="console" value="#{tacheCP.newTache.etat}" style="width:125px">
+							            <f:selectItem itemLabel="non-commencé" itemValue="non-commencé" />
+							            <f:selectItem itemLabel="en cours" itemValue="en cours" />
+							            <f:selectItem itemLabel="Terminé" itemValue="Terminé" />
+							   </p:selectOneMenu>
+			        		
+			        			<h:outputLabel for="desc" value="Description:" />
+			        		    <p:inputTextarea id="desc" required="true" rows="3" cols="55"  autoResize="true"  value="#{tacheCP.newTache.description}"/>
+		     
+						</h:panelGrid>
+					 <p:commandButton value="Ajouter" icon="ui-icon-check" actionListener="#{tacheCP.addTache}" process="formTache" update="listtache" />
+			
+				 </p:panel>
+					#{tacheCP.idCom}
+		</h:form>
+
+	
+	
+						 
+						<!-- 
+						
+									AFFICHAGE DE TACHE_BY_COMPARTIMENT
+						         
+						-->
+																      
+	
+	
+	
+	
+ <h:form id="listtache"> 	   
+	 <p:dataTable  var="VarTache" value="#{tacheCP.listeTacheByComp()}" rendered="#{not empty tacheCP.idCom}"  >
+                  
+		<f:facet name="header">
+            Listes des Taches Par Compartiment
+        </f:facet>
+  		    <p:column headerText="Id">
+		        <h:outputText  value="#{VarTache.id}" />
+		    </p:column>	
+		    <p:column headerText="Description">
+		        <h:outputText value="#{VarTache.description}" />
+		    </p:column>		
+		      		    <p:column headerText="DateDebut">
+		        <h:outputText value="#{VarTache.dateDebut}" />
+		    </p:column>	
+		    <p:column headerText="DateEcheance">
+		        <h:outputText value="#{VarTache.dateEcheance}" />
+		    </p:column>	
+		     <p:column headerText="Planner_Id">
+		        <h:outputText value="#{VarTache.planner.id}" />
+		    </p:column>	
+		    <p:column headerText="Compartiment_Id">
+		        <h:outputText value="#{VarTache.compartiment.id}" />
+		    </p:column>				     
+		</p:dataTable>		 
+			</h:form>  	   
+			</p:outputPanel>
+	    </div>
+			</div>	 
+    </ui:define>
+	</ui:composition>
+
+
+ 
+
+
+
+
+</html>

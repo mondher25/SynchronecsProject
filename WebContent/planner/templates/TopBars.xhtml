@@ -1,0 +1,101 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pv="http://primefaces.org/volt">
+
+
+
+	<header class="demo-header mdl-layout__header mdl-color--blue-grey-50 mdl-color-text--grey-600">
+		 		 <div>
+		 		 <h:form>     
+		 	
+				    <p:toolbar id="tb"  style="background:#37474f;border:0;"  >
+				        <f:facet name="left">    
+						 	     <p:commandButton  id="imageBtn" icon="fa fa-th Fs50 White"/>  
+						 	     <p:tooltip id="imageB" for="imageBtn" value="Decouvrir les autres Applications" position="top" />
+						 	     <p:outputLabel style="text-align: left;color: white;padding-left: 10px;font-size: large;">SYNCHRONECS |</p:outputLabel> 
+						 	     <p:outputLabel style="text-align: left;color: white;padding-left: 10px;font-size: large;">Phenix Mail </p:outputLabel>    	   				
+								 
+								   <p:overlayPanel id="imagePanel" for="imageBtn" hideEffect="fade"  > 					    
+										                
+				                  
+				                      <p:panelGrid columns="3" layout="grid" style="margin-bottom:20px"> 
+				                      
+				                         <p:panel style="border:0;">
+				                            
+				                               <a>
+				                                    <div class="Card BrownBack White TexAlCenter HoverEffect">
+				                                        <div class="EmptyBox5"></div>
+				                                        <i class="icon-email Fs50"></i>
+				                                        <div class="EmptyBox5"></div>
+				                                        <div class="FontRobotoLight Fs16 DispBlock ClearBoth">Courrier</div>
+				                                    </div>
+				                               
+				                                </a>
+				                              </p:panel>
+                
+				                         <p:panel style="border:0;" >
+						                          <a  > 
+						                                    <div class="Card RedBack White TexAlCenter HoverEffect">
+						                                        <div class="EmptyBox5"></div>
+						                                        <i class="icon-users2 Fs50"></i>
+						                                        <div class="EmptyBox5"></div>
+						                                        <div class="FontRobotoLight Fs16 DispBlock ClearBoth">Contacts</div>
+						                                    </div>
+						                            </a> 
+				                            </p:panel>
+				                            
+				                            <p:panel style="border:0;" >  
+						                             <a  >  
+						                                    <div class="Card BlueBack White TexAlCenter HoverEffect">
+						                                        <div class="EmptyBox5"></div>
+						                                        <i class="icon-cloud-storage Fs50"></i>
+						                                        <div class="EmptyBox5"></div>
+						                                        <div class="FontRobotoLight Fs16 DispBlock ClearBoth">Drive</div>
+						                                    </div>
+						                            </a>
+				                   
+				                            </p:panel>
+   
+				                         </p:panelGrid>
+								    </p:overlayPanel>		 
+				        </f:facet>   
+				        <f:facet name="right">	    
+						<p:graphicImage id="imgpro" name="images/avatar1.svg" library="volt-layout" style="width:40px; height:40px;cursor: pointer;" />
+						<p:growl id="forRightbarrMess"></p:growl>
+				         <p:menu overlay="true" trigger="imgpro" my="left top" at="left bottom" styleClass="Container100">    				              					     		  
+						              <p:submenu label="Disponibilité" styleClass="Wid100"  >    
+						              <p:menuitem  value="Disponible"       />				
+				     				  <p:menuitem  value="Occupé"                 />					
+									  <p:menuitem  value="N'est pas déranger"  />			
+									  <p:menuitem  value="Absent"                />	
+									  </p:submenu>
+									  <p:submenu label="Compte" styleClass="Wid100" >
+						              <p:menuitem icon="ui-icon-wrench"  value="Parametres"           />                      
+						              <p:menuitem icon="ui-icon-close"   value="Déconnexion"  action="#{loginBean.logout()}"   />						              
+									  <p:menuitem icon="ui-icon-help"    value="Aide"             />   
+									 </p:submenu>	
+					          	  					  
+				         </p:menu>
+				        
+				        </f:facet> 	 
+				    </p:toolbar>  
+				    	
+				      
+				    <p:toolbar >
+					<f:facet name="left">
+					<p:commandButton value="Ajout Planner" oncomplete="PF('diagAddPlanner').show()" > </p:commandButton>
+					
+					</f:facet>
+				    </p:toolbar>
+
+		         </h:form>
+		         </div>
+		              
+		      </header>
+
+
+</ui:composition>

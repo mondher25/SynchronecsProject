@@ -1,0 +1,19 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pv="http://primefaces.org/volt">
+                                              	
+    <h:form id="menuform">	
+        <pv:menu>     	
+            <p:submenu  label="General" icon="" > 
+                 <p:menuitem id="btn1" value="Planner" icon="icon-email"  outcome="planner.xhtml"  />
+                 <p:menuitem id="btn2" value="Mes Tache" icon="icon-email" outcome="tache.xhtml"  />
+                 <p:menuitem id="btn3" value="Ajouter User" icon="icon-email" outcome="ajouterUtilisateur.xhtml"  />      
+            </p:submenu>   
+           
+    </pv:menu>
+</h:form>
+</ui:composition>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pv="http://primefaces.org/volt"
+	>
+	
+		
+<f:metadata>
+        <f:viewParam name="idp" value="#{tacheCP.idp}"/>    
+ </f:metadata>
+<h:head>
+
+		<title>ERP COMMUNICATION</title>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+
+
+        <h:outputStylesheet name="/css/core-layout.css"  library="volt-layout" />
+        <h:outputStylesheet name="css/font-awesome.css" library="volt-layout" />
+        <h:outputStylesheet name="css/animate.css"      library="volt-layout" />
+        <h:outputStylesheet name="css/volt-layout.css"  library="volt-layout" />
+        <h:outputStylesheet name="css/volt-font.css"    library="volt-layout" />
+        <h:outputScript      name="js/layout.js" library="volt-layout" />
+     
+		     <style>
+					/* Paste this css to your style sheet file or under head tag */
+					/* This only works with JavaScript, 
+					if it's not present, don't show loader */
+					.no-js #loader { display: none;  }
+					.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+					.se-pre-con {
+						position: fixed;
+						left: 0px;
+						top: 0px;
+						width: 100%;
+						height: 100%;
+						z-index: 9999;
+						background: url(../img/Preloade.gif) center no-repeat #fff;
+						
+					}
+					.output{
+						font-size: 30px;
+						color:red;
+					}
+			</style>
+			
+			 
+		     <script>
+					//paste this code under head tag or in a seperate js file.
+					// Wait for window load
+					$(window).load(function() {
+						// Animate loader off screen
+						$(".se-pre-con").fadeOut("slow");;
+					});
+			 </script>
+			
+
+
+</h:head>
+
+   
+<h:body styleClass="BlueBody" >	
+ 				<div class="se-pre-con"/>
+ 		
+
+   				      <ui:include src="TopBars.xhtml" /> 
+
+			            <div id="layout-portlets-cover-indent" style="margin-left: 3%;width: 97%;">
+			                <div id="layout-portlets-table">
+			
+			                    <div id="layout-portlets-tablerow">
+			
+			                        <div id="layout-portlets-tablecell-left">
+   
+			   										<div class="Container100" >	                         
+					                            	 <div id="layout-menu-cover" > 
+					                            	 	
+					                            	 	<div  id="carduser" class="Card OrangeBack  Wid100">
+					                            	 		<div class="Fleft">
+						                            	 		  <span class="Fs16 White">
+ 																		Bienvenue: <h:outputText value="#{plan.mail}"></h:outputText>
+																</span>
+					                            	  
+																<h:form>
+		 													    <p:clock pattern="HH:mm:ss dd/MM/yyyy" mode="server" />
+																</h:form>
+													 
+					                            	 		</div>
+					                            	 		<div class="EmptyBox10"></div>
+					                            	 		</div>
+					                            	 		<div class="EmptyBox10"></div>
+						                            	         <ui:include src="layoutmenu.xhtml" />
+						                                    </div>
+									             	</div>
+
+			                        </div>
+			                        
+			                        <div class="Container100 Responsive100" style="overflow:auto;height:820px;">
+									   		 
+									   			      <ui:insert name="option"></ui:insert>   
+							   
+											 
+			                        </div>
+			                    <div>
+			                        	
+			                        </div>  
+			                         <div class="Container100 Responsive100" >
+			                             <ui:include src="footer.xhtml" /> 
+			                         </div>
+			                         
+			                        
+			                    </div>
+			                </div>
+			            </div>
+
+  
+
+		<ui:include src="boiteDialogue.xhtml" />
+		
+
+</h:body>
+
+
+</html>

@@ -1,0 +1,39 @@
+
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui">
+
+
+<p:dialog id="diagAddPlanner" widgetVar="diagAddPlanner" >
+	<h:form id="formAddPlanner">
+	  
+		<p:inputText value="#{plan.name}" placeholder="Nom de Planner" required="true" />
+		
+			<div class="EmptyBox10"></div>				   			    									   			        
+					<p:selectOneMenu id="console"  style="width:125px" value="#{plan.type}" >
+					 <f:selectItem itemLabel="Activité" itemValue="Activité" />
+				 <f:selectItem itemLabel="Projet" itemValue="Projet" />
+				<f:selectItem itemLabel="Evenement" itemValue="Evenement" />												            
+			 </p:selectOneMenu> 
+		<div class="EmptyBox10"></div>
+<p:commandButton value="ajouter Planner" actionListener="#{plan.addNewPlanner()}"  process="formAddPlanner"  onsuccess="PF('diagAddPlanner').hide()"/>
+	</h:form>	
+</p:dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
