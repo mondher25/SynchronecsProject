@@ -17,22 +17,26 @@ import entities.Planner;
 
 
 @ManagedBean(name="plan")
-@ViewScoped
+@SessionScoped
 public class PlanBean implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@EJB
 	private PlannerDao plan;
 	
 	private String name;	
 	private String mail ;
 	private String type;	
+	
 	private Planner planner =new Planner();
-	private Planner selectedPlanner ;
-	private Long idPlanner;
-
-  
-	 
-	 
+	
+	
+	
+ 
 
 	@PostConstruct
 	public void Init(){
@@ -54,12 +58,12 @@ public class PlanBean implements Serializable{
 		return list ;
 		
 	}
-	   public void onRowSelect(SelectEvent event) throws IOException {
-		   FacesContext context = FacesContext.getCurrentInstance();	
-		   HttpServletRequest req = (HttpServletRequest) context.getExternalContext().getRequest();
-		   context.getExternalContext().redirect(req.getContextPath()+"/faces/planner/compartiment.xhtml");
-	    
-	    }
+//	   public void onRowSelect(SelectEvent event) throws IOException {
+//		   FacesContext context = FacesContext.getCurrentInstance();	
+//		   HttpServletRequest req = (HttpServletRequest) context.getExternalContext().getRequest();
+//		   context.getExternalContext().redirect(req.getContextPath()+"/faces/planner/tache.xhtml");
+//	    
+//	    }
 	
 	
 	// GetterAnd Setter
@@ -69,13 +73,7 @@ public class PlanBean implements Serializable{
 	public String getName() {
 		return name;
 	}
-	public Planner getSelectedPlanner() {
-		return selectedPlanner;
-	}
-
-	public void setSelectedPlanner(Planner selectedPlanner) {
-		this.selectedPlanner = selectedPlanner;
-	}
+ 
 
 	public String getMail() {
 		return mail;
@@ -100,13 +98,7 @@ public class PlanBean implements Serializable{
 		this.type = type;
 	}
 
-	public Long getIdPlanner() {
-		return idPlanner;
-	}
-
-	public void setIdPlanner(Long idPlanner) {
-		this.idPlanner = idPlanner;
-	}
+ 
 
  
 	

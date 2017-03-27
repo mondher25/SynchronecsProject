@@ -3,7 +3,6 @@ package jpa;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import dao.CompteDao;
 import entities.Compte;
  
@@ -23,16 +22,18 @@ public class CompteJPA implements CompteDao{
 	@Override
 	public Compte login(String mail, String password) {
 		
-		Compte cp = null;
-		try {
-			cp = (Compte) em.createQuery("SELECT c FROM Compte as c WHERE mail=:mail AND password=:password").
+		Compte cp=null;
+
+		try{
+			cp = (Compte) em.createQuery("SELECT c FROM Compte c WHERE mail=:mail AND password=:password").
 					setParameter("mail", mail).
 					setParameter("password", password).
 					getSingleResult();
-
-		} catch (Exception e) {
+		}catch (Exception e) {
 			return cp;
-		}  
+		}
+
+		 
 		return cp;
  
 	}

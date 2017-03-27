@@ -1,7 +1,8 @@
 package presentation;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+ 
+ 
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.annotation.PostConstruct;
@@ -25,6 +26,11 @@ import java.util.Map;
 public class TacheBean implements Serializable {
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@EJB
 	private TacheDao tache;
 	
@@ -34,19 +40,24 @@ public class TacheBean implements Serializable {
 	@EJB
 	private CompartimentDao compartiment;
 	
+	
 	private Tache newTache = new Tache();
 	private Compartiment compart=new Compartiment();
 	private Planner planner =new Planner();
+	private Planner selplan;
+	private Compartiment selComp;
+	
+	
 	private Date dateDebut;
 	private Date dateEcheance;
+	
 	private String description;
 	private String etat;	
-	private Planner selplan;
-	private Integer idp;
+	private String  idp;
 	private String mail ;
 	private String idCom;
-	private Compartiment selComp;
-	public boolean display=false;
+	
+	 
 	
 	 
 	@PostConstruct
@@ -56,14 +67,14 @@ public class TacheBean implements Serializable {
 		FacesContext fc = FacesContext.getCurrentInstance();
 	      Map<String,String> params = 
 	        fc.getExternalContext().getRequestParameterMap();
-	      String idplanner = params.get("idp"); 	 
-	      selplan = planDao.getPlannerById(Long.parseLong(idplanner));
+	      idp= params.get("idp"); 	
 		
 	}
     
     public void addTache(){
     	selComp=compartiment.getCompartimentById(Long.parseLong(idCom));
-		
+ 
+	    selplan = planDao.getPlannerById(Long.parseLong(idp));
     	
     	newTache.setPlanner(selplan);
     	newTache.setCompartiment(selComp);
@@ -72,13 +83,7 @@ public class TacheBean implements Serializable {
     	System.out.println("end add tache");
     }
     
-	public String getIdPlanner() {
-	      FacesContext fc = FacesContext.getCurrentInstance();
-	      Map<String,String> params = 
-	         fc.getExternalContext().getRequestParameterMap();
-	      return params.get("idp"); 
-	}
-
+ 
 	 public List<Tache> listeTacheByComp(){
 		 	List<Tache> listeTache=new ArrayList<>();
 		 	  listeTache= tache.getTacheByCompartiment(Long.parseLong(idCom));
@@ -124,12 +129,7 @@ public class TacheBean implements Serializable {
 	public void setCompartiment(CompartimentDao compartiment) {
 		this.compartiment = compartiment;
 	}
-	public Integer getIdp() {
-		return idp;
-	}
-	public void setIdp(Integer idp) {
-		this.idp = idp;
-	}
+ 
 	public Tache getNewTache() {
 		return newTache;
 	}
@@ -194,13 +194,19 @@ public class TacheBean implements Serializable {
 		this.selComp = selComp;
 	}
 
-	public boolean isDisplay() {
-		return display;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
-	public void setDisplay(boolean display) {
-		this.display = display;
+	public String getIdp() {
+		return idp;
 	}
+
+	public void setIdp(String idp) {
+		this.idp = idp;
+	}
+
+ 
 
  
     

@@ -15,7 +15,6 @@ public class Planner {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-
 	private Long id;
 	
 	@Column(name="name")
@@ -26,13 +25,12 @@ public class Planner {
 	private String type;
 	
 
+	
+	
+	
+	
 		
 	//getter setter 
-
- 
-	
-	
-
 
 	public void setType(String type) {
 		this.type = type;

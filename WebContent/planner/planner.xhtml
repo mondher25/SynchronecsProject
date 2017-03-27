@@ -37,10 +37,12 @@
 		        <h:outputText value="#{pl.type}" />
 		    </p:column>
 		<p:column headerText="Action">
-		        <p:link value="get" outcome="tache.xhtml"   >
+ 
+		
+ 		        <p:link value="get" outcome="tache.xhtml?faces-redirect=true"   >
 		             <f:param  name="idp" value="#{pl.id}"></f:param>
 		       </p:link>
-		    </p:column>
+		 </p:column>
 		</p:dataTable>
 		 
 			</h:form>	

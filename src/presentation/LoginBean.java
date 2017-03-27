@@ -6,7 +6,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
+
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -22,6 +22,11 @@ import entities.User;
 @SessionScoped
 public class LoginBean implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@EJB 
 	private UserDao userDao;
 	
@@ -35,47 +40,63 @@ public class LoginBean implements Serializable{
 	private Compte logeByCp;
 	
 	private String type;
-	
+	private String mail;
+	private String password;
+ 
 	
  
 	
 	public String login(){
 		System.out.println("Start");
 		RequestContext context = RequestContext.getCurrentInstance();
-		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Erreur: Votre adresse mail (ou) mot de passe est incorrect","") ;
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+				"Erreur: Votre adresse E-mail (ou) mot de passe est incorrect", "");
 		boolean logedin = false;
-		
+
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+
 		
 		
-	 if(type.equalsIgnoreCase("employeur"))
 		
-		{logedUser = userDao.login(user.getMail().trim(),user.getPassword().trim());}
+ 
+	switch (type) {
+	case "employee":
+
+		logedUser = userDao.login(mail.trim(),password.trim());
+
+
 		
-	 else if (type.equalsIgnoreCase("employee"))
-	 { logeByCp = compteDao.login(comptemanager.getMail().trim(), comptemanager.getPassword().trim());}
-		
-		 if(logedUser !=  null){
-			
-			session.setAttribute("mail", logedUser.getMail());
+		if ( logedUser != null) {
+
+			session.setAttribute("mail",mail);
 			logedin = true;
-			
-			return "planner/planner.xhtml?faces-redirect=true";	
-						
+
+			return "planner/planner.xhtml?faces-redirect=true";
+
 		}
-		 else if(logeByCp != null ){
-				
-				session.setAttribute("mail",logeByCp.getMail());
-				logedin = true;
-				
-				return "planner/planner.xhtml?faces-redirect=true";	
-							
+			break;
+			
+		case "employeur":
+
+		logeByCp = compteDao.login(mail.trim(),password.trim());	
+
+		
+		if ( logeByCp != null) {
+
+			session.setAttribute("mail", mail);
+			logedin = true;
+
+			return "planner/planner.xhtml?faces-redirect=true";
+
 			}
-		else {
-			
-			FacesContext.getCurrentInstance().addMessage(null,msg);
-			return null;
+			break;
+		 
+
 		}
+	 if(logedin == false )
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			return null;
+ 
 		
 	}
 
@@ -182,9 +203,39 @@ public class LoginBean implements Serializable{
 	public void setLogeByCp(Compte logeByCp) {
 		this.logeByCp = logeByCp;
 	}
-	
 
-	
+
+
+
+	public String getMail() {
+		return mail;
+	}
+
+
+
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+
+
+ 
 
 	
 	

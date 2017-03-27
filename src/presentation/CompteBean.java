@@ -1,18 +1,25 @@
 package presentation;
 
+import java.io.Serializable;
+
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
+ 
 
 import dao.CompteDao;
 import entities.Compte;
 
 @ManagedBean(name="cp")
 @RequestScoped
-public class CompteBean {
+public class CompteBean implements Serializable {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@EJB
 	private CompteDao compteDao;
 	

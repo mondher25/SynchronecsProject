@@ -36,6 +36,8 @@ public List<Planner> getAllPlanner() {
 
 @Override
 public Planner getPlannerById(Long id) {
+	
+	
 	Planner p=entityManager.find(Planner.class, id);	 
 	return p;
 }

@@ -22,39 +22,52 @@ import entities.Planner;
 
 
 @ManagedBean(name="com")
-@ViewScoped
+@SessionScoped
 public class CompartimentBean implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@EJB
 	private CompartimentDao com;
 	
 	@EJB
 	private PlannerDao plan;
 	
-	private String name;	
-	private String mail ;
  	private Planner planner =new Planner();
+	private Planner selectedPlanner=new Planner();
  	private Compartiment comp = new Compartiment();
-	private Planner selectedPlanner ;
-	private Integer idp ;
+ 	
+	private String name;	
+	private String mail;
+	
+
+	private String idp ;
 	private String idCom;
 	
  
    
+	
 	@PostConstruct
 	public void init(){
 		System.out.println("compartiment");
 		mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");	
-		 FacesContext fc = FacesContext.getCurrentInstance();
-	      Map<String,String> params = 
-	         fc.getExternalContext().getRequestParameterMap();
-	      String idplanner = params.get("idp"); 	      
-	      selectedPlanner = plan.getPlannerById(Long.parseLong(idplanner));			    
+		System.out.println(mail);
+		FacesContext fc = FacesContext.getCurrentInstance();
+	     Map<String,String> params = 
+	        fc.getExternalContext().getRequestParameterMap();
+	       idp= params.get("idp");	
+	      
+	     System.out.println("-------------------------------------------"+idp+"**********************");
+	     
 		
 	}
 	
 	public void addCom(){
-	System.out.println("start comp");	 
+	System.out.println("start comp");
+	selectedPlanner = plan.getPlannerById(Long.parseLong(idp));
 	  comp.setPlanner(selectedPlanner);
 	  com.addCompartiment(comp);
       comp = new Compartiment();
@@ -64,16 +77,12 @@ public class CompartimentBean implements Serializable{
  
 	
  public List<Compartiment> ListeCompByPlanner(){
-	 List<Compartiment>	listCom = com.getListCompartimentByPlanner(selectedPlanner.getId());
+	 List<Compartiment> listCom =new ArrayList<>();
+ 	listCom = com.getListCompartimentByPlanner(selectedPlanner.getId());
 	 return listCom;
  }
 	
-	public String getIdPlanner() {
-	      FacesContext fc = FacesContext.getCurrentInstance();
-	      Map<String,String> params = 
-	         fc.getExternalContext().getRequestParameterMap();
-	      return params.get("idp"); 
-	}
+ 
 
 
 	// GetterAnd Setter
@@ -103,13 +112,7 @@ public class CompartimentBean implements Serializable{
 		this.name = name;
 	}
 
-	public Integer getIdp() {
-		return idp;
-	}
-
-	public void setIdp(Integer idp) {
-		this.idp = idp;
-	}
+ 
 	public Compartiment getComp() {
 		return comp;
 	}
@@ -125,6 +128,45 @@ public class CompartimentBean implements Serializable{
 	public void setIdCom(String idCom) {
 		this.idCom = idCom;
 	}
+
+	public CompartimentDao getCom() {
+		return com;
+	}
+
+	public void setCom(CompartimentDao com) {
+		this.com = com;
+	}
+
+	public PlannerDao getPlan() {
+		return plan;
+	}
+
+	public void setPlan(PlannerDao plan) {
+		this.plan = plan;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+
+	public String getIdp() {
+		return idp;
+	}
+
+
+	public void setIdp(String idp) {
+		
+		  this.idp = idp;
+	}
+
+
+ 
+ 
 
  
 

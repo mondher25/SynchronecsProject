@@ -10,7 +10,7 @@ import entities.User;
  * Session Bean implementation class Utilisateur
  */
 @Stateless
-public class UtilisateurJPA implements  UserDao {
+public class UtilisateurJPA implements UserDao {
 
 	@PersistenceContext(unitName="UP")
 	EntityManager entityManager;
@@ -25,16 +25,17 @@ public void createUser(String mail,String password){
 
 @Override
 public User login(String mail, String password) {
-	User user = null;
-	try {
-		user = (User) entityManager.createQuery("SELECT u FROM User as u WHERE mail=:mail AND password=:password").
+	User user =null ;
+	try{
+		user = (User) entityManager.createQuery("SELECT u FROM User u WHERE mail=:mail AND password=:password").
 				setParameter("mail", mail).
 				setParameter("password", password).
 				getSingleResult();
-
-	} catch (Exception e) {
+	}catch (Exception e) {
 		return user;
-	}  
+	}
+
+ 
 	return user;
 }
 

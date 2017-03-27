@@ -33,17 +33,15 @@
                             <div class="Card TexAlCenter">
                                 <i class="icon-unlocked2 Fs60 TealGreen"></i>
                                 <div class="EmptyBox10"></div>
-                                <p:inputText styleClass="Wid90" placeholder="E-Mail" value="#{loginBean.user.mail}"/>
+                                <p:inputText styleClass="Wid90" placeholder="E-Mail" value="#{loginBean.mail}"/>
                                 <div class="EmptyBox10"></div>
-                                <p:password styleClass="Wid90" placeholder="Password" value="#{loginBean.user.password}" />
+                                <p:password styleClass="Wid90" placeholder="Password" value="#{loginBean.password}" />
                                  <div class="EmptyBox10"></div>
 							        <p:selectOneMenu  value="#{loginBean.type}" style="width:250px">
-							            <f:selectItem itemLabel="Employeur" itemValue="employeur"  />
+							            <f:selectItem itemLabel="Entreprise" itemValue="employeur"  />
 							             <f:selectItem itemLabel="Employee" itemValue="employee" />
 							     	</p:selectOneMenu>
-                                <div class="Separator"></div>
-
-                              
+                                <div class="Separator"></div>                              
                               
                                 <p:commandButton value="Log In" icon="fa fa-unlock" styleClass="GreenButton" action="#{loginBean.login()}" update="mess"/>
                                 <p:commandButton value="Inscription"  styleClass="GreenButton" action="inscription.xhtml?faces-redirect=true"/>
