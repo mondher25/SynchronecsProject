@@ -70,6 +70,7 @@ public class LoginBean implements Serializable{
 		if ( logedUser != null) {
 
 			session.setAttribute("mail",mail);
+		 
 			logedin = true;
 
 			return "planner/planner.xhtml?faces-redirect=true";
