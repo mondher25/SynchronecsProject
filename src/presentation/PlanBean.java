@@ -12,7 +12,10 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.SelectEvent;
+
+import dao.CompteDao;
 import dao.PlannerDao;
+import entities.Compte;
 import entities.Planner;
 
 
@@ -26,40 +29,63 @@ public class PlanBean implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	private PlannerDao plan;
+	private PlannerDao plannerDao;
+	
+	@EJB
+	private CompteDao compteDao;
 	
 	private String name;	
 	private String mail ;
-	private String type;	
+	private String type;
+	private String idUser;
 	
 	private Planner planner =new Planner();
+	private Compte compteUser=new Compte();
+	private Compte connectedUser;
 	
 	
 	
- 
 
 	@PostConstruct
 	public void Init(){
 		System.out.println(" -- - --- --- -planBean- --- --- ");
 		mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");	
-		
+		idUser=(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("idUser");
+		connectedUser=compteDao.getCompteById(Long.parseLong(idUser));
+		System.out.println("init : id user connecte ="+ Long.parseLong(idUser));
+	
 	}
+	
 
 	public void addNewPlanner(){
 	 System.out.println("start add Planner");
-		plan.AddPlanner(name, type); 
+		
+		
+		planner.setCompte(connectedUser);		
+		plannerDao.AddPlanner(planner); 
+		planner=new Planner();
+		
 		System.out.println("end add Planner");
 		 
+		System.out.println("id user connecte ="+ Long.parseLong(idUser));
+	}
+	
+	public List<Planner> listePlannerByIdCompte(){
+		List<Planner> listPlannerCompte = new ArrayList<Planner>();
+		listPlannerCompte = plannerDao.getAllPlannerById(Long.parseLong(idUser));
+		System.out.println(" --- -- -- end Liste  Planner --- ");
+		return listPlannerCompte ;
 		
 	}
 	
-	public List<Planner> listePlanner(){
-		List<Planner> list = new ArrayList<Planner>();
-		list = plan.getAllPlanner();
-		System.out.println(" --- -- -- end Liste  Planner --- ");
-		return list ;
-		
-	}
+//	public List<Planner> listePlanner(){
+//		List<Planner> list = new ArrayList<Planner>();
+//		list = plannerDao.getAllPlanner();
+//		System.out.println(" --- -- -- end Liste  Planner --- ");
+//		return list ;
+//		
+//	}
+//	
 //	   public void onRowSelect(SelectEvent event) throws IOException {
 //		   FacesContext context = FacesContext.getCurrentInstance();	
 //		   HttpServletRequest req = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -98,6 +124,60 @@ public class PlanBean implements Serializable{
 	
 	public void setType(String type) {
 		this.type = type;
+	}
+
+ 
+
+	public CompteDao getCompteDao() {
+		return compteDao;
+	}
+
+	public void setCompteDao(CompteDao compteDao) {
+		this.compteDao = compteDao;
+	}
+
+	public String getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(String idUser) {
+		this.idUser = idUser;
+	}
+
+	public Compte getCompteUser() {
+		return compteUser;
+	}
+
+	public void setCompteUser(Compte compteUser) {
+		this.compteUser = compteUser;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+ 
+
+	public Compte getConnectedUser() {
+		return connectedUser;
+	}
+
+
+	public void setConnectedUser(Compte connectedUser) {
+		this.connectedUser = connectedUser;
+	}
+
+
+	public PlannerDao getPlannerDao() {
+		return plannerDao;
+	}
+
+	public void setPlannerDao(PlannerDao plannerDao) {
+		this.plannerDao = plannerDao;
 	}
 
  

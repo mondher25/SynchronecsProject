@@ -8,9 +8,11 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 
 import dao.CompartimentDao;
+import dao.CompteDao;
 import dao.PlannerDao;
 import dao.TacheDao;
 import entities.Compartiment;
+import entities.Compte;
 import entities.Planner;
 import entities.Tache;
 
@@ -38,11 +40,16 @@ public class TacheBean implements Serializable {
 	@EJB
 	private CompartimentDao compartimentDao;
 
+	@EJB
+	private CompteDao compteDao;
+	
+	
 	private Tache newTache = new Tache();
 	private Compartiment compart = new Compartiment();
 	private Planner planner = new Planner();
 	private Planner selplan;
 	private Compartiment selComp;
+	private Compte connectedUser;
 
 	private Date dateDebut;
 	private Date dateEcheance;
@@ -52,34 +59,42 @@ public class TacheBean implements Serializable {
 	private String idp;
 	private String mail;
 	private String idCom;
-	
+	private String idUser;
 
 	@PostConstruct
 	public void init() {
 		System.out.println("inti start tache");
 		mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");
+		idUser=(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("idUser");
 
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
 		idp = params.get("idp");
 		System.out.println("init idplanner= " + idp);
-
+		connectedUser=compteDao.getCompteById(Long.parseLong(idUser));
+		System.out.println("init : id user connecte ="+ Long.parseLong(idUser));
 	}
+	
+	
 
 	public Planner selectedPlanner() {
 		return selplan = planDao.getPlannerById(Long.parseLong(idp));
 	}
 
+	
 	public Compartiment selectedCompartiment() {
 		return selComp = compartimentDao.getCompartimentById(Long.parseLong(idCom));
 	}
+	
+	
 
 	public void addTache() {
 		System.out.println("Start add tache");
 
 		newTache.setPlanner(selectedPlanner());
-		newTache.setCompartiment(selectedCompartiment());
-
+		newTache.setCompartiment(selectedCompartiment());		
+		newTache.setCompte(connectedUser);
+		
 		tache.addTache(newTache);
 		newTache = new Tache();
 
@@ -221,4 +236,42 @@ public class TacheBean implements Serializable {
 		this.idp = idp;
 	}
 
+
+
+	public CompteDao getCompteDao() {
+		return compteDao;
+	}
+
+
+
+	public void setCompteDao(CompteDao compteDao) {
+		this.compteDao = compteDao;
+	}
+
+
+
+	public Compte getConnectedUser() {
+		return connectedUser;
+	}
+
+
+
+	public void setConnectedUser(Compte connectedUser) {
+		this.connectedUser = connectedUser;
+	}
+
+
+
+	public String getIdUser() {
+		return idUser;
+	}
+
+
+
+	public void setIdUser(String idUser) {
+		this.idUser = idUser;
+	}
+
+ 
+	
 }

@@ -13,7 +13,8 @@ import entities.Planner;
 @Local
 public interface PlannerDao {
 
-	public void AddPlanner(String name,String type);
+	public void AddPlanner(Planner planner);
 	public List<Planner> getAllPlanner();
 	public Planner getPlannerById(Long id);
+	public List<Planner> getAllPlannerById(Long id);
 }

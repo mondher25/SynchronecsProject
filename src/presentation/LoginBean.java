@@ -42,12 +42,13 @@ public class LoginBean implements Serializable{
 	private String type;
 	private String mail;
 	private String password;
+	private String idUser;
  
 	
  
 	
 	public String login(){
-		System.out.println("Start");
+		System.out.println("Start Login");
 		RequestContext context = RequestContext.getCurrentInstance();
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 				"Erreur: Votre adresse E-mail (ou) mot de passe est incorrect", "");
@@ -83,7 +84,8 @@ public class LoginBean implements Serializable{
 		
 		if ( logeByCp != null) {
 
-			session.setAttribute("mail", mail);
+			session.setAttribute("mail", logeByCp.getMail());
+			session.setAttribute("idUser", logeByCp.getId()+"");
 			logedin = true;
 
 			return "planner/planner.xhtml?faces-redirect=true";
@@ -230,6 +232,20 @@ public class LoginBean implements Serializable{
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+
+
+
+	public String getIdUser() {
+		return idUser;
+	}
+
+
+
+
+	public void setIdUser(String idUser) {
+		this.idUser = idUser;
 	}
 
 

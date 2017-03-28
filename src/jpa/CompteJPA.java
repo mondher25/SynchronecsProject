@@ -38,4 +38,10 @@ public class CompteJPA implements CompteDao{
  
 	}
 
+	@Override
+	public Compte getCompteById(Long id) {
+		Compte cp=em.find(Compte.class, id);
+		return cp;
+	}
+
 }

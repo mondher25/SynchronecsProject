@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Compartiment {
@@ -24,7 +25,9 @@ public class Compartiment {
 	@JoinColumn(name="planner_id")
 	private Planner planner;
 
-	
+	@OneToOne
+	@JoinColumn(name="compte_id")
+	private Compte compte;
 	
 	
 	
@@ -57,6 +60,16 @@ public class Compartiment {
 
 	public void setPlanner(Planner planner) {
 		this.planner = planner;
+	}
+
+
+	public Compte getCompte() {
+		return compte;
+	}
+
+
+	public void setCompte(Compte compte) {
+		this.compte = compte;
 	}
 	
 	

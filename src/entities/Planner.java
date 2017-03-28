@@ -5,7 +5,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id; 
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -21,11 +23,13 @@ public class Planner {
 	private String namePlanner;
 	
 
-	@Column(name="TYPE")
+	@Column(name="type")
 	private String type;
 	
 
-	
+	@OneToOne
+	@JoinColumn(name="compte_id")
+	private Compte compte;
 	
 	
 	
@@ -44,10 +48,6 @@ public class Planner {
 		this.namePlanner = namePlanner;
 	}
 
- 
- 
-
- 
 	public Long getId() {
 		return id;
 	}
@@ -58,6 +58,14 @@ public class Planner {
 
 	public String getType() {
 		return type;
+	}
+
+	public Compte getCompte() {
+		return compte;
+	}
+
+	public void setCompte(Compte compte) {
+		this.compte = compte;
 	}
 	
 

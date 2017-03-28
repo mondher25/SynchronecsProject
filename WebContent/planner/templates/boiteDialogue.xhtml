@@ -12,10 +12,10 @@
 <p:dialog id="diagAddPlanner" widgetVar="diagAddPlanner" >
 	<h:form id="formAddPlanner">
 	  
-		<p:inputText value="#{plan.name}" placeholder="Nom de Planner" required="true" />
+		<p:inputText value="#{plan.planner.namePlanner}" placeholder="Nom de Planner" required="true" />
 		
 			<div class="EmptyBox10"></div>				   			    									   			        
-					<p:selectOneMenu id="console"  style="width:125px" value="#{plan.type}" >
+					<p:selectOneMenu id="console"  style="width:125px" value="#{plan.planner.type}" >
 					 <f:selectItem itemLabel="Activité" itemValue="Activité" />
 				 <f:selectItem itemLabel="Projet" itemValue="Projet" />
 				<f:selectItem itemLabel="Evenement" itemValue="Evenement" />												            

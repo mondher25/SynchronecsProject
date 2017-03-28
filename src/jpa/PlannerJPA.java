@@ -19,11 +19,9 @@ public class PlannerJPA implements PlannerDao {
  EntityManager entityManager;
 
 @Override
-public void AddPlanner(String name,String type) {
-	Planner p=new Planner();
-	p.setNamePlanner(name);
-	p.setType(type);
-	entityManager.persist(p);
+public void AddPlanner(Planner planner) {
+ 
+	entityManager.persist(planner);
 	
 }
 
@@ -40,6 +38,13 @@ public Planner getPlannerById(Long id) {
 	
 	Planner p=entityManager.find(Planner.class, id);	 
 	return p;
+}
+
+@Override
+public List<Planner> getAllPlannerById(Long id) {
+	List <Planner> listePlanner=new ArrayList<>();
+	listePlanner=entityManager.createQuery("SELECT p FROM Planner p WHERE compte_id= :id ").setParameter("id", id).getResultList();
+	return listePlanner;
 }
   
 

@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -36,7 +37,9 @@ public class Tache {
 	@JoinColumn(name="planner_id")
 	private Planner planner;
 	
- 
+	@OneToOne
+	@JoinColumn(name="compte_id")
+	private Compte compte;
 
 
 
@@ -87,6 +90,12 @@ public class Tache {
 	}
 	public void setPlanner(Planner planner) {
 		this.planner = planner;
+	}
+	public Compte getCompte() {
+		return compte;
+	}
+	public void setCompte(Compte compte) {
+		this.compte = compte;
 	}
 	
 	

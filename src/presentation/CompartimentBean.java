@@ -12,8 +12,10 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import dao.CompartimentDao;
+import dao.CompteDao;
 import dao.PlannerDao;
 import entities.Compartiment;
+import entities.Compte;
 import entities.Planner;
 
 @ManagedBean(name = "com")
@@ -30,24 +32,33 @@ public class CompartimentBean implements Serializable {
 
 	@EJB
 	private PlannerDao plan;
+	
+	@EJB
+	private CompteDao compteDao;
 
 	private Planner planner = new Planner();
 	private Planner selectedPlanner = new Planner();
 	private Compartiment comp = new Compartiment();
+	private Compte connectedUser;
 
 	private String name;
 	private String mail;
 	private String idCom;
 	private String idp;
+	private String idUser;
 
 	@PostConstruct
 	public void init() {
 		System.out.println("compartiment");
 		mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");
+		idUser=(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("idUser");
+
 		System.out.println(mail);
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
 		idp = params.get("idp");
+		connectedUser=compteDao.getCompteById(Long.parseLong(idUser));
+		System.out.println("init : id user connecte ="+ Long.parseLong(idUser));
 
 	}
 
@@ -59,7 +70,10 @@ public class CompartimentBean implements Serializable {
 		System.out.println("start add compartiment");
 		System.out.println("idPlanner = " + idp);
 		comp.setPlanner(selectedPlanner());
+		comp.setCompte(connectedUser);
 		com.addCompartiment(comp);
+		 
+		
 		comp = new Compartiment();
 		System.out.println("end add compartiment");
 
@@ -151,4 +165,30 @@ public class CompartimentBean implements Serializable {
 		this.idCom = idCom;
 	}
 
+	public CompteDao getCompteDao() {
+		return compteDao;
+	}
+
+	public void setCompteDao(CompteDao compteDao) {
+		this.compteDao = compteDao;
+	}
+
+
+	public Compte getConnectedUser() {
+		return connectedUser;
+	}
+
+	public void setConnectedUser(Compte connectedUser) {
+		this.connectedUser = connectedUser;
+	}
+
+	public String getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(String idUser) {
+		this.idUser = idUser;
+	}
+
+	
 }
