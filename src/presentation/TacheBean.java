@@ -1,8 +1,7 @@
 package presentation;
 
 import javax.faces.bean.ManagedBean;
- 
- 
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.annotation.PostConstruct;
@@ -21,11 +20,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-@ManagedBean(name="tacheCP")
+@ManagedBean(name = "tacheCP")
 @ViewScoped
 public class TacheBean implements Serializable {
-	
-	
+
 	/**
 	 * 
 	 */
@@ -33,64 +31,72 @@ public class TacheBean implements Serializable {
 
 	@EJB
 	private TacheDao tache;
-	
+
 	@EJB
 	private PlannerDao planDao;
-	
+
 	@EJB
-	private CompartimentDao compartiment;
-	
-	
+	private CompartimentDao compartimentDao;
+
 	private Tache newTache = new Tache();
-	private Compartiment compart=new Compartiment();
-	private Planner planner =new Planner();
+	private Compartiment compart = new Compartiment();
+	private Planner planner = new Planner();
 	private Planner selplan;
 	private Compartiment selComp;
-	
-	
+
 	private Date dateDebut;
 	private Date dateEcheance;
-	
+
 	private String description;
-	private String etat;	
-	private String  idp;
-	private String mail ;
+	private String etat;
+	private String idp;
+	private String mail;
 	private String idCom;
 	
-	 
-	
-	 
+
 	@PostConstruct
-	public void init(){
-		System.out.println("tache");
-		mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");	
+	public void init() {
+		System.out.println("inti start tache");
+		mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");
+
 		FacesContext fc = FacesContext.getCurrentInstance();
-	      Map<String,String> params = 
-	        fc.getExternalContext().getRequestParameterMap();
-	      idp= params.get("idp"); 	
-		
+		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
+		idp = params.get("idp");
+		System.out.println("init idplanner= " + idp);
+
 	}
-    
-    public void addTache(){
-    	selComp=compartiment.getCompartimentById(Long.parseLong(idCom));
- 
-	    selplan = planDao.getPlannerById(Long.parseLong(idp));
-    	
-    	newTache.setPlanner(selplan);
-    	newTache.setCompartiment(selComp);
-    	tache.addTache(newTache);
-    	newTache = new Tache();
-    	System.out.println("end add tache");
-    }
-    
- 
-	 public List<Tache> listeTacheByComp(){
-		 	List<Tache> listeTache=new ArrayList<>();
-		 	  listeTache= tache.getTacheByCompartiment(Long.parseLong(idCom));
-			return listeTache;
-		 }
-     
-    // Getter and Setter
+
+	public Planner selectedPlanner() {
+		return selplan = planDao.getPlannerById(Long.parseLong(idp));
+	}
+
+	public Compartiment selectedCompartiment() {
+		return selComp = compartimentDao.getCompartimentById(Long.parseLong(idCom));
+	}
+
+	public void addTache() {
+		System.out.println("Start add tache");
+
+		newTache.setPlanner(selectedPlanner());
+		newTache.setCompartiment(selectedCompartiment());
+
+		tache.addTache(newTache);
+		newTache = new Tache();
+
+		System.out.println("end add tache");
+	}
+
+	public List<Tache> listeTacheByComp() {
+		List<Tache> listeTache = new ArrayList<>();
+		selectedPlanner();
+		selectedCompartiment();
+		listeTache = tache.getTacheByCompartiment(Long.parseLong(idCom));
+		System.out.println("idCom = " + idCom);
+		System.out.println("end Liste tacheByCompartiment");
+		return listeTache;
+	}
+
+	// Getter and Setter
 	public Date getDateDebut() {
 		return dateDebut;
 	}
@@ -98,46 +104,55 @@ public class TacheBean implements Serializable {
 	public void setDateDebut(Date dateDebut) {
 		this.dateDebut = dateDebut;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 	public Date getDateEcheance() {
 		return dateEcheance;
 	}
+
 	public void setDateEcheance(Date dateEcheance) {
 		this.dateEcheance = dateEcheance;
 	}
+
 	public String getEtat() {
 		return etat;
 	}
+
 	public void setEtat(String etat) {
 		this.etat = etat;
 	}
+
 	public TacheDao getTache() {
 		return tache;
 	}
+
 	public void setTache(TacheDao tache) {
 		this.tache = tache;
 	}
- 
-	public CompartimentDao getCompartiment() {
-		return compartiment;
+
+	public CompartimentDao getCompartimentDao() {
+		return compartimentDao;
 	}
-	public void setCompartiment(CompartimentDao compartiment) {
-		this.compartiment = compartiment;
+
+	public void setCompartimentDao(CompartimentDao compartimentDao) {
+		this.compartimentDao = compartimentDao;
 	}
- 
+
 	public Tache getNewTache() {
 		return newTache;
 	}
+
 	public void setNewTache(Tache newTache) {
 		this.newTache = newTache;
 	}
 
- 
 	public Compartiment getCompart() {
 		return compart;
 	}
@@ -206,9 +221,4 @@ public class TacheBean implements Serializable {
 		this.idp = idp;
 	}
 
- 
-
- 
-    
-    
 }

@@ -3,43 +3,79 @@ package service;
 import java.io.IOException;
 
 import javax.servlet.Filter;
+
 import javax.servlet.FilterChain;
+
 import javax.servlet.FilterConfig;
+
 import javax.servlet.ServletException;
+
 import javax.servlet.ServletRequest;
+
 import javax.servlet.ServletResponse;
+
+import javax.servlet.annotation.WebFilter;
+
 import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpServletResponse;
 
-import presentation.LoginBean;
+import javax.servlet.http.HttpSession;
+
+@WebFilter("/faces/planner/*")
 
 public class LoginFilter implements Filter {
 
+	@Override
 
+	public void init(FilterConfig config) throws ServletException {
+
+		// If you have any <init-param> in web.xml, then you could get them
+
+		// here by config.getInitParameter("name") and assign it as field.
+
+	}
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
-		// TODO Auto-generated method stub
-		
-		LoginBean loginBean = (LoginBean)((HttpServletRequest)request).getSession().getAttribute("loginBean");
-		if ((loginBean == null) || (loginBean.login() == null)) {
-            String contextPath = ((HttpServletRequest)request).getContextPath();
-            ((HttpServletResponse)response).sendRedirect(contextPath + "/faces/login.xhtml");
-        }
-         
-        chain.doFilter(request, response);
+
+		HttpServletRequest request = (HttpServletRequest) req;
+
+		HttpServletResponse response = (HttpServletResponse) res;
+
+		HttpSession session = request.getSession(false);
+
+		if (session == null || session.getAttribute("mail") == null) {
+
+			response.sendRedirect(request.getContextPath() + "/faces/login.xhtml"); // No
+																					// logged-in
+																					// user
+																					// found,
+																					// so
+																					// redirect
+																					// to
+																					// login
+																					// page.
+
+		} else {
+
+			chain.doFilter(req, res); // Logged-in user found, so just continue
+										// request.
+
+		}
+
 	}
 
 	@Override
-	public void init(FilterConfig arg0) throws ServletException {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
+
 	public void destroy() {
-		// TODO Auto-generated method stub
-		
+
+		// If you have assigned any expensive resources as field of
+
+		// this Filter class, then you could clean/close them here.
+
 	}
 
 }

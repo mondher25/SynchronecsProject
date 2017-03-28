@@ -40,21 +40,23 @@ public class PlanBean implements Serializable{
 
 	@PostConstruct
 	public void Init(){
-		System.out.println("planBean");
+		System.out.println(" -- - --- --- -planBean- --- --- ");
 		mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");	
 		
 	}
 
 	public void addNewPlanner(){
-	 System.out.println("start add");
+	 System.out.println("start add Planner");
 		plan.AddPlanner(name, type); 
-		System.out.println("end add");
+		System.out.println("end add Planner");
+		 
 		
 	}
 	
 	public List<Planner> listePlanner(){
 		List<Planner> list = new ArrayList<Planner>();
 		list = plan.getAllPlanner();
+		System.out.println(" --- -- -- end Liste  Planner --- ");
 		return list ;
 		
 	}

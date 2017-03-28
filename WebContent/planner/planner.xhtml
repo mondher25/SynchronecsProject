@@ -24,12 +24,12 @@
 	
 		<h:form id="form">
   		     
-		    <p:dataTable id="eventsDT" var="pl" value="#{plan.listePlanner()}" rowKey="#{pl.id}">
+		    <p:dataTable id="eventsDT" var="pl" value="#{plan.listePlanner()}" rowKey="#{pl.id}"   >
                   
 			 <f:facet name="header">
             Listes des Planner
         </f:facet>
-  
+   
 		    <p:column headerText="Nom">
 		        <h:outputText value="#{pl.namePlanner}" />
 		    </p:column>		 
@@ -39,7 +39,7 @@
 		<p:column headerText="Action">
  
 		
- 		        <p:link value="get" outcome="tache.xhtml?faces-redirect=true"   >
+ 		        <p:link value="get" outcome="tache.xhtml"   >
 		             <f:param  name="idp" value="#{pl.id}"></f:param>
 		       </p:link>
 		 </p:column>

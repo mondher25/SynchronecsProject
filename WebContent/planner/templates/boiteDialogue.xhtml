@@ -21,7 +21,7 @@
 				<f:selectItem itemLabel="Evenement" itemValue="Evenement" />												            
 			 </p:selectOneMenu> 
 		<div class="EmptyBox10"></div>
-<p:commandButton value="ajouter Planner" actionListener="#{plan.addNewPlanner()}"  process="formAddPlanner"  onsuccess="PF('diagAddPlanner').hide()"/>
+<p:commandButton value="ajouter Planner"  actionListener="#{plan.addNewPlanner()}"  process="formAddPlanner"  onsuccess="PF('diagAddPlanner').hide()"  />
 	</h:form>	
 </p:dialog>
 

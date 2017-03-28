@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
-     <display-name>Sample JSF 2 Filter login app</display-name>
- 
+  <display-name>Planner</display-name>
     <!-- Login filter -->
     
     <filter>
@@ -13,19 +12,19 @@
     
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>
-        <url-pattern>/planner/*</url-pattern>
+        <url-pattern>/faces/planner/*</url-pattern>
     </filter-mapping>
  
     <!-- By default go to secured welcome page -->
     
     <welcome-file-list>
-        <welcome-file>planner/planner.xhtml</welcome-file>
+        <welcome-file>/login.xhtml</welcome-file>
     </welcome-file-list>
     
   <!-- END Login filter -->
  
  
-  <display-name>Planner</display-name>
+
   <servlet>
     <servlet-name>Faces Servlet</servlet-name>
     <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -34,6 +33,10 @@
   <servlet-mapping>
     <servlet-name>Faces Servlet</servlet-name>
     <url-pattern>*.jsf</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>*.xhtml</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Faces Servlet</servlet-name>
