@@ -30,6 +30,13 @@ public class TacheJPA implements TacheDao {
 		 return listeTache;
 	}
 
+	@Override
+	public List<Tache> getTacheByCompartimentAndCompte(Long idCom, Long idUser) {
+		List<Tache> listeTacheComCp=new ArrayList<>();
+		listeTacheComCp=entityManager.createQuery("SELECT t FROM Tache t WHERE compartiment_id=:compartiment_id AND compte_id=:compte_id").setParameter("compartiment_id", idCom).setParameter("compte_id", idUser).getResultList();
+		return listeTacheComCp;
+	}
+
  
 
 }

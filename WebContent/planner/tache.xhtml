@@ -53,7 +53,7 @@
 																           -->
 		
 	<h:form id="listpanel"> 	   
-	 <p:dataTable id="eventsDT" var="cm" value="#{com.ListeCompByPlanner()}" rowKey="#{cm.id}">
+	 <p:dataTable id="eventsDT" var="cm" value="#{com.ListeCompByPlannerAndCompte()}" rowKey="#{cm.id}">
                   
 		<f:facet name="header">
             Listes des Compartiment
@@ -128,7 +128,7 @@
 	
 	
  <h:form id="listtache"> 	   
-	 <p:dataTable  var="VarTache" value="#{tacheCP.listeTacheByComp()}" rendered="#{not empty tacheCP.idCom}"  >
+	 <p:dataTable  var="VarTache" value="#{tacheCP.listeTacheByComparAndComp()}" rendered="#{not empty tacheCP.idCom}"  >
                   
 		<f:facet name="header">
             Listes des Taches Par Compartiment

@@ -78,13 +78,20 @@ public class CompartimentBean implements Serializable {
 		System.out.println("end add compartiment");
 
 	}
-
-	public List<Compartiment> ListeCompByPlanner() {
-		List<Compartiment> listCom = new ArrayList<>();
-		listCom = com.getListCompartimentByPlanner(selectedPlanner().getId());
+	
+	public List<Compartiment> ListeCompByPlannerAndCompte() {
+		List<Compartiment> listComPlCp = new ArrayList<>();
+		listComPlCp=com.getListCompartimentByPlannerAndCompte(selectedPlanner().getId(), connectedUser.getId());
 		System.out.println("end List compartiment");
-		return listCom;
+		return listComPlCp;
 	}
+
+//	public List<Compartiment> ListeCompByPlanner() {
+//		List<Compartiment> listCom = new ArrayList<>();
+//		listCom = com.getListCompartimentByPlanner(selectedPlanner().getId());
+//		System.out.println("end List compartiment");
+//		return listCom;
+//	}
 
 	// GetterAnd Setter
 

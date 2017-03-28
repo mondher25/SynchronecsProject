@@ -100,7 +100,16 @@ public class TacheBean implements Serializable {
 
 		System.out.println("end add tache");
 	}
-
+	public List<Tache> listeTacheByComparAndComp() {
+		List<Tache> listeTacheCmCp = new ArrayList<>();
+		selectedPlanner();
+		selectedCompartiment();
+		listeTacheCmCp = tache.getTacheByCompartimentAndCompte(Long.parseLong(idCom), connectedUser.getId());
+		System.out.println("idCom = " + idCom);
+		System.out.println("end Liste tacheByCompartiment");
+		return listeTacheCmCp;
+	}
+	
 	public List<Tache> listeTacheByComp() {
 		List<Tache> listeTache = new ArrayList<>();
 		selectedPlanner();

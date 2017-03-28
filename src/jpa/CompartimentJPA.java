@@ -38,4 +38,13 @@ public class CompartimentJPA implements CompartimentDao {
 		Compartiment cp=em.find(Compartiment.class, id);	 
 		return cp;
 	}
+
+
+
+	@Override
+	public List<Compartiment> getListCompartimentByPlannerAndCompte(Long idPlanner, Long idUser) {
+		List<Compartiment> listCompPlCp=new ArrayList<>();
+		listCompPlCp=em.createQuery("SELECT c FROM Compartiment c WHERE planner_id=:planner_id AND compte_id=:compte_id").setParameter("planner_id", idPlanner).setParameter("compte_id", idUser).getResultList();
+		return listCompPlCp;
+	}
 }
