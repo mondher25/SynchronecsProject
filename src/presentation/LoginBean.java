@@ -37,13 +37,14 @@ public class LoginBean implements Serializable{
 	private Compte comptemanager=new Compte();
 	
 	private User logedUser;
-	private Compte logeByCp;
+ 
 	
-	private String type;
+ 
 	private String mail;
 	private String password;
 	private String idUser;
  
+	 
 	
  
 	
@@ -60,8 +61,8 @@ public class LoginBean implements Serializable{
 		
 		
  
-	switch (type) {
-	case "employee":
+	 
+ 
 
 		logedUser = userDao.login(mail.trim(),password.trim());
 
@@ -69,34 +70,17 @@ public class LoginBean implements Serializable{
 		
 		if ( logedUser != null) {
 
-			session.setAttribute("mail",mail);
+			session.setAttribute("mail",logedUser.getMail());
+			session.setAttribute("nom",logedUser.getNom());
+			session.setAttribute("grade",logedUser.getGrade());
+			session.setAttribute("idUser",logedUser.getId()+"");
 		 
 			logedin = true;
 
 			return "planner/planner.xhtml?faces-redirect=true";
 
-		}
-			break;
-			
-		case "employeur":
-
-		logeByCp = compteDao.login(mail.trim(),password.trim());	
-
-		
-		if ( logeByCp != null) {
-
-			session.setAttribute("mail", logeByCp.getMail());
-			session.setAttribute("idUser", logeByCp.getId()+"");
-			logedin = true;
-
-			return "planner/planner.xhtml?faces-redirect=true";
-
-			}
-			break;
-		 
-
-		}
-	 if(logedin == false )
+		} 
+			if(logedin == false )
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			return null;
  
@@ -182,30 +166,11 @@ public class LoginBean implements Serializable{
 
 
 
-	public String getType() {
-		return type;
-	}
+ 
 
 
 
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-
-
-
-	public Compte getLogeByCp() {
-		return logeByCp;
-	}
-
-
-
-
-	public void setLogeByCp(Compte logeByCp) {
-		this.logeByCp = logeByCp;
-	}
+ 
 
 
 

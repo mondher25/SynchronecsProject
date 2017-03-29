@@ -28,8 +28,8 @@ public class Planner {
 	
 
 	@OneToOne
-	@JoinColumn(name="compte_id")
-	private Compte compte;
+	@JoinColumn(name="user_id")
+	private User user;
 	
 	
 	
@@ -60,13 +60,15 @@ public class Planner {
 		return type;
 	}
 
-	public Compte getCompte() {
-		return compte;
+	public User getUser() {
+		return user;
 	}
 
-	public void setCompte(Compte compte) {
-		this.compte = compte;
+	public void setUser(User user) {
+		this.user = user;
 	}
+
+ 
 	
 
 }

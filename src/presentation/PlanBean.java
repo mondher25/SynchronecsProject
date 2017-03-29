@@ -14,9 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.SelectEvent;
 
 import dao.CompteDao;
+import dao.GroupeDao;
 import dao.PlannerDao;
+import dao.UserDao;
 import entities.Compte;
+import entities.Groupe;
 import entities.Planner;
+import entities.User;
 
 
 @ManagedBean(name="plan")
@@ -34,6 +38,12 @@ public class PlanBean implements Serializable{
 	@EJB
 	private CompteDao compteDao;
 	
+	@EJB
+	private GroupeDao groupeDao;
+	
+	@EJB
+	private UserDao userDao;
+	
 	private String name;	
 	private String mail ;
 	private String type;
@@ -41,7 +51,8 @@ public class PlanBean implements Serializable{
 	
 	private Planner planner =new Planner();
 	private Compte compteUser=new Compte();
-	private Compte connectedUser;
+	private User connectedUser;
+	private Groupe groupe=new Groupe();
 	
 	
 	
@@ -51,17 +62,20 @@ public class PlanBean implements Serializable{
 		System.out.println(" -- - --- --- -planBean- --- --- ");
 		mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");	
 		idUser=(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("idUser");
-		connectedUser=compteDao.getCompteById(Long.parseLong(idUser));
+		connectedUser=userDao.getUserById(Long.parseLong(idUser));
 		System.out.println("init : id user connecte ="+ Long.parseLong(idUser));
+		 
+	
 	
 	}
+	
 	
 
 	public void addNewPlanner(){
 	 System.out.println("start add Planner");
 		
 		
-		planner.setCompte(connectedUser);		
+		planner.setUser(connectedUser);		
 		plannerDao.AddPlanner(planner); 
 		planner=new Planner();
 		
@@ -161,23 +175,60 @@ public class PlanBean implements Serializable{
 	}
 
  
-
-	public Compte getConnectedUser() {
-		return connectedUser;
-	}
-
-
-	public void setConnectedUser(Compte connectedUser) {
-		this.connectedUser = connectedUser;
-	}
-
-
 	public PlannerDao getPlannerDao() {
 		return plannerDao;
 	}
 
 	public void setPlannerDao(PlannerDao plannerDao) {
 		this.plannerDao = plannerDao;
+	}
+
+
+
+	public GroupeDao getGroupeDao() {
+		return groupeDao;
+	}
+
+
+
+	public void setGroupeDao(GroupeDao groupeDao) {
+		this.groupeDao = groupeDao;
+	}
+
+
+
+	public UserDao getUserDao() {
+		return userDao;
+	}
+
+
+
+	public Groupe getGroupe() {
+		return groupe;
+	}
+
+
+
+	public void setGroupe(Groupe groupe) {
+		this.groupe = groupe;
+	}
+
+
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
+
+
+	public User getConnectedUser() {
+		return connectedUser;
+	}
+
+
+
+	public void setConnectedUser(User connectedUser) {
+		this.connectedUser = connectedUser;
 	}
 
  

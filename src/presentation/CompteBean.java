@@ -7,7 +7,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
 import dao.CompteDao;
+import dao.GroupeDao;
+import dao.UserDao;
 import entities.Compte;
+import entities.Groupe;
+import entities.User;
 
 @ManagedBean(name = "cp")
 @RequestScoped
@@ -20,19 +24,45 @@ public class CompteBean implements Serializable {
 
 	@EJB
 	private CompteDao compteDao;
+	
+	@EJB
+	private GroupeDao groupeDao;
 
+	@EJB
+	private UserDao userDao;
+	
 	private String nom;
 	private String prenom;
 	private String mail;
 	private String nomSociete;
 	private String password;
-	private Compte compte = new Compte();
+	private Compte compteUser = new Compte();
+	private Groupe groupe=new Groupe();
 
 	public void addNewCompte() {
 		System.out.println("start add Compte");
-		compteDao.creeCompte(compte);
+		//
+		compteDao.creeCompte(compteUser);
+		//
+		Groupe groupe=new Groupe();
+		groupe.setCompte(compteUser);
+		groupe.setNom(compteUser.getNomSociete());
+		groupeDao.addGroupe(groupe);
+		//
+		User user = new User();
+		user.setGrade("super");
+		user.setMail(compteUser.getMail());
+		user.setNom(compteUser.getNom());
+		user.setPassword(compteUser.getPassword());
+		user.setPrenom(compteUser.getPrenom());
+		user.setCompte(compteUser);
+		user.setGroupe(groupe);
+		userDao.createUser(user);
+		
+		
 		new Compte();
 		System.out.println(" end Add Compte ");
+		
 	}
 
 	// Getter and Setter
@@ -69,12 +99,13 @@ public class CompteBean implements Serializable {
 		this.compteDao = compteDao;
 	}
 
-	public Compte getCompte() {
-		return compte;
+ 
+	public Compte getCompteUser() {
+		return compteUser;
 	}
 
-	public void setCompte(Compte compte) {
-		this.compte = compte;
+	public void setCompteUser(Compte compteUser) {
+		this.compteUser = compteUser;
 	}
 
 	public String getMail() {
@@ -93,4 +124,22 @@ public class CompteBean implements Serializable {
 		this.password = password;
 	}
 
+	public GroupeDao getGroupeDao() {
+		return groupeDao;
+	}
+
+	public void setGroupeDao(GroupeDao groupeDao) {
+		this.groupeDao = groupeDao;
+	}
+
+	public Groupe getGroupe() {
+		return groupe;
+	}
+
+	public void setGroupe(Groupe groupe) {
+		this.groupe = groupe;
+	}
+
+	
+	
 }

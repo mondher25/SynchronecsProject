@@ -19,25 +19,66 @@
 	
 	
 	<ui:define  name="option" >
+		<div class="ui-g">
+	
+	<div class="ui-g-6">
+	<h:form id="fromAddUser">
+	
+	
                         <div class="Container100 Responsive100">
                             <div class="Card TexAlCenter">
                                 <i class="icon-user-add-outline Fs60 Blue"></i>
                                 <div class="EmptyBox10"></div>
-                                <p:inputText styleClass="Wid90" placeholder="E-Mail"/>
+                                <p:inputText styleClass="Wid90" placeholder="Nom" value="#{userBean.user.nom}"/>      
                                 <div class="EmptyBox10"></div>
-                                <p:password styleClass="Wid90" placeholder="Password"/>
+                                <p:inputText styleClass="Wid90" placeholder="Prenom" value="#{userBean.user.prenom}" />
                                 <div class="EmptyBox10"></div>
-                                <p:password styleClass="Wid90" placeholder="Password Again"/>
+                                <p:inputText styleClass="Wid90" placeholder="E-Mail" value="#{userBean.user.mail}" />
+                                <div class="EmptyBox10"></div>
+                                <p:password styleClass="Wid90" placeholder="Password" value="#{userBean.user.password}" />
                                 <div class="Separator"></div>
-                                <p:button value="Valider" icon="fa fa-check-circle-o" styleClass="RedButton" />
+			         <p:commandButton value="Valider" actionListener="#{userBean.addUser()}" update="listUser" process="fromAddUser"/>
                                   
                             </div>
                         </div>
                         
                        
+       </h:form>        
+       </div>
                         
-                        
+    <div class="ui-g-6">
     
+     <h:form id="listUser"> 	   
+	 <p:dataTable  var="VarUser" value="#{userBean.listeUserByCompteConnecter()}"  >
+                  
+		<f:facet name="header">
+            Listes des Utilisateurs
+        </f:facet>
+  		    <p:column headerText="Id">
+		        <h:outputText  value="#{VarUser.id}" />
+		    </p:column>	
+		    <p:column headerText="nom">
+		        <h:outputText value="#{VarUser.nom}" />
+		    </p:column>		
+		      		    <p:column headerText="prenom">
+		        <h:outputText value="#{VarUser.prenom}" />
+		    </p:column>	
+		    <p:column headerText="mail">
+		        <h:outputText value="#{VarUser.mail}" />
+		    </p:column>	 
+		    <p:column headerText="Compte_Id">
+		        <h:outputText value="#{VarUser.compte.id}" />
+		    </p:column>		
+		    <p:column headerText="groupe_Id">
+		        <h:outputText value="#{VarUser.groupe.id}" />
+		    </p:column>			     
+		</p:dataTable>		 
+			</h:form> 
+    
+    
+    </div>
+    
+    </div>
     </ui:define>
 	</ui:composition>
 
