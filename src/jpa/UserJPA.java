@@ -1,5 +1,7 @@
 package jpa;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,24 +12,18 @@ import entities.User;
  * Session Bean implementation class Utilisateur
  */
 @Stateless
-public class UtilisateurJPA implements UserDao {
+public class UserJPA implements UserDao {
 
 	@PersistenceContext(unitName="UP")
-	EntityManager entityManager;
+	EntityManager em;
 	
-public void createUser(String mail,String password){
-	User u=new User();
-	u.setMail(mail);
-	u.setPassword(password);
-	entityManager.persist(u);
-
-}
+ 
 
 @Override
 public User login(String mail, String password) {
 	User user =null ;
 	try{
-		user = (User) entityManager.createQuery("SELECT u FROM User u WHERE mail=:mail AND password=:password").
+		user = (User) em.createQuery("SELECT u FROM User u WHERE mail=:mail AND password=:password").
 				setParameter("mail", mail).
 				setParameter("password", password).
 				getSingleResult();
@@ -41,8 +37,20 @@ public User login(String mail, String password) {
 
 @Override
 public void createUser(User u) {
-	entityManager.persist(u);
+	em.persist(u);
 	
+}
+
+@Override
+public List<User> listeUser(Long id) {
+	List<User> listeUser=em.createQuery("SELECT u FROM User u").getResultList();
+	return listeUser;
+}
+
+@Override
+public User getUserByMailId(String mailId) {
+	User user=em.find(User.class, mailId);
+	return user;
 }
 
 

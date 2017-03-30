@@ -1,5 +1,6 @@
 package entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,15 +10,17 @@ import javax.persistence.Id;
 public class Compte {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private String mail;
 	
 	private String nom;
 	private String prenom;
-	private String mail;
+	
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
+	
 	private String nomSociete;
 	private String password;
-
+	private String grade;
 	
 	
 	
@@ -62,6 +65,12 @@ public class Compte {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getGrade() {
+		return grade;
+	}
+	public void setGrade(String grade) {
+		this.grade = grade;
 	}
  
 	

@@ -16,5 +16,5 @@ public interface PlannerDao {
 	public void AddPlanner(Planner planner);
 	public List<Planner> getAllPlanner();
 	public Planner getPlannerById(Long id);
-	public List<Planner> getAllPlannerById(Long id);
+	public List<Planner> getAllPlannerByMailId(String mail);
 }

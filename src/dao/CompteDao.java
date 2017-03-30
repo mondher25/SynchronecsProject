@@ -10,5 +10,5 @@ public interface CompteDao {
 
 	public void creeCompte(Compte cp);
 	public Compte login(String mail,String password);
-	public Compte getCompteById(Long id);
+	public Compte getCompteByMailId(String mail);
 }

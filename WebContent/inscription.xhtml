@@ -40,22 +40,24 @@
 								 
 									 
 									    <h:outputText value="Nom:" />
-									    <p:inputText value="#{cp.compte.nom}"/>
+									    <p:inputText value="#{userBean.user.nom}"/>
 									    <h:outputText value="Prenom:" />
-									    <p:inputText value="#{cp.compte.prenom}" />
+									    <p:inputText value="#{userBean.user.prenom}" />
 									    <h:outputText value="Nom de la Société:" />
-									    <p:inputText  value="#{cp.compte.nomSociete}" />
+									    <p:inputText  value="#{userBean.user.nomSociete}" />
 									    <h:outputText value=" Adresse E-mail:" />
-									    <p:inputText placeholder="exemple@exemple.com" value="#{cp.compte.mail}" />
+									    <p:inputText placeholder="exemple@exemple.com" value="#{userBean.user.mail}" />
+									    <h:outputText value=" Adresse E-mail de nv:" />
+									    <p:inputText placeholder="exemple@exemple.com"  />
 									    <h:outputText value=" password:"  />
-									    <p:password value="#{cp.compte.password}" />		
-									    <h:outputText value=" Password de nv:"  />
+									    <p:password value="#{userBean.user.password}" />		
+									    <h:outputText value=" Password de nv :"  />
 									    <p:password />								    
-									    
+ 										<h:inputHidden value="#{userBean.gradeHidden}"/>
 									    </p:panelGrid>   
 									    </p:panel>    
 									     <div class="EmptyBox10"></div>                    
-                                <p:commandButton value="crée un compte"  styleClass="GreenButton"  update="forminsc"  actionListener="#{cp.addNewCompte()}"/>
+                                <p:commandButton value="crée un compte"  styleClass="GreenButton"  update="forminsc"  actionListener="#{userBean.addNewCompte()}"/>
                                  
 								 </h:form>
                                

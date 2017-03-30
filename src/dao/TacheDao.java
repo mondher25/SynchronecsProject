@@ -11,5 +11,5 @@ public interface TacheDao {
 
 	public void addTache(Tache t);
 	public List<Tache> getTacheByCompartiment(Long id);
-	public List<Tache> getTacheByCompartimentAndCompte(Long idCom,Long idUser);
+	public List<Tache> getTacheByCompartimentAndUser(Long idCom,String mail);
 }

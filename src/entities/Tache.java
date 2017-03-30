@@ -29,6 +29,8 @@ public class Tache {
 	
 	private String description;
 	
+	private String userGrade;
+	
 	@ManyToOne
 	@JoinColumn(name="compartiment_id")
 	private Compartiment compartiment;
@@ -38,8 +40,8 @@ public class Tache {
 	private Planner planner;
 	
 	@OneToOne
-	@JoinColumn(name="compte_id")
-	private Compte compte;
+	@JoinColumn(name="user_mail_id")
+	private User user;
 
 
 
@@ -91,13 +93,19 @@ public class Tache {
 	public void setPlanner(Planner planner) {
 		this.planner = planner;
 	}
-	public Compte getCompte() {
-		return compte;
+	public User getUser() {
+		return user;
 	}
-	public void setCompte(Compte compte) {
-		this.compte = compte;
+	public void setUser(User user) {
+		this.user = user;
 	}
-	
+	public String getUserGrade() {
+		return userGrade;
+	}
+	public void setUserGrade(String userGrade) {
+		this.userGrade = userGrade;
+	}
+ 
 	
 	
 	

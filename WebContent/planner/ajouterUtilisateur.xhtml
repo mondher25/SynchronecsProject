@@ -19,23 +19,32 @@
 	
 	
 	<ui:define  name="option" >
+	<h:form>
                         <div class="Container100 Responsive100">
                             <div class="Card TexAlCenter">
                                 <i class="icon-user-add-outline Fs60 Blue"></i>
                                 <div class="EmptyBox10"></div>
-                                <p:inputText styleClass="Wid90" placeholder="E-Mail"/>
+                                <p:inputText styleClass="Wid90" placeholder="Nom" value="#{loginBean.newUser.nom}"/>
+                                 <div class="EmptyBox10"></div>
+                                <p:inputText styleClass="Wid90" placeholder="Prenom" value="#{loginBean.newUser.prenom}" />
                                 <div class="EmptyBox10"></div>
-                                <p:password styleClass="Wid90" placeholder="Password"/>
+                                <p:inputText styleClass="Wid90" placeholder="Nom de la Societe" value="#{loginBean.newUser.nomSociete}" />
                                 <div class="EmptyBox10"></div>
-                                <p:password styleClass="Wid90" placeholder="Password Again"/>
+                                <p:inputText styleClass="Wid90" placeholder="E-Mail" value="#{loginBean.newUser.mail}" />
+                                <div class="EmptyBox10"></div>
+                                <p:inputText styleClass="Wid90" placeholder="E-Mail Again"/>
+                                <div class="EmptyBox10"></div>
+                                <p:password styleClass="Wid90" placeholder="Password" value="#{loginBean.newUser.password}"/>
+                                <div class="EmptyBox10"></div>
+                                <p:password styleClass="Wid90" placeholder="Password Again"/>              
                                 <div class="Separator"></div>
-                                <p:button value="Valider" icon="fa fa-check-circle-o" styleClass="RedButton" />
+                                <p:commandButton value="Valider" icon="fa fa-check-circle-o" actionListener="#{loginBean.addNewUser()}"/>
                                   
                             </div>
                         </div>
                         
                        
-                        
+        </h:form>                
                         
     
     </ui:define>

@@ -13,10 +13,13 @@ import javax.faces.context.FacesContext;
 
 import dao.CompartimentDao;
 import dao.CompteDao;
+
 import dao.PlannerDao;
+import dao.UserDao;
 import entities.Compartiment;
 import entities.Compte;
 import entities.Planner;
+import entities.User;
 
 @ManagedBean(name = "com")
 @ViewScoped
@@ -35,30 +38,34 @@ public class CompartimentBean implements Serializable {
 	
 	@EJB
 	private CompteDao compteDao;
+	
+	@EJB 
+	private UserDao userDao;
+ 
 
 	private Planner planner = new Planner();
 	private Planner selectedPlanner = new Planner();
 	private Compartiment comp = new Compartiment();
-	private Compte connectedUser;
+	private User connectedUser;
 
 	private String name;
 	private String mail;
 	private String idCom;
 	private String idp;
-	private String idUser;
+	private String grade;
 
 	@PostConstruct
 	public void init() {
 		System.out.println("compartiment");
 		mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");
-		idUser=(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("idUser");
+		grade = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("grade");
 
 		System.out.println(mail);
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
 		idp = params.get("idp");
-		connectedUser=compteDao.getCompteById(Long.parseLong(idUser));
-		System.out.println("init : id user connecte ="+ Long.parseLong(idUser));
+		connectedUser=userDao.getUserByMailId(mail);
+		System.out.println("init : mail user connecte ="+mail);
 
 	}
 
@@ -70,7 +77,8 @@ public class CompartimentBean implements Serializable {
 		System.out.println("start add compartiment");
 		System.out.println("idPlanner = " + idp);
 		comp.setPlanner(selectedPlanner());
-		comp.setCompte(connectedUser);
+		comp.setUser(connectedUser);
+		comp.setUserGrade(grade);
 		com.addCompartiment(comp);
 		 
 		
@@ -81,7 +89,7 @@ public class CompartimentBean implements Serializable {
 	
 	public List<Compartiment> ListeCompByPlannerAndCompte() {
 		List<Compartiment> listComPlCp = new ArrayList<>();
-		listComPlCp=com.getListCompartimentByPlannerAndCompte(selectedPlanner().getId(), connectedUser.getId());
+		listComPlCp=com.getListCompartimentByPlannerAndUser(selectedPlanner().getId(), mail);
 		System.out.println("end List compartiment");
 		return listComPlCp;
 	}
@@ -181,21 +189,32 @@ public class CompartimentBean implements Serializable {
 	}
 
 
-	public Compte getConnectedUser() {
+ 
+
+	public User getConnectedUser() {
 		return connectedUser;
 	}
 
-	public void setConnectedUser(Compte connectedUser) {
+	public void setConnectedUser(User connectedUser) {
 		this.connectedUser = connectedUser;
 	}
 
-	public String getIdUser() {
-		return idUser;
+	public UserDao getUserDao() {
+		return userDao;
 	}
 
-	public void setIdUser(String idUser) {
-		this.idUser = idUser;
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
 	}
 
+	public String getGrade() {
+		return grade;
+	}
+
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+
+ 
 	
 }

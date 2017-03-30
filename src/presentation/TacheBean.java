@@ -9,12 +9,15 @@ import javax.ejb.EJB;
 
 import dao.CompartimentDao;
 import dao.CompteDao;
+ 
 import dao.PlannerDao;
 import dao.TacheDao;
+import dao.UserDao;
 import entities.Compartiment;
 import entities.Compte;
 import entities.Planner;
 import entities.Tache;
+import entities.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,24 +35,25 @@ public class TacheBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EJB
-	private TacheDao tache;
+	private TacheDao tacheDao;
 
 	@EJB
-	private PlannerDao planDao;
+	private PlannerDao plannerDao;
 
 	@EJB
 	private CompartimentDao compartimentDao;
 
 	@EJB
-	private CompteDao compteDao;
+	private UserDao userDao;
 	
+ 
 	
 	private Tache newTache = new Tache();
 	private Compartiment compart = new Compartiment();
 	private Planner planner = new Planner();
 	private Planner selplan;
 	private Compartiment selComp;
-	private Compte connectedUser;
+	private User connectedUser;
 
 	private Date dateDebut;
 	private Date dateEcheance;
@@ -59,26 +63,26 @@ public class TacheBean implements Serializable {
 	private String idp;
 	private String mail;
 	private String idCom;
-	private String idUser;
+	private String grade;
 
 	@PostConstruct
 	public void init() {
 		System.out.println("inti start tache");
 		mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");
-		idUser=(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("idUser");
+		 grade=(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("grade");
 
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
 		idp = params.get("idp");
 		System.out.println("init idplanner= " + idp);
-		connectedUser=compteDao.getCompteById(Long.parseLong(idUser));
-		System.out.println("init : id user connecte ="+ Long.parseLong(idUser));
+		connectedUser=userDao.getUserByMailId(mail);
+		System.out.println("init : id user connecte ="+ mail);
 	}
 	
 	
 
 	public Planner selectedPlanner() {
-		return selplan = planDao.getPlannerById(Long.parseLong(idp));
+		return selplan = plannerDao.getPlannerById(Long.parseLong(idp));
 	}
 
 	
@@ -90,12 +94,12 @@ public class TacheBean implements Serializable {
 
 	public void addTache() {
 		System.out.println("Start add tache");
-
+		newTache.setUserGrade(connectedUser.getGrade());
 		newTache.setPlanner(selectedPlanner());
 		newTache.setCompartiment(selectedCompartiment());		
-		newTache.setCompte(connectedUser);
+		newTache.setUser(connectedUser);
 		
-		tache.addTache(newTache);
+		tacheDao.addTache(newTache);
 		newTache = new Tache();
 
 		System.out.println("end add tache");
@@ -104,7 +108,7 @@ public class TacheBean implements Serializable {
 		List<Tache> listeTacheCmCp = new ArrayList<>();
 		selectedPlanner();
 		selectedCompartiment();
-		listeTacheCmCp = tache.getTacheByCompartimentAndCompte(Long.parseLong(idCom), connectedUser.getId());
+		listeTacheCmCp = tacheDao.getTacheByCompartimentAndUser(Long.parseLong(idCom), mail);
 		System.out.println("idCom = " + idCom);
 		System.out.println("end Liste tacheByCompartiment");
 		return listeTacheCmCp;
@@ -114,7 +118,7 @@ public class TacheBean implements Serializable {
 		List<Tache> listeTache = new ArrayList<>();
 		selectedPlanner();
 		selectedCompartiment();
-		listeTache = tache.getTacheByCompartiment(Long.parseLong(idCom));
+		listeTache = tacheDao.getTacheByCompartiment(Long.parseLong(idCom));
 		System.out.println("idCom = " + idCom);
 		System.out.println("end Liste tacheByCompartiment");
 		return listeTache;
@@ -153,13 +157,7 @@ public class TacheBean implements Serializable {
 		this.etat = etat;
 	}
 
-	public TacheDao getTache() {
-		return tache;
-	}
-
-	public void setTache(TacheDao tache) {
-		this.tache = tache;
-	}
+ 
 
 	public CompartimentDao getCompartimentDao() {
 		return compartimentDao;
@@ -185,14 +183,7 @@ public class TacheBean implements Serializable {
 		this.compart = compart;
 	}
 
-	public PlannerDao getPlanDao() {
-		return planDao;
-	}
-
-	public void setPlanDao(PlannerDao planDao) {
-		this.planDao = planDao;
-	}
-
+ 
 	public Planner getSelplan() {
 		return selplan;
 	}
@@ -247,40 +238,69 @@ public class TacheBean implements Serializable {
 
 
 
-	public CompteDao getCompteDao() {
-		return compteDao;
+ 
+
+
+	public TacheDao getTacheDao() {
+		return tacheDao;
 	}
 
 
 
-	public void setCompteDao(CompteDao compteDao) {
-		this.compteDao = compteDao;
+	public void setTacheDao(TacheDao tacheDao) {
+		this.tacheDao = tacheDao;
 	}
 
 
 
-	public Compte getConnectedUser() {
+	public PlannerDao getPlannerDao() {
+		return plannerDao;
+	}
+
+
+
+	public void setPlannerDao(PlannerDao plannerDao) {
+		this.plannerDao = plannerDao;
+	}
+
+
+
+	public UserDao getUserDao() {
+		return userDao;
+	}
+
+
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
+
+
+	public User getConnectedUser() {
 		return connectedUser;
 	}
 
 
 
-	public void setConnectedUser(Compte connectedUser) {
+	public void setConnectedUser(User connectedUser) {
 		this.connectedUser = connectedUser;
 	}
 
 
 
-	public String getIdUser() {
-		return idUser;
+	public String getGrade() {
+		return grade;
 	}
 
 
 
-	public void setIdUser(String idUser) {
-		this.idUser = idUser;
+	public void setGrade(String grade) {
+		this.grade = grade;
 	}
 
+
+ 
  
 	
 }

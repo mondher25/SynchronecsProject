@@ -41,9 +41,9 @@ public Planner getPlannerById(Long id) {
 }
 
 @Override
-public List<Planner> getAllPlannerById(Long id) {
+public List<Planner> getAllPlannerByMailId(String mail) {
 	List <Planner> listePlanner=new ArrayList<>();
-	listePlanner=entityManager.createQuery("SELECT p FROM Planner p WHERE compte_id= :id ").setParameter("id", id).getResultList();
+	listePlanner=entityManager.createQuery("SELECT p FROM Planner p WHERE user_mail_id= :mail ").setParameter("mail", mail).getResultList();
 	return listePlanner;
 }
   

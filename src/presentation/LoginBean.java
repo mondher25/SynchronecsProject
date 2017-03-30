@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 
 import dao.CompteDao;
+ 
 import dao.UserDao;
 import entities.Compte;
 import entities.User;
@@ -25,6 +26,8 @@ public class LoginBean implements Serializable{
 	/**
 	 * 
 	 */
+	
+	
 	private static final long serialVersionUID = 1L;
 
 	@EJB 
@@ -33,20 +36,27 @@ public class LoginBean implements Serializable{
 	@EJB 
 	private CompteDao compteDao;
 	
+ 
+	
 	private User user = new User() ;
-	private Compte comptemanager=new Compte();
+	 
 	
 	private User logedUser;
-	private Compte logeByCp;
+	 
 	
 	private String type;
 	private String mail;
 	private String password;
+	public static int count =0;
 	private String idUser;
+	private User newUser=new User();
  
 	
- 
-	
+	 public static int counterId()
+	 {
+		 return count++;
+	 }
+		
 	public String login(){
 		System.out.println("Start Login");
 		RequestContext context = RequestContext.getCurrentInstance();
@@ -56,12 +66,6 @@ public class LoginBean implements Serializable{
 
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 
-		
-		
-		
- 
-	switch (type) {
-	case "employee":
 
 		logedUser = userDao.login(mail.trim(),password.trim());
 
@@ -69,42 +73,31 @@ public class LoginBean implements Serializable{
 		
 		if ( logedUser != null) {
 
-			session.setAttribute("mail",mail);
+			session.setAttribute("mail",logedUser.getMail());
+			session.setAttribute("nomSociete", logedUser.getNomSociete());
+			session.setAttribute("nom", logedUser.getNom());
+			session.setAttribute("grade", logedUser.getGrade());
 		 
 			logedin = true;
-
 			return "planner/planner.xhtml?faces-redirect=true";
 
 		}
-			break;
-			
-		case "employeur":
+					 
 
-		logeByCp = compteDao.login(mail.trim(),password.trim());	
-
-		
-		if ( logeByCp != null) {
-
-			session.setAttribute("mail", logeByCp.getMail());
-			session.setAttribute("idUser", logeByCp.getId()+"");
-			logedin = true;
-
-			return "planner/planner.xhtml?faces-redirect=true";
-
-			}
-			break;
-		 
-
-		}
+	 
 	 if(logedin == false )
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			return null;
- 
-		
-	}
+			
+			}
 
  
-	
+	public void addNewUser(){
+		
+		newUser.setGrade("user");
+		newUser.setId((long) counterId());
+		userDao.createUser(newUser);
+	}
 	
 	public String logout(){
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession(); 
@@ -137,14 +130,9 @@ public class LoginBean implements Serializable{
 		this.userDao = userDao;
 	}
 
-
-
-
 	public CompteDao getCompteDao() {
 		return compteDao;
 	}
-
-
 
 
 	public void setCompteDao(CompteDao compteDao) {
@@ -152,36 +140,14 @@ public class LoginBean implements Serializable{
 	}
 
 
-
-
-	public Compte getComptemanager() {
-		return comptemanager;
-	}
-
-
-
-
-	public void setComptemanager(Compte comptemanager) {
-		this.comptemanager = comptemanager;
-	}
-
-
-
-
+ 
 	public User getLogedUser() {
 		return logedUser;
 	}
 
-
-
-
 	public void setLogedUser(User logedUser) {
 		this.logedUser = logedUser;
 	}
-
-
-
-
 	public String getType() {
 		return type;
 	}
@@ -196,17 +162,7 @@ public class LoginBean implements Serializable{
 
 
 
-	public Compte getLogeByCp() {
-		return logeByCp;
-	}
-
-
-
-
-	public void setLogeByCp(Compte logeByCp) {
-		this.logeByCp = logeByCp;
-	}
-
+ 
 
 
 
@@ -247,6 +203,16 @@ public class LoginBean implements Serializable{
 
 	public void setIdUser(String idUser) {
 		this.idUser = idUser;
+	}
+
+
+	public User getNewUser() {
+		return newUser;
+	}
+
+
+	public void setNewUser(User newUser) {
+		this.newUser = newUser;
 	}
 
 

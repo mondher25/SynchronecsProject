@@ -14,9 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.SelectEvent;
 
 import dao.CompteDao;
+ 
 import dao.PlannerDao;
+import dao.UserDao;
 import entities.Compte;
 import entities.Planner;
+import entities.User;
 
 
 @ManagedBean(name="plan")
@@ -32,16 +35,19 @@ public class PlanBean implements Serializable{
 	private PlannerDao plannerDao;
 	
 	@EJB
-	private CompteDao compteDao;
+	private UserDao userDao;
 	
-	private String name;	
+ 
+	
+	private String nom;	
 	private String mail ;
-	private String type;
-	private String idUser;
+	private String grade;
+ 
+ 
 	
 	private Planner planner =new Planner();
-	private Compte compteUser=new Compte();
-	private Compte connectedUser;
+	private User compteUser=new User();
+	private User connectedUser;
 	
 	
 	
@@ -49,10 +55,13 @@ public class PlanBean implements Serializable{
 	@PostConstruct
 	public void Init(){
 		System.out.println(" -- - --- --- -planBean- --- --- ");
-		mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");	
-		idUser=(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("idUser");
-		connectedUser=compteDao.getCompteById(Long.parseLong(idUser));
-		System.out.println("init : id user connecte ="+ Long.parseLong(idUser));
+		mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");
+		grade = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("grade");	
+		nom = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nom");	
+		 
+		connectedUser=userDao.getUserByMailId(mail);
+		System.out.println("init : id user connecte ="+ mail);
+		System.out.println("init : id user connecte ="+ grade);
 	
 	}
 	
@@ -60,19 +69,20 @@ public class PlanBean implements Serializable{
 	public void addNewPlanner(){
 	 System.out.println("start add Planner");
 		
-		
-		planner.setCompte(connectedUser);		
+	 	planner.setUser(connectedUser);
+		planner.setUserGrade(connectedUser.getGrade());	
 		plannerDao.AddPlanner(planner); 
+		
 		planner=new Planner();
 		
 		System.out.println("end add Planner");
 		 
-		System.out.println("id user connecte ="+ Long.parseLong(idUser));
+		System.out.println("id user connecte ="+ mail);
 	}
 	
 	public List<Planner> listePlannerByIdCompte(){
 		List<Planner> listPlannerCompte = new ArrayList<Planner>();
-		listPlannerCompte = plannerDao.getAllPlannerById(Long.parseLong(idUser));
+		listPlannerCompte = plannerDao.getAllPlannerByMailId(mail);
 		System.out.println(" --- -- -- end Liste  Planner --- ");
 		return listPlannerCompte ;
 		
@@ -98,9 +108,6 @@ public class PlanBean implements Serializable{
 
 
  
-	public String getName() {
-		return name;
-	}
  
 
 	public String getMail() {
@@ -114,43 +121,22 @@ public class PlanBean implements Serializable{
 	public void setPlanner(Planner planner) {
 		this.planner = planner;
 	}
-	public void setName(String name) {
-		this.name = name;
+ 
+ 	public String getNom() {
+		return nom;
 	}
 
-	public String getType() {
-		return type;
+
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
-	
-	public void setType(String type) {
-		this.type = type;
-	}
+
 
  
 
-	public CompteDao getCompteDao() {
-		return compteDao;
-	}
+ 
 
-	public void setCompteDao(CompteDao compteDao) {
-		this.compteDao = compteDao;
-	}
-
-	public String getIdUser() {
-		return idUser;
-	}
-
-	public void setIdUser(String idUser) {
-		this.idUser = idUser;
-	}
-
-	public Compte getCompteUser() {
-		return compteUser;
-	}
-
-	public void setCompteUser(Compte compteUser) {
-		this.compteUser = compteUser;
-	}
+ 
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -162,12 +148,35 @@ public class PlanBean implements Serializable{
 
  
 
-	public Compte getConnectedUser() {
+ 
+
+
+	public User getCompteUser() {
+		return compteUser;
+	}
+
+
+	public void setCompteUser(User compteUser) {
+		this.compteUser = compteUser;
+	}
+
+
+	public UserDao getUserDao() {
+		return userDao;
+	}
+
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+
+
+	public User getConnectedUser() {
 		return connectedUser;
 	}
 
 
-	public void setConnectedUser(Compte connectedUser) {
+	public void setConnectedUser(User connectedUser) {
 		this.connectedUser = connectedUser;
 	}
 
@@ -179,6 +188,19 @@ public class PlanBean implements Serializable{
 	public void setPlannerDao(PlannerDao plannerDao) {
 		this.plannerDao = plannerDao;
 	}
+
+
+	public String getGrade() {
+		return grade;
+	}
+
+
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+
+
+ 
 
  
 

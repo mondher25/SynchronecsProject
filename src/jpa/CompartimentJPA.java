@@ -13,38 +13,34 @@ import entities.Planner;
 
 @Stateless
 public class CompartimentJPA implements CompartimentDao {
-	
-	@PersistenceContext(unitName="UP")
+
+	@PersistenceContext(unitName = "UP")
 	EntityManager em;
 
 	@Override
 	public void addCompartiment(Compartiment c) {
-		 em.persist(c);		
+		em.persist(c);
 	}
 
- 
+	@Override
+	public Compartiment getCompartimentById(Long id) {
+		Compartiment cp = em.find(Compartiment.class, id);
+		return cp;
+	}
 
 	@Override
 	public List<Compartiment> getListCompartimentByPlanner(Long planner_id) {
 		List<Compartiment> listeCom = new ArrayList<Compartiment>();
-	listeCom=em.createQuery("SELECT c FROM Compartiment c WHERE planner_id=:planner_id").setParameter("planner_id", planner_id).getResultList();
+		listeCom = em.createQuery("SELECT c FROM Compartiment c WHERE planner_id=:planner_id")
+				.setParameter("planner_id", planner_id).getResultList();
 		return listeCom;
 	}
 
-
-
 	@Override
-	public Compartiment getCompartimentById(Long id) {
-		Compartiment cp=em.find(Compartiment.class, id);	 
-		return cp;
-	}
-
-
-
-	@Override
-	public List<Compartiment> getListCompartimentByPlannerAndCompte(Long idPlanner, Long idUser) {
-		List<Compartiment> listCompPlCp=new ArrayList<>();
-		listCompPlCp=em.createQuery("SELECT c FROM Compartiment c WHERE planner_id=:planner_id AND compte_id=:compte_id").setParameter("planner_id", idPlanner).setParameter("compte_id", idUser).getResultList();
+	public List<Compartiment> getListCompartimentByPlannerAndUser(Long idPlanner, String mail) {
+		List<Compartiment> listCompPlCp = new ArrayList<>();
+		listCompPlCp = em.createQuery("SELECT c FROM Compartiment c WHERE planner_id=:planner AND user_mail_id=:user")
+				.setParameter("planner", idPlanner).setParameter("user", mail).getResultList();
 		return listCompPlCp;
 	}
 }

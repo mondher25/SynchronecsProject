@@ -28,9 +28,10 @@ public class Planner {
 	
 
 	@OneToOne
-	@JoinColumn(name="compte_id")
-	private Compte compte;
-	
+	@JoinColumn(name="user_mail_id")
+	private User user;
+ 
+	private String userGrade;
 	
 	
 		
@@ -60,13 +61,23 @@ public class Planner {
 		return type;
 	}
 
-	public Compte getCompte() {
-		return compte;
+	public User getUser() {
+		return user;
 	}
 
-	public void setCompte(Compte compte) {
-		this.compte = compte;
+	public void setUser(User user) {
+		this.user = user;
 	}
+
+	public String getUserGrade() {
+		return userGrade;
+	}
+
+	public void setUserGrade(String userGrade) {
+		this.userGrade = userGrade;
+	}
+
+ 
 	
 
 }
