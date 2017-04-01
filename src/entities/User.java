@@ -1,6 +1,7 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+ 
 import javax.persistence.Table;
 
 @Table(name="user")
@@ -38,12 +41,22 @@ public class User implements Serializable{
 	
 	private String nomSociete;
 	
+	private String addedBy;
+	
+	
+
 
  
  
+
+
+	public String toString(){
+		return mail;
+    	 	 	
+    } 
 	
 	
-	//getter setter 
+	//getter and setter 
 	public Long getId() {
 		return id;
 	}
@@ -87,6 +100,12 @@ public class User implements Serializable{
 	}
 	public void setGrade(String grade) {
 		this.grade = grade;
+	}
+	public String getAddedBy() {
+		return addedBy;
+	}
+	public void setAddedBy(String addedBy) {
+		this.addedBy = addedBy;
 	}
  
  

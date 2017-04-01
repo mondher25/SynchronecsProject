@@ -1,5 +1,6 @@
 package jpa;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -41,16 +42,27 @@ public void createUser(User u) {
 	
 }
 
-@Override
-public List<User> listeUser(Long id) {
-	List<User> listeUser=em.createQuery("SELECT u FROM User u").getResultList();
-	return listeUser;
-}
+ 
 
 @Override
 public User getUserByMailId(String mailId) {
 	User user=em.find(User.class, mailId);
 	return user;
+}
+
+@Override
+public List<User> ListeUserAffTache(String mail, String grade) {
+	List<User> listUser=em.createQuery("SELECT u FROM User u WHERE mail=:mail AND grade=:grade").setParameter("mail", mail).setParameter("grade", grade).getResultList();
+	return listUser;
+}
+
+@Override
+public List<User> getAllUser() {
+	List<User> listAllUser=new ArrayList<>();
+	String gradeUser="user";
+	listAllUser=em.createQuery("SELECT u FROM User u WHERE grade =:grade").setParameter("grade", gradeUser).getResultList();
+	
+	return listAllUser;
 }
 
 

@@ -47,7 +47,7 @@ public class LoginBean implements Serializable{
 	private String type;
 	private String mail;
 	private String password;
-	public static int count =0;
+	public static int count =1;
 	private String idUser;
 	private User newUser=new User();
  
@@ -96,6 +96,7 @@ public class LoginBean implements Serializable{
 		
 		newUser.setGrade("user");
 		newUser.setId((long) counterId());
+		newUser.setAddedBy(logedUser.getMail());
 		userDao.createUser(newUser);
 	}
 	

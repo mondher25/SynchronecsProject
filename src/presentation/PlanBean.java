@@ -1,25 +1,25 @@
 package presentation;
 
-import java.io.IOException;
+ 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-import org.primefaces.event.SelectEvent;
-
-import dao.CompteDao;
  
+import javax.faces.context.FacesContext;
+
+ 
+
 import dao.PlannerDao;
 import dao.UserDao;
-import entities.Compte;
+import dao.AffectationPlannerUserDao;
 import entities.Planner;
 import entities.User;
+import entities.AffectationPlannerUser;
 
 
 @ManagedBean(name="plan")
@@ -37,18 +37,30 @@ public class PlanBean implements Serializable{
 	@EJB
 	private UserDao userDao;
 	
- 
+	@EJB
+	private AffectationPlannerUserDao affectationPlannerUserDao;
+
+	private List<User> listeUser =new ArrayList<>();
 	
+	private List<User> finalListUserObject =new ArrayList<>();
+	private List<String> finalListUserString =new ArrayList<>();
+ 
 	private String nom;	
 	private String mail ;
 	private String grade;
- 
- 
+	private boolean etat;
+	private String nomSociete;
+
+	private AffectationPlannerUser affectationPlannerUser=new AffectationPlannerUser();
 	
 	private Planner planner =new Planner();
 	private User compteUser=new User();
 	private User connectedUser;
 	
+	Iterator<User> it=finalListUserObject.listIterator();
+	 
+	
+
 	
 	
 
@@ -58,19 +70,49 @@ public class PlanBean implements Serializable{
 		mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");
 		grade = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("grade");	
 		nom = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nom");	
-		 
+		nomSociete=(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nomSociete");
 		connectedUser=userDao.getUserByMailId(mail);
 		System.out.println("init : id user connecte ="+ mail);
 		System.out.println("init : id user connecte ="+ grade);
 	
 	}
 	
+	//////AUTO
+    public List<User> completeTheme(String query) {
+        List<User> allUsers = userDao.getAllUser();
+        List<User> filteredUsers = new ArrayList<User>();
+        
+        for (int i = 0; i < allUsers.size(); i++) {
+        	User skin = allUsers.get(i);
+            if(skin.toString().toLowerCase().startsWith(query)) {
+            	filteredUsers.add(skin);
+            }
+        }
+         
+         
+        return filteredUsers;
+       
+    }
+    
+  
+	
 
 	public void addNewPlanner(){
-	 System.out.println("start add Planner");
-		
+	 System.out.println("start add Planner");	
 	 	planner.setUser(connectedUser);
 		planner.setUserGrade(connectedUser.getGrade());	
+		planner.setNomSociete(nomSociete);
+		
+	
+		
+		for(User u :finalListUserObject){
+		    AffectationPlannerUser affectationPlannerUser=new AffectationPlannerUser();
+		    affectationPlannerUser.setPlanner(planner);
+		    
+ 
+		    affectationPlannerUser.setUser(u);
+		    affectationPlannerUserDao.addAff(affectationPlannerUser);
+		}
 		plannerDao.AddPlanner(planner); 
 		
 		planner=new Planner();
@@ -78,16 +120,27 @@ public class PlanBean implements Serializable{
 		System.out.println("end add Planner");
 		 
 		System.out.println("id user connecte ="+ mail);
+		
 	}
 	
 	public List<Planner> listePlannerByIdCompte(){
 		List<Planner> listPlannerCompte = new ArrayList<Planner>();
-		listPlannerCompte = plannerDao.getAllPlannerByMailId(mail);
+		listPlannerCompte = plannerDao.getAllPlannerByMailAndnomSociete(mail, nomSociete);
+		checketat();
 		System.out.println(" --- -- -- end Liste  Planner --- ");
 		return listPlannerCompte ;
 		
 	}
 	
+	public void checketat(){
+		if (etat == true)
+		{ 
+			System.out.println("ok True");
+		}else
+		{
+			System.out.println("Not ok");
+		}
+	}
 //	public List<Planner> listePlanner(){
 //		List<Planner> list = new ArrayList<Planner>();
 //		list = plannerDao.getAllPlanner();
@@ -199,6 +252,67 @@ public class PlanBean implements Serializable{
 		this.grade = grade;
 	}
 
+
+	public boolean isEtat() {
+		return etat;
+	}
+
+
+	public void setEtat(boolean etat) {
+		this.etat = etat;
+	}
+
+
+	public String getNomSociete() {
+		return nomSociete;
+	}
+
+
+	public void setNomSociete(String nomSociete) {
+		this.nomSociete = nomSociete;
+	}
+
+	public List<User> getListeUser() {
+		return listeUser;
+	}
+
+	public void setListeUser(List<User> listeUser) {
+		this.listeUser = listeUser;
+	}
+
+	public List<User> getFinalListUserObject() {
+		return finalListUserObject;
+	}
+
+	public void setFinalListUserObject(List<User> finalListUserObject) {
+		this.finalListUserObject = finalListUserObject;
+	}
+
+	public List<String> getFinalListUserString() {
+		return finalListUserString;
+	}
+
+	public void setFinalListUserString(List<String> finalListUserString) {
+		this.finalListUserString = finalListUserString;
+	}
+
+	public AffectationPlannerUserDao getAffectationPlannerUserDao() {
+		return affectationPlannerUserDao;
+	}
+
+	public void setAffectationPlannerUserDao(AffectationPlannerUserDao affectationPlannerUserDao) {
+		this.affectationPlannerUserDao = affectationPlannerUserDao;
+	}
+
+	public AffectationPlannerUser getAffectationPlannerUser() {
+		return affectationPlannerUser;
+	}
+
+	public void setAffectationPlannerUser(AffectationPlannerUser affectationPlannerUser) {
+		this.affectationPlannerUser = affectationPlannerUser;
+	}
+
+ 
 
  
 

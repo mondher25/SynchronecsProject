@@ -24,7 +24,7 @@
 	
 		<h:form id="form">
   		     
-		    <p:dataTable id="eventsDT" var="pl" value="#{plan.listePlannerByIdCompte()}" rowKey="#{pl.id}"   >
+		    <p:dataTable id="eventsDT" var="pl" rowKey="#{pl.id}"   >
                   
 			 <f:facet name="header">
             Listes des Planner
@@ -36,10 +36,16 @@
 		    <p:column headerText="Type">
 		        <h:outputText value="#{pl.type}" />
 		    </p:column>
+			<p:column headerText="etat">
+		        <h:outputText value="#{pl.etat}" />
+		    </p:column>      
+			<p:column headerText="nomSociete">
+		        <h:outputText value="#{pl.nomSociete}" />
+		    </p:column> 
+					 
+	        
 		<p:column headerText="Action">
- 
-		
- 		        <p:link value="get" outcome="tache.xhtml"   >
+  		        <p:link value="get" outcome="tache.xhtml"   >
 		             <f:param  name="idp" value="#{pl.id}"></f:param>
 		       </p:link>
 		 </p:column>

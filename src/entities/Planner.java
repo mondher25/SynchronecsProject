@@ -1,12 +1,19 @@
 package entities;
 
  
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+ 
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -17,6 +24,7 @@ public class Planner {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
 	private Long id;
 	
 	@Column(name="name")
@@ -32,6 +40,12 @@ public class Planner {
 	private User user;
  
 	private String userGrade;
+	
+	private boolean etat;
+	
+	private String 	nomSociete;
+	
+
 	
 	
 		
@@ -76,6 +90,26 @@ public class Planner {
 	public void setUserGrade(String userGrade) {
 		this.userGrade = userGrade;
 	}
+
+	public boolean isEtat() {
+		return etat;
+	}
+
+	public void setEtat(boolean etat) {
+		this.etat = etat;
+	}
+
+	public String getNomSociete() {
+		return nomSociete;
+	}
+
+	public void setNomSociete(String nomSociete) {
+		this.nomSociete = nomSociete;
+	}
+
+
+ 
+ 
 
  
 	

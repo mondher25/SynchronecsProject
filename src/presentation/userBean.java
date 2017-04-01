@@ -27,7 +27,8 @@ public class userBean {
 	@EJB
 	private CompteDao compteDao;
 	
- 
+
+	
 
 	private String nom;
 	private String prenom;
@@ -45,32 +46,38 @@ public class userBean {
  
 	
 	@PostConstruct
-	public void init(){
-		 
+	public void init(){		 
 		mail=(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");
-		grade=(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("grade");
-		
-		  
+		grade=(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("grade");		  
  	}
+	
+
+	
 	
 	public void addNewCompte()
 	{
 		System.out.println("add new User");
-		
-			 
+		 
 			user.setGrade("admin");
+			user.setAddedBy("root");
 			user.setId((long) LoginBean.counterId());
-			userDao.createUser(user);
-			 
- 
-			
-			 
+			userDao.createUser(user);	 
 		System.out.println("END add  User");
 		user=new User();
 		newUser=new User();
 	}
 	
  
+	public List<User> listeUser(){
+		List<User> listeUser =new ArrayList<>();
+		listeUser=userDao.getAllUser();
+		return listeUser;
+	}
+	
+	
+	
+	
+	
 	
 	
 	
@@ -181,7 +188,7 @@ public class userBean {
 		this.newUser = newUser;
 	}
 
- 
+	 
 
  
 

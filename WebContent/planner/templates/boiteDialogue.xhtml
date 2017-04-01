@@ -20,7 +20,21 @@
 				 <f:selectItem itemLabel="Projet" itemValue="Projet" />
 				<f:selectItem itemLabel="Evenement" itemValue="Evenement" />												            
 			 </p:selectOneMenu> 
+			 
 		<div class="EmptyBox10"></div>
+			        <h:outputText value="Public " />
+	        <p:inputSwitch value="#{plan.planner.etat}" />	        
+	        <div class="EmptyBox10"></div>
+	         <h:outputLabel value="Affecté à : " for="clientMail" />
+                <p:autoComplete id="clientMail"
+                        value="#{plan.finalListUserObject}"   
+                        completeMethod="#{plan.completeTheme}" 
+                        forceSelection="true"
+                        multiple="true"
+                        required="true"/>
+	        
+	        <div class="EmptyBox10"></div>
+	        
 <p:commandButton value="ajouter Planner"  actionListener="#{plan.addNewPlanner()}"  process="formAddPlanner"  onsuccess="PF('diagAddPlanner').hide()"  />
 	</h:form>	
 </p:dialog>
