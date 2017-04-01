@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
- 
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
  
@@ -23,7 +23,7 @@ import entities.AffectationPlannerUser;
 
 
 @ManagedBean(name="plan")
-@SessionScoped
+@ViewScoped
 public class PlanBean implements Serializable{
 	
 	/**
@@ -103,17 +103,16 @@ public class PlanBean implements Serializable{
 		planner.setUserGrade(connectedUser.getGrade());	
 		planner.setNomSociete(nomSociete);
 		
-	
-		
-		for(User u :finalListUserObject){
-		    AffectationPlannerUser affectationPlannerUser=new AffectationPlannerUser();
-		    affectationPlannerUser.setPlanner(planner);
-		    
- 
-		    affectationPlannerUser.setUser(u);
-		    affectationPlannerUserDao.addAff(affectationPlannerUser);
-		}
 		plannerDao.AddPlanner(planner); 
+		
+//		for(String u :finalListUserString){
+//		    AffectationPlannerUser affectationPlannerUser=new AffectationPlannerUser();
+//		    affectationPlannerUser.setPlanner(planner);
+// 
+//		    affectationPlannerUser.setMail(u);
+//		    affectationPlannerUserDao.addAff(affectationPlannerUser);
+//		}
+		
 		
 		planner=new Planner();
 		

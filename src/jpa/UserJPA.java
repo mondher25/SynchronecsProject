@@ -60,7 +60,7 @@ public List<User> ListeUserAffTache(String mail, String grade) {
 public List<User> getAllUser() {
 	List<User> listAllUser=new ArrayList<>();
 	String gradeUser="user";
-	listAllUser=em.createQuery("SELECT u FROM User u WHERE grade =:grade").setParameter("grade", gradeUser).getResultList();
+	listAllUser=em.createQuery("SELECT u FROM User u  ").getResultList();
 	
 	return listAllUser;
 }

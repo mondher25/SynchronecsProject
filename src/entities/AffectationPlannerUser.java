@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
- 
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -18,10 +18,12 @@ public class AffectationPlannerUser {
 	
 	
     @OneToOne
+    @JoinColumn(name="planner_id")
 	private Planner planner;
 	
-    @OneToOne
-	private User user;
+    @OneToOne(targetEntity=User.class)
+    @JoinColumn(name="user_mail_id")
+	private String mail;
 
 	
 	
@@ -44,13 +46,15 @@ public class AffectationPlannerUser {
 		this.planner = planner;
 	}
 
-	public User getUser() {
-		return user;
+	public String getMail() {
+		return mail;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
+
+ 
 
  
 
