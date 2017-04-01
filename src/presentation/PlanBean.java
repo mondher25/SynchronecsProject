@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
+ 
 import javax.faces.context.FacesContext;
 
  
@@ -23,7 +23,7 @@ import entities.AffectationPlannerUser;
 
 
 @ManagedBean(name="plan")
-@ViewScoped
+@SessionScoped
 public class PlanBean implements Serializable{
 	
 	/**
@@ -77,15 +77,17 @@ public class PlanBean implements Serializable{
 	
 	}
 	
+
+	
 	//////AUTO
-    public List<User> completeTheme(String query) {
-        List<User> allUsers = userDao.getAllUser();
-        List<User> filteredUsers = new ArrayList<User>();
+    public List<String> completeTheme(String query) {
+        List<User> allUsers = userDao.getUser();
+        List<String> filteredUsers = new ArrayList<String>();
         
         for (int i = 0; i < allUsers.size(); i++) {
         	User skin = allUsers.get(i);
-            if(skin.toString().toLowerCase().startsWith(query)) {
-            	filteredUsers.add(skin);
+            if(skin.getMail().toLowerCase().startsWith(query)) {
+            	filteredUsers.add(skin.getMail());
             }
         }
          
@@ -105,13 +107,14 @@ public class PlanBean implements Serializable{
 		
 		plannerDao.AddPlanner(planner); 
 		
-//		for(String u :finalListUserString){
-//		    AffectationPlannerUser affectationPlannerUser=new AffectationPlannerUser();
-//		    affectationPlannerUser.setPlanner(planner);
-// 
-//		    affectationPlannerUser.setMail(u);
-//		    affectationPlannerUserDao.addAff(affectationPlannerUser);
-//		}
+		for(String u :finalListUserString){
+			User user ;
+			user = userDao.getUserByMailId(u);
+ 		    affectationPlannerUser.setPlanner(planner);
+ 		    affectationPlannerUser.setUser(user);
+		    
+		    affectationPlannerUserDao.addAff(affectationPlannerUser);
+		}
 		
 		
 		planner=new Planner();

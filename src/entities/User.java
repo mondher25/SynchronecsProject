@@ -28,6 +28,9 @@ public class User implements Serializable{
 	@Column(name="password")
 	private String password;
 	
+	
+	
+	
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	

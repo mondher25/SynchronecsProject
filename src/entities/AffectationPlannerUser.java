@@ -21,11 +21,10 @@ public class AffectationPlannerUser {
     @JoinColumn(name="planner_id")
 	private Planner planner;
 	
-    @OneToOne(targetEntity=User.class)
-    @JoinColumn(name="user_mail_id")
-	private String mail;
-
-	
+    @OneToOne
+    private User user;
+ 
+ 
 	
 	
 	//Getter and Setter
@@ -46,13 +45,19 @@ public class AffectationPlannerUser {
 		this.planner = planner;
 	}
 
-	public String getMail() {
-		return mail;
+	public User getUser() {
+		return user;
 	}
 
-	public void setMail(String mail) {
-		this.mail = mail;
+	public void setUser(User user) {
+		this.user = user;
 	}
+
+ 
+
+ 
+
+ 
 
  
 

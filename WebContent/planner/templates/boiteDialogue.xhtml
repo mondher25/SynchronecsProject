@@ -23,15 +23,17 @@
 			 
 		<div class="EmptyBox10"></div>
 			        <h:outputText value="Public " />
-	        <p:inputSwitch value="#{plan.planner.etat}" />	        
-	        <div class="EmptyBox10"></div>
+	        <p:inputSwitch value="#{plan.planner.etat}" />	
+	               
+  	        <div class="EmptyBox10"></div>
 	         <h:outputLabel value="Affecté à : " for="clientMail" />
                 <p:autoComplete id="clientMail"
-                        value="#{plan.finalListUserObject}"   
+               			  
+                        value="#{plan.finalListUserString}"   
                         completeMethod="#{plan.completeTheme}" 
                         forceSelection="true"
                         multiple="true"
-                        required="true"/>
+                        required="true"/>  
 	        
 	        <div class="EmptyBox10"></div>
 	        

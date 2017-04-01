@@ -70,7 +70,7 @@ public class userBean {
  
 	public List<User> listeUser(){
 		List<User> listeUser =new ArrayList<>();
-		listeUser=userDao.getAllUser();
+		listeUser=userDao.getUser();
 		return listeUser;
 	}
 	

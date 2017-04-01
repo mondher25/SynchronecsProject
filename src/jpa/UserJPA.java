@@ -10,7 +10,7 @@ import dao.UserDao;
 import entities.User;
 
 /**
- * Session Bean implementation class Utilisateur
+ * Session Bean implementation class User
  */
 @Stateless
 public class UserJPA implements UserDao {
@@ -57,10 +57,10 @@ public List<User> ListeUserAffTache(String mail, String grade) {
 }
 
 @Override
-public List<User> getAllUser() {
+public List<User> getUser() {
 	List<User> listAllUser=new ArrayList<>();
 	String gradeUser="user";
-	listAllUser=em.createQuery("SELECT u FROM User u  ").getResultList();
+	listAllUser=em.createQuery("SELECT u FROM User u WHERE grade=:gradeUser ").setParameter("gradeUser", gradeUser).getResultList();
 	
 	return listAllUser;
 }

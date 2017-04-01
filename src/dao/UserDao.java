@@ -13,5 +13,5 @@ public interface UserDao {
 	public User login(String mail,String password);
 	public User getUserByMailId(String mailId); 
 	public List<User> ListeUserAffTache(String mail,String grade);
-	public List<User> getAllUser();
+	public List<User> getUser();
 }

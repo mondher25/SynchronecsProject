@@ -8,14 +8,16 @@ import dao.AffectationPlannerUserDao;
 import entities.AffectationPlannerUser;
 
 @Stateless
-public class affectationPlannerUserJPA implements AffectationPlannerUserDao{
+public class AffectationPlannerUserJPA implements AffectationPlannerUserDao{
 
+	@PersistenceContext(unitName="UP")
+	EntityManager em;
+	
 	@Override
 	public void addAff(AffectationPlannerUser affPlaUser) {
 		em.persist(affPlaUser);
 		
 	}
 
-	@PersistenceContext(unitName="UP")
-	EntityManager em;
+
 }

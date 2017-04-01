@@ -50,7 +50,7 @@ public List<Planner> getAllPlannerByMailId(String mail) {
 @Override
 public List<Planner> getAllPlannerByMailAndnomSociete(String mail, String nomSociete) {
 	List <Planner> listePlanner=new ArrayList<>();
-	listePlanner=entityManager.createNamedQuery("SELECT p FROM Planner p WHERE mail=:mail AND nomSociete=:nomSociete").setParameter("mail", mail).setParameter("nomSociete", nomSociete).getResultList();
+	listePlanner=entityManager.createQuery("SELECT p FROM Planner p WHERE user_mail_id=:mail AND nomSociete=:nomSociete").setParameter("mail", mail).setParameter("nomSociete", nomSociete).getResultList();
 	return listePlanner;
 }
   
