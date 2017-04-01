@@ -7,7 +7,7 @@
 		<class>entities.Tache</class>
 		<class>entities.Planner</class>
 		<class>entities.Compartiment</class>
-		<class>entities.AffectationPlannerUser</class>
+	 
        
 	       <properties>
 	<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
