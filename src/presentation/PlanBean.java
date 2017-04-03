@@ -51,7 +51,9 @@ public class PlanBean implements Serializable{
 	private boolean etat;
 	private String nomSociete;
 
-	private AffectationPlannerUser affectationPlannerUser;
+	  
+	 
+	   
 	
 	private Planner planner =new Planner();
 	private User compteUser=new User();
@@ -98,7 +100,7 @@ public class PlanBean implements Serializable{
             return filteredUsers;
     	}
     	else
-    	 
+    		 
     		return null;
     	 
     	 
@@ -112,22 +114,30 @@ public class PlanBean implements Serializable{
 	 System.out.println("start add Planner");	
 	 	planner.setUser(connectedUser);
 		planner.setUserGrade(connectedUser.getGrade());	
-		planner.setNomSociete(nomSociete);		
-		plannerDao.AddPlanner(planner); 
+		planner.setNomSociete(nomSociete);
 		
-		for(String u :finalListUserString){
+		plannerDao.AddPlanner(planner); 
+		AffectationPlannerUser affectationPlannerUser1 = new AffectationPlannerUser();
+		affectationPlannerUser1.setPlanner(planner);
+		affectationPlannerUser1.setUser(connectedUser);
+		affectationPlannerUser1.setNomSociete(nomSociete);
+		affectationPlannerUserDao.addAff(affectationPlannerUser1);
+
+	 
+
+			for(String u :finalListUserString){
+				
 			User user;
 			user = userDao.getUserByMailId(u);
-			
+			AffectationPlannerUser affectationPlannerUser = new AffectationPlannerUser();
  		    affectationPlannerUser.setPlanner(planner); 		    
- 		    affectationPlannerUser.setNomSociete(connectedUser.getNomSociete());
- 		    affectationPlannerUser.setNomPlanner(planner.getNamePlanner());
- 		    
- 		    affectationPlannerUser.setUser(user);		    
+ 		    affectationPlannerUser.setNomSociete(connectedUser.getNomSociete()); 		     		    
+ 		    affectationPlannerUser.setUser(user);	
+ 		   
 		    affectationPlannerUserDao.addAff(affectationPlannerUser);
 		}
-		
-		
+				
+					 
 		planner=new Planner();		
 		System.out.println("end add Planner");		 
 		System.out.println("id user connecte ="+ mail);
@@ -329,20 +339,7 @@ public class PlanBean implements Serializable{
 		this.affectationPlannerUserDao = affectationPlannerUserDao;
 	}
 
-	public AffectationPlannerUser getAffectationPlannerUser() {
-		return affectationPlannerUser;
-	}
-
-	public void setAffectationPlannerUser(AffectationPlannerUser affectationPlannerUser) {
-		this.affectationPlannerUser = affectationPlannerUser;
-	}
-
  
-
- 
-
- 
-
  
 	
 
