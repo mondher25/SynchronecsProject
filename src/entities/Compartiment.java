@@ -31,6 +31,14 @@ public class Compartiment {
 	
 	private String userGrade;
 	
+	
+	
+	
+	
+	
+	
+	
+	
 	//Getter and Setter
 
 	public Long getId() {

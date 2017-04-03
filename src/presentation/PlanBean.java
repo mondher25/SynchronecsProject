@@ -51,13 +51,13 @@ public class PlanBean implements Serializable{
 	private boolean etat;
 	private String nomSociete;
 
-	private AffectationPlannerUser affectationPlannerUser=new AffectationPlannerUser();
+	private AffectationPlannerUser affectationPlannerUser;
 	
 	private Planner planner =new Planner();
 	private User compteUser=new User();
 	private User connectedUser;
 	
-	Iterator<User> it=finalListUserObject.listIterator();
+//	Iterator<User> it=finalListUserObject.listIterator();
 	 
 	
 
@@ -81,18 +81,27 @@ public class PlanBean implements Serializable{
 	
 	//////AUTO
     public List<String> completeTheme(String query) {
-        List<User> allUsers = userDao.getUser();
-        List<String> filteredUsers = new ArrayList<String>();
-        
-        for (int i = 0; i < allUsers.size(); i++) {
-        	User skin = allUsers.get(i);
-            if(skin.getMail().toLowerCase().startsWith(query)) {
-            	filteredUsers.add(skin.getMail());
+    	
+
+            
+            if(connectedUser.getGrade().equals("admin") ){
+                List<User> allUsers = userDao.getUser();
+                List<String> filteredUsers = new ArrayList<String>();
+            for (int i = 0; i < allUsers.size(); i++) {
+            	User skin = allUsers.get(i);
+                if(skin.getMail().toLowerCase().startsWith(query)) {
+                	filteredUsers.add(skin.getMail());
+                }
             }
-        }
-         
-         
-        return filteredUsers;
+             
+             
+            return filteredUsers;
+    	}
+    	else
+    	 
+    		return null;
+    	 
+    	 
        
     }
     
@@ -103,44 +112,58 @@ public class PlanBean implements Serializable{
 	 System.out.println("start add Planner");	
 	 	planner.setUser(connectedUser);
 		planner.setUserGrade(connectedUser.getGrade());	
-		planner.setNomSociete(nomSociete);
-		
+		planner.setNomSociete(nomSociete);		
 		plannerDao.AddPlanner(planner); 
 		
 		for(String u :finalListUserString){
-			User user ;
+			User user;
 			user = userDao.getUserByMailId(u);
- 		    affectationPlannerUser.setPlanner(planner);
- 		    affectationPlannerUser.setUser(user);
-		    
+			
+ 		    affectationPlannerUser.setPlanner(planner); 		    
+ 		    affectationPlannerUser.setNomSociete(connectedUser.getNomSociete());
+ 		    affectationPlannerUser.setNomPlanner(planner.getNamePlanner());
+ 		    
+ 		    affectationPlannerUser.setUser(user);		    
 		    affectationPlannerUserDao.addAff(affectationPlannerUser);
 		}
 		
 		
-		planner=new Planner();
-		
-		System.out.println("end add Planner");
-		 
+		planner=new Planner();		
+		System.out.println("end add Planner");		 
 		System.out.println("id user connecte ="+ mail);
 		
 	}
 	
-	public List<Planner> listePlannerByIdCompte(){
-		List<Planner> listPlannerCompte = new ArrayList<Planner>();
-		listPlannerCompte = plannerDao.getAllPlannerByMailAndnomSociete(mail, nomSociete);
-		checketat();
-		System.out.println(" --- -- -- end Liste  Planner --- ");
-		return listPlannerCompte ;
+	public List<AffectationPlannerUser> listePlannerByIdCompte(){
+		
+		
+//		if(grade == "admin"){
+//			List<Planner> listPlannerCompte = new ArrayList<Planner>();
+//			
+//			listPlannerCompte = plannerDao.getAllPlannerByMailAndnomSociete(mail, nomSociete);
+//			checketat();
+//			System.out.println(" --- -- -- end Liste  Planner --- ");
+//			return listPlannerCompte ;
+//		}
+//		else if(grade == "user")
+//		{
+			List<AffectationPlannerUser> listePlannerAff=new ArrayList<>();
+			listePlannerAff=affectationPlannerUserDao.listPlannerByAffectation(mail, nomSociete);
+			return listePlannerAff;
+//		}
+//		return null;
+		
+
 		
 	}
 	
 	public void checketat(){
 		if (etat == true)
 		{ 
-			System.out.println("ok True");
+			 System.out.println("ok True");
 		}else
 		{
-			System.out.println("Not ok");
+			 System.out.println(" ok Flase");
 		}
 	}
 //	public List<Planner> listePlanner(){
