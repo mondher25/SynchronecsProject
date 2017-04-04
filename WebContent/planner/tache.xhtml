@@ -53,20 +53,20 @@
 																           -->
 		
 	<h:form id="listpanel"> 	   
-	 <p:dataTable id="eventsDT" var="cm" value="#{com.ListeCompByPlannerAndCompte()}" rowKey="#{cm.id}">
+	 <p:dataTable id="eventsDT" var="cm" value="#{com.ListeCompByPlannerAndCompte()}" >
                   
 		<f:facet name="header">
             Listes des Compartiment
         </f:facet>
   		    <p:column headerText="Id">
-		        <h:outputText value="#{cm.id}" />
+		        <h:outputText value="#{cm.com.id}" />
 		    </p:column>	
 		    <p:column headerText="Nom">
-		        <h:outputText value="#{cm.nomCompartiment}" />
+		        <h:outputText value="#{cm.com.nomCompartiment}" />
 		    </p:column>		
 			<p:column headerText="Action">
 			    	<p:commandButton  value="get" update="allPan"  >
-					  <f:setPropertyActionListener target="#{tacheCP.idCom}" value="#{cm.id}"/>
+					  <f:setPropertyActionListener target="#{tacheCP.idCom}" value="#{cm.com.id}"/>
 					</p:commandButton>		        
 		  	</p:column>	
 		</p:dataTable>		 

@@ -50,10 +50,33 @@ public class AffectationPlannerUserJPA implements AffectationPlannerUserDao{
 
 
 
+ 
+
+
+
 	@Override
-	public void getPlannerByNomSociet(String nomSociete) {
-		// TODO Auto-generated method stub
-		
+	public List<AffectationPlannerUser> getPlannerByNomSocieteAndEtat(boolean etat) {
+		List <AffectationPlannerUser> allAffUserPlanner=new ArrayList<>();
+		allAffUserPlanner=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE  etat=:etat").setParameter("etat", etat).getResultList();
+		return allAffUserPlanner;
+	}
+
+
+
+	@Override
+	public List<AffectationPlannerUser> listPlannerByAffectationAndMailId(String mail) {
+		List<AffectationPlannerUser> listPlanner=new ArrayList<>();
+		listPlanner=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE user_id=:user ").setParameter("user", mail).getResultList();
+		return listPlanner;
+	}
+
+
+
+	@Override
+	public List<AffectationPlannerUser> getAllPlanner() {
+		List<AffectationPlannerUser> liste=new ArrayList<>();
+		liste=em.createQuery("SELECT a FROM AffectationPlannerUser a").getResultList();
+		return liste;
 	}
 
 

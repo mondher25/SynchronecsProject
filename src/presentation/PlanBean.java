@@ -39,7 +39,7 @@ public class PlanBean implements Serializable{
 	
 	@EJB
 	private AffectationPlannerUserDao affectationPlannerUserDao;
-
+	private AffectationPlannerUser affEtat=new  AffectationPlannerUser();
 	private List<User> listeUser =new ArrayList<>();
 	
 	private List<User> finalListUserObject =new ArrayList<>();
@@ -117,26 +117,45 @@ public class PlanBean implements Serializable{
 		planner.setNomSociete(nomSociete);
 		
 		plannerDao.AddPlanner(planner); 
+		
 		AffectationPlannerUser affectationPlannerUser1 = new AffectationPlannerUser();
 		affectationPlannerUser1.setPlanner(planner);
 		affectationPlannerUser1.setUser(connectedUser);
-		affectationPlannerUser1.setNomSociete(nomSociete);
+		if (planner.isEtat() == false)
+		affectationPlannerUser1.setEtat(false);
+		else
+		affectationPlannerUser1.setEtat(true);
+		
+		affectationPlannerUser1.setNomSociete(nomSociete); 	
 		affectationPlannerUserDao.addAff(affectationPlannerUser1);
 
-	 
-
+		if (planner.isEtat() == false) {
 			for(String u :finalListUserString){
 				
 			User user;
 			user = userDao.getUserByMailId(u);
 			AffectationPlannerUser affectationPlannerUser = new AffectationPlannerUser();
- 		    affectationPlannerUser.setPlanner(planner); 		    
- 		    affectationPlannerUser.setNomSociete(connectedUser.getNomSociete()); 		     		    
- 		    affectationPlannerUser.setUser(user);	
- 		   
+		    affectationPlannerUser.setPlanner(planner);
+		    affectationPlannerUser.setEtat(false);
+		    affectationPlannerUser.setUser(user);	 		   
 		    affectationPlannerUserDao.addAff(affectationPlannerUser);
+			}
+			
+
 		}
-				
+	 	else if (planner.isEtat() == true)
+	    	{
+		    		List<User> user1 = userDao.getUser();
+		    		for (User u : user1)
+		    		{
+		    			AffectationPlannerUser affectationPlannerUser2 = new AffectationPlannerUser();
+		    			 affectationPlannerUser2.setPlanner(planner);
+		    			 affectationPlannerUser2.setEtat(true);
+		    			 affectationPlannerUser2.setUser(u);
+		    			 affectationPlannerUserDao.addAff(affectationPlannerUser2);
+		    		}
+	    		
+	    	}	
 					 
 		planner=new Planner();		
 		System.out.println("end add Planner");		 
@@ -156,27 +175,33 @@ public class PlanBean implements Serializable{
 //			return listPlannerCompte ;
 //		}
 //		else if(grade == "user")
+		
 //		{
-			List<AffectationPlannerUser> listePlannerAff=new ArrayList<>();
-			listePlannerAff=affectationPlannerUserDao.listPlannerByAffectation(mail, nomSociete);
-			return listePlannerAff;
+//		if (planner.getEtat().equals("public")){
+//			
+//			List<AffectationPlannerUser> listePlannerAff1=new ArrayList<>();
+//			listePlannerAff1=affectationPlannerUserDao.getPlannerByNomSocieteAndEtat(etat);			 
+//			System.out.println("end Affichage 1");
+//			return listePlannerAff1;
 //		}
-//		return null;
+//		else 
+//	{
+//			
+ 		List<AffectationPlannerUser> listePlannerAff=new ArrayList<>();
+ 			listePlannerAff=affectationPlannerUserDao.listPlannerByAffectationAndMailId(mail);
+ 		System.out.println("end Affichage Liste Planner By id ");
+ 			return listePlannerAff;
+ 	}
+
+//		}
+// 		return null;
 		
 
 		
-	}
+//	}
 	
-	public void checketat(){
-		if (etat == true)
-		{ 
-			 System.out.println("ok True");
-		}else
-		{
-			 System.out.println(" ok Flase");
-		}
-	}
-//	public List<Planner> listePlanner(){
+ 
+//		public List<Planner> listePlanner(){
 //		List<Planner> list = new ArrayList<Planner>();
 //		list = plannerDao.getAllPlanner();
 //		System.out.println(" --- -- -- end Liste  Planner --- ");
@@ -184,7 +209,7 @@ public class PlanBean implements Serializable{
 //		
 //	}
 //	
-//	   public void onRowSelect(SelectEvent event) throws IOException {
+//	   	   public void onRowSelect(SelectEvent event) throws IOException {
 //		   FacesContext context = FacesContext.getCurrentInstance();	
 //		   HttpServletRequest req = (HttpServletRequest) context.getExternalContext().getRequest();
 //		   context.getExternalContext().redirect(req.getContextPath()+"/faces/planner/tache.xhtml");
@@ -192,7 +217,7 @@ public class PlanBean implements Serializable{
 //	    }
 	
 	
-	// GetterAnd Setter
+	// 		GetterAnd Setter
 
 
  
@@ -201,7 +226,6 @@ public class PlanBean implements Serializable{
 	public String getMail() {
 		return mail;
 	}
-
  
 	public Planner getPlanner() {
 		return planner;
@@ -288,14 +312,10 @@ public class PlanBean implements Serializable{
 	}
 
 
-	public boolean isEtat() {
-		return etat;
-	}
+ 
 
+ 
 
-	public void setEtat(boolean etat) {
-		this.etat = etat;
-	}
 
 
 	public String getNomSociete() {
@@ -337,6 +357,24 @@ public class PlanBean implements Serializable{
 
 	public void setAffectationPlannerUserDao(AffectationPlannerUserDao affectationPlannerUserDao) {
 		this.affectationPlannerUserDao = affectationPlannerUserDao;
+	}
+
+
+
+	public AffectationPlannerUser getAffEtat() {
+		return affEtat;
+	}
+
+
+
+	public void setAffEtat(AffectationPlannerUser affEtat) {
+		this.affEtat = affEtat;
+	}
+
+
+
+	public void setEtat(boolean etat) {
+		this.etat = etat;
 	}
 
  

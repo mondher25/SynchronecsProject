@@ -11,12 +11,16 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import dao.AffectationPlannerUserDao;
 import dao.CompartimentDao;
 import dao.CompteDao;
 
 import dao.PlannerDao;
 import dao.UserDao;
+import dao.CompartimentAffPlannerUserDao;
+import entities.AffectationPlannerUser;
 import entities.Compartiment;
+import entities.CompartimentAffPlannerUser;
 import entities.Compte;
 import entities.Planner;
 import entities.User;
@@ -42,6 +46,8 @@ public class CompartimentBean implements Serializable {
 	@EJB 
 	private UserDao userDao;
  
+	@EJB
+	private CompartimentAffPlannerUserDao CompartimentAffPlannerUserDao;
 
 	private Planner planner = new Planner();
 	private Planner selectedPlanner = new Planner();
@@ -68,7 +74,7 @@ public class CompartimentBean implements Serializable {
 		System.out.println("init : mail user connecte ="+mail);
 
 	}
-
+ 
 	public Planner selectedPlanner() {
 		return selectedPlanner = plan.getPlannerById(Long.parseLong(idp));
 	}
@@ -78,8 +84,28 @@ public class CompartimentBean implements Serializable {
 		System.out.println("idPlanner = " + idp);
 		comp.setPlanner(selectedPlanner());
 		comp.setUser(connectedUser);
-		comp.setUserGrade(grade);
+		comp.setUserGrade(grade);		
 		com.addCompartiment(comp);
+		
+		System.out.println("planner etat :" +planner.isEtat());
+		System.out.println("etat --------------- planner " );
+		
+		if (selectedPlanner.isEtat() == true)
+		{ 	List<User> user1 = userDao.getUser();
+		
+			for (User u : user1)
+			{
+				 
+				CompartimentAffPlannerUser compPlaUsr =new CompartimentAffPlannerUser();
+				compPlaUsr.setCompartiment(comp);
+				compPlaUsr.setPlanner(selectedPlanner);
+				compPlaUsr.setUser(u);
+				CompartimentAffPlannerUserDao.AddCompByPlannerUser(compPlaUsr);
+			 
+			}
+			
+		}
+		
 		 
 		
 		comp = new Compartiment();
@@ -87,9 +113,9 @@ public class CompartimentBean implements Serializable {
 
 	}
 	
-	public List<Compartiment> ListeCompByPlannerAndCompte() {
-		List<Compartiment> listComPlCp = new ArrayList<>();
-		listComPlCp=com.getListCompartimentByPlannerAndUser(selectedPlanner().getId(), mail);
+	public List<CompartimentAffPlannerUser> ListeCompByPlannerAndCompte() {
+		List<CompartimentAffPlannerUser> listComPlCp = new ArrayList<>();
+		listComPlCp=CompartimentAffPlannerUserDao.comparByPlaUsr(mail, selectedPlanner().getId());
 		System.out.println("end List compartiment");
 		return listComPlCp;
 	}
@@ -213,6 +239,14 @@ public class CompartimentBean implements Serializable {
 
 	public void setGrade(String grade) {
 		this.grade = grade;
+	}
+
+	public CompartimentAffPlannerUserDao getCompartimentAffPlannerUserDao() {
+		return CompartimentAffPlannerUserDao;
+	}
+
+	public void setCompartimentAffPlannerUserDao(CompartimentAffPlannerUserDao compartimentAffPlannerUserDao) {
+		CompartimentAffPlannerUserDao = compartimentAffPlannerUserDao;
 	}
 
  

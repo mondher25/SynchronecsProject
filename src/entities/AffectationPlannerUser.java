@@ -28,9 +28,14 @@ public class AffectationPlannerUser {
     
     private String nomSociete;
 	
+	private boolean etat;
+	
+	
+	
 	
 	//Getter and Setter
 	
+ 
 	public Long getId() {
 		return id;
 	}
@@ -65,6 +70,15 @@ public class AffectationPlannerUser {
 		this.nomSociete = nomSociete;
 	}
 
+	public boolean isEtat() {
+		return etat;
+	}
+
+	public void setEtat(boolean etat) {
+		this.etat = etat;
+	}
+
+ 
  
 
  
