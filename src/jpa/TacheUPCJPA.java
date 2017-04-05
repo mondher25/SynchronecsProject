@@ -5,11 +5,11 @@ package jpa;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import dao.AffectationTacheUserDao;
-import entities.AffectationTacheUser;
+import dao.TacheUPCDao;
+import entities.TacheUPC;
 
 @Stateless
-public class AffectationTacheUserJPA implements AffectationTacheUserDao {
+public class TacheUPCJPA implements TacheUPCDao {
 	
 	@PersistenceContext(unitName="UP")
 	EntityManager em;
@@ -17,7 +17,7 @@ public class AffectationTacheUserJPA implements AffectationTacheUserDao {
  
 
 	@Override
-	public void addAffTache(AffectationTacheUser affTache) {
+	public void addAffTache(TacheUPC affTache) {
 		em.persist(affTache);
 		
 	}

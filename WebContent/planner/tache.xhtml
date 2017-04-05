@@ -59,14 +59,14 @@
             Listes des Compartiment
         </f:facet>
   		    <p:column headerText="Id">
-		        <h:outputText value="#{cm.com.id}" />
+		        <h:outputText value="#{cm.compartiment.id}" />
 		    </p:column>	
 		    <p:column headerText="Nom">
-		        <h:outputText value="#{cm.com.nomCompartiment}" />
+		        <h:outputText value="#{cm.compartiment.nomCompartiment}" />
 		    </p:column>		
 			<p:column headerText="Action">
 			    	<p:commandButton  value="get" update="allPan"  >
-					  <f:setPropertyActionListener target="#{tacheCP.idCom}" value="#{cm.com.id}"/>
+					  <f:setPropertyActionListener target="#{tacheCP.idCom}" value="#{cm.compartiment.id}"/>
 					</p:commandButton>		        
 		  	</p:column>	
 		</p:dataTable>		 
@@ -103,6 +103,11 @@
 							            <f:selectItem itemLabel="en cours" itemValue="en cours" />
 							            <f:selectItem itemLabel="Terminé" itemValue="Terminé" />
 							   </p:selectOneMenu>
+							   <p:outputLabel for="tache" value="affecte à : " />
+						        <p:selectOneMenu id="tache" value="#{tacheCP.finalListUserString}">
+						            <f:selectItem itemLabel="choisir Un Utilisateur" itemValue="" />
+						            <f:selectItems value="#{tacheCP.UserComAndPlanner()}" var="user" itemLabel="#{user.user.nom} #{user.user.prenom}" />
+						        </p:selectOneMenu>
 			        		
 			        			<h:outputLabel for="desc" value="Description:" />
 			        		    <p:inputTextarea id="desc" required="true" rows="3" cols="55"  autoResize="true"  value="#{tacheCP.newTache.description}"/>

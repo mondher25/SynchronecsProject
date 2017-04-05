@@ -26,7 +26,7 @@ public class AffectationPlannerUser {
     private User  user;
  
     
-    private String nomSociete;
+     
 	
 	private boolean etat;
 	
@@ -58,16 +58,6 @@ public class AffectationPlannerUser {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
- 
-
-	public String getNomSociete() {
-		return nomSociete;
-	}
-
-	public void setNomSociete(String nomSociete) {
-		this.nomSociete = nomSociete;
 	}
 
 	public boolean isEtat() {

@@ -48,18 +48,23 @@ public class CompartimentBean implements Serializable {
  
 	@EJB
 	private CompartimentAffPlannerUserDao CompartimentAffPlannerUserDao;
+	
+	@EJB
+	private AffectationPlannerUserDao affectationPlannerUserDao;
 
 	private Planner planner = new Planner();
 	private Planner selectedPlanner = new Planner();
 	private Compartiment comp = new Compartiment();
 	private User connectedUser;
-
+ 
+	
 	private String name;
 	private String mail;
 	private String idCom;
 	private String idp;
 	private String grade;
-
+	private List<AffectationPlannerUser> finalListUserString;
+ 
 	@PostConstruct
 	public void init() {
 		System.out.println("compartiment");
@@ -72,8 +77,9 @@ public class CompartimentBean implements Serializable {
 		idp = params.get("idp");
 		connectedUser=userDao.getUserByMailId(mail);
 		System.out.println("init : mail user connecte ="+mail);
-
 	}
+		
+
  
 	public Planner selectedPlanner() {
 		return selectedPlanner = plan.getPlannerById(Long.parseLong(idp));
@@ -86,25 +92,47 @@ public class CompartimentBean implements Serializable {
 		comp.setUser(connectedUser);
 		comp.setUserGrade(grade);		
 		com.addCompartiment(comp);
+//		
+//		CompartimentAffPlannerUser compPlaUsr3 =new CompartimentAffPlannerUser();
+//		
+//		compPlaUsr3.setUser(connectedUser);
+//		compPlaUsr3.setCompartiment(comp);
+//		compPlaUsr3.setPlanner(selectedPlanner);
+//		
+//		CompartimentAffPlannerUserDao.AddCompByPlannerUser(compPlaUsr3);
 		
 		System.out.println("planner etat :" +planner.isEtat());
 		System.out.println("etat --------------- planner " );
 		
-		if (selectedPlanner.isEtat() == true)
-		{ 	List<User> user1 = userDao.getUser();
-		
-			for (User u : user1)
-			{
-				 
-				CompartimentAffPlannerUser compPlaUsr =new CompartimentAffPlannerUser();
-				compPlaUsr.setCompartiment(comp);
-				compPlaUsr.setPlanner(selectedPlanner);
-				compPlaUsr.setUser(u);
-				CompartimentAffPlannerUserDao.AddCompByPlannerUser(compPlaUsr);
-			 
-			}
-			
-		}
+//		if (selectedPlanner.isEtat() == true)
+//		{ 	List<User> user1 = userDao.getUser();
+//		
+// 
+//			for (User u : user1)
+//			{				 
+//				CompartimentAffPlannerUser compPlaUsr =new CompartimentAffPlannerUser();
+//				compPlaUsr.setCompartiment(comp);
+//				compPlaUsr.setPlanner(selectedPlanner);
+//				compPlaUsr.setUser(u);
+//				CompartimentAffPlannerUserDao.AddCompByPlannerUser(compPlaUsr);
+//			 
+//			}
+//		
+//		}
+//		 if (selectedPlanner.isEtat() == false){
+		finalListUserString =affectationPlannerUserDao.getUserByPlannerAff(selectedPlanner.getId());
+			for(AffectationPlannerUser u :finalListUserString ){
+				
+				User user;
+				user = u.getUser();				
+				CompartimentAffPlannerUser compPlaUsr2 =new CompartimentAffPlannerUser();				 
+				compPlaUsr2.setPlanner(selectedPlanner);				 
+				compPlaUsr2.setUser(user);	 		   
+				compPlaUsr2.setCompartiment(comp);
+				CompartimentAffPlannerUserDao.AddCompByPlannerUser(compPlaUsr2);
+				}
+
+//		}
 		
 		 
 		
@@ -113,6 +141,8 @@ public class CompartimentBean implements Serializable {
 
 	}
 	
+
+
 	public List<CompartimentAffPlannerUser> ListeCompByPlannerAndCompte() {
 		List<CompartimentAffPlannerUser> listComPlCp = new ArrayList<>();
 		listComPlCp=CompartimentAffPlannerUserDao.comparByPlaUsr(mail, selectedPlanner().getId());
@@ -248,6 +278,25 @@ public class CompartimentBean implements Serializable {
 	public void setCompartimentAffPlannerUserDao(CompartimentAffPlannerUserDao compartimentAffPlannerUserDao) {
 		CompartimentAffPlannerUserDao = compartimentAffPlannerUserDao;
 	}
+
+	public AffectationPlannerUserDao getAffectationPlannerUserDao() {
+		return affectationPlannerUserDao;
+	}
+
+	public void setAffectationPlannerUserDao(AffectationPlannerUserDao affectationPlannerUserDao) {
+		this.affectationPlannerUserDao = affectationPlannerUserDao;
+	}
+
+	public List<AffectationPlannerUser> getFinalListUserString() {
+		return finalListUserString;
+	}
+
+	public void setFinalListUserString(List<AffectationPlannerUser> finalListUserString) {
+		this.finalListUserString = finalListUserString;
+	}
+
+ 
+ 
 
  
 	

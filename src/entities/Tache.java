@@ -42,7 +42,8 @@ public class Tache {
 	@OneToOne
 	@JoinColumn(name="user_mail_id")
 	private User user;
-
+	
+	private String userResp;
 
 
 	
@@ -104,6 +105,12 @@ public class Tache {
 	}
 	public void setUserGrade(String userGrade) {
 		this.userGrade = userGrade;
+	}
+	public String getUserResp() {
+		return userResp;
+	}
+	public void setUserResp(String userResp) {
+		this.userResp = userResp;
 	}
  
 	

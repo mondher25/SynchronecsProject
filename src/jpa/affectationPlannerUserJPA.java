@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 
 import dao.AffectationPlannerUserDao;
 import entities.AffectationPlannerUser;
+import entities.User;
  
 
 @Stateless
@@ -79,6 +80,29 @@ public class AffectationPlannerUserJPA implements AffectationPlannerUserDao{
 		return liste;
 	}
 
+
+
+ 
+
+
+	@Override
+	public List<AffectationPlannerUser> getUserByPlannerAff(Long idp) {
+		List<AffectationPlannerUser> listeUserByPlannerAff=new ArrayList<>();
+		listeUserByPlannerAff=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE planner_id=:idp").setParameter("idp", idp).getResultList();
+		return listeUserByPlannerAff;
+	}
+
+
+
+	@Override
+	public User getUserByMailId(String mail) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+ 
 
 
  

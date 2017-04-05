@@ -8,7 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity 
-public class AffectationTacheUser {
+public class TacheUPC {
 
  @Id
  @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -16,6 +16,15 @@ public class AffectationTacheUser {
  
  @ManyToOne
  @JoinColumn(name="user_id")
- private AffectationPlannerUser affectationPlannerUser;
+ private User user;
+ 
+ @ManyToOne
+ @JoinColumn(name="planner_id")
+ private Planner planner;
+ 
+ @ManyToOne
+ @JoinColumn(name="compartiment_id")
+ private Compartiment compartiment;
+ 
 
 }

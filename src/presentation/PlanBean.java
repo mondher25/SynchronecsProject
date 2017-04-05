@@ -17,9 +17,12 @@ import javax.faces.context.FacesContext;
 import dao.PlannerDao;
 import dao.UserDao;
 import dao.AffectationPlannerUserDao;
+import dao.CompartimentAffPlannerUserDao;
 import entities.Planner;
 import entities.User;
 import entities.AffectationPlannerUser;
+import entities.Compartiment;
+import entities.CompartimentAffPlannerUser;
 
 
 @ManagedBean(name="plan")
@@ -39,12 +42,17 @@ public class PlanBean implements Serializable{
 	
 	@EJB
 	private AffectationPlannerUserDao affectationPlannerUserDao;
+	
+	@EJB
+	private CompartimentAffPlannerUserDao compartimentAffPlannerUserDao;
+	
 	private AffectationPlannerUser affEtat=new  AffectationPlannerUser();
 	private List<User> listeUser =new ArrayList<>();
 	
 	private List<User> finalListUserObject =new ArrayList<>();
 	private List<String> finalListUserString =new ArrayList<>();
  
+	 
 	private String nom;	
 	private String mail ;
 	private String grade;
@@ -126,7 +134,7 @@ public class PlanBean implements Serializable{
 		else
 		affectationPlannerUser1.setEtat(true);
 		
-		affectationPlannerUser1.setNomSociete(nomSociete); 	
+		 
 		affectationPlannerUserDao.addAff(affectationPlannerUser1);
 
 		if (planner.isEtat() == false) {
@@ -139,6 +147,8 @@ public class PlanBean implements Serializable{
 		    affectationPlannerUser.setEtat(false);
 		    affectationPlannerUser.setUser(user);	 		   
 		    affectationPlannerUserDao.addAff(affectationPlannerUser);
+		    
+		     			 
 			}
 			
 
@@ -153,6 +163,7 @@ public class PlanBean implements Serializable{
 		    			 affectationPlannerUser2.setEtat(true);
 		    			 affectationPlannerUser2.setUser(u);
 		    			 affectationPlannerUserDao.addAff(affectationPlannerUser2);
+		    			 
 		    		}
 	    		
 	    	}	
@@ -375,6 +386,24 @@ public class PlanBean implements Serializable{
 
 	public void setEtat(boolean etat) {
 		this.etat = etat;
+	}
+
+
+
+	public CompartimentAffPlannerUserDao getCompartimentAffPlannerUserDao() {
+		return compartimentAffPlannerUserDao;
+	}
+
+
+
+	public void setCompartimentAffPlannerUserDao(CompartimentAffPlannerUserDao compartimentAffPlannerUserDao) {
+		this.compartimentAffPlannerUserDao = compartimentAffPlannerUserDao;
+	}
+
+
+
+	public boolean isEtat() {
+		return etat;
 	}
 
  

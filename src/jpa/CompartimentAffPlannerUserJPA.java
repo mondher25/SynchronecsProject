@@ -30,4 +30,19 @@ public class CompartimentAffPlannerUserJPA implements CompartimentAffPlannerUser
 		return listCom;
 	}
 
+	@Override
+	public List<String> getUserByPlannerAndComAff(Long idp, Long idCom) {
+		List<String> listeUserByPlannerAndCompAff=new ArrayList<>();
+		listeUserByPlannerAndCompAff=em.createQuery("SELECT c FROM CompartimentAffPlannerUser c WHERE planner_id=:idp AND compartiment_id=:idCom").setParameter("idp", idp).setParameter("idCom", idCom).getResultList();
+		return listeUserByPlannerAndCompAff;
+	}
+
+	@Override
+	public List<String> getUserById(String mail) {
+		 
+			List<String> listeUser=new ArrayList<>();
+			listeUser=em.createQuery("SELECT c FROM CompartimentAffPlannerUser c WHERE user_id=:idUser ").setParameter("idUser", mail).getResultList();
+			return listeUser;
+	}
+
 }
