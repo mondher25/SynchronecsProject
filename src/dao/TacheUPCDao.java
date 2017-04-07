@@ -14,4 +14,5 @@ public interface TacheUPCDao {
 	public List<TacheUPC> getTacheByPlannerCompartimentUser(Long idp,Long idCom,Long idTache,String mail);
 	public List<TacheUPC> getTacheByPlannerCompartiment(Long idp,Long idCom);
 	public List<TacheUPC> getTacheById(Long idTache);
+	 
 }

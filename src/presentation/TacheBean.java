@@ -80,8 +80,7 @@ public class TacheBean implements Serializable {
 	private String idCom;
 	private String grade;
 	private String idTache;
-	private String userRendered;
-	
+
 	
 	
 	
@@ -97,6 +96,7 @@ public class TacheBean implements Serializable {
 		System.out.println("init idplanner= " + idp);
 		connectedUser = userDao.getUserByMailId(mail);
 		System.out.println("init : id user connecte =" + mail);
+
 
 	}
 
@@ -148,6 +148,8 @@ public class TacheBean implements Serializable {
 		
 
 		newTache = new Tache();
+		
+		
 
 		System.out.println("end add tache");
 	}
@@ -384,14 +386,10 @@ public class TacheBean implements Serializable {
 		this.tacheUPCa = tacheUPCa;
 	}
 
-	public String getUserRendered() {
-		userRendered=connectedUser.getMail();
-		return userRendered;
-	}
+ 
 
-	public void setUserRendered(String userRendered) {
-		this.userRendered = userRendered;
-	}
+
+ 
 
 
 }

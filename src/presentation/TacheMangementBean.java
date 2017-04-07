@@ -67,11 +67,13 @@ public class TacheMangementBean implements Serializable {
 	private CompartimentAffPlannerUser selctedCAPU;
 	private List<CompartimentAffPlannerUser> finalListUserString ;
 	private Tache selectedTache;
-	
+	private TacheUPC tacheUPCa =new TacheUPC();
 
 	  
 	
 
+
+	
 
 	private Date dateDebut;
 	private Date dateEcheance;
@@ -82,13 +84,27 @@ public class TacheMangementBean implements Serializable {
 	private String idCom;
 	private String grade;
 	private String idTache;
-	
+	private String userRendered;
+	private String userTache;
+	private User userOwner;
+	 
 	
 	
 	
 	@PostConstruct
 	public void init() {
-		
+		System.out.println("inti start tacheManagement");
+		mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");
+		grade = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("grade");
+
+		FacesContext fc = FacesContext.getCurrentInstance();
+		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
+		idp = params.get("idp");
+		System.out.println("init idplanner= " + idp);
+		connectedUser = userDao.getUserByMailId(mail);
+		userRendered=connectedUser.getMail();		
+		System.out.println("user  userRendered : " +userRendered);
+		 
 		
 		
 
@@ -101,10 +117,23 @@ public class TacheMangementBean implements Serializable {
 		System.out.println("start update");
 		tacheDao.updateTache(selectedTache);
 		System.out.println("end update");
+		System.out.println("userTache : " +userTache);
+
+		
+	}
+	
+	public boolean rendered(){
+		boolean display ;
+		if(userRendered.equalsIgnoreCase(userTache) || connectedUser.getGrade().equalsIgnoreCase("admin") ){
+			 System.out.println("userOwner"+userOwner);
+			return display=true;
+			
+		}else
+			return display=false;
 		
 	}
 
-	
+
 
 	// Getter and Setter
 	public Date getDateDebut() {
@@ -284,9 +313,6 @@ public class TacheMangementBean implements Serializable {
 	public void setCompartimentAffPlannerUserDao(CompartimentAffPlannerUserDao compartimentAffPlannerUserDao) {
 		this.compartimentAffPlannerUserDao = compartimentAffPlannerUserDao;
 	}
-
-
-
 	public void setFinalListUserString(List<CompartimentAffPlannerUser> finalListUserString) {
 		this.finalListUserString = finalListUserString;
 		 
@@ -324,5 +350,43 @@ public class TacheMangementBean implements Serializable {
 		this.idTache = idTache;
 	}
 
+	public String getUserTache() {
+		 
+		return userTache;
+	}
 
+	public void setUserTache(String userTache) {
+		this.userTache = userTache;
+	}
+	public TacheUPC getTacheUPCa() {
+		return tacheUPCa;
+	}
+	public void setTacheUPCa(TacheUPC tacheUPCa) {
+		this.tacheUPCa = tacheUPCa;
+	}
+	public String getUserRendered() {
+		return userRendered;
+	}
+	public void setUserRendered(String userRendered) {
+		
+		this.userRendered = userRendered;
+	}
+
+	public User getUserOwner() {
+		 
+		return userOwner;
+	}
+
+	public void setUserOwner(User userOwner) {
+		this.userOwner = userOwner;
+	}
+ 
+
+
+
+ 
+
+	
+	
+	
 }

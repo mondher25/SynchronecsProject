@@ -53,7 +53,7 @@
 																           -->
 		
 	<h:form id="listpanel"> 	   
-	 <p:dataTable id="eventsDT" var="cm" value="#{com.ListeCompByPlannerAndCompte()}" >
+	 <p:dataTable id="eventsDT" var="cm" value="#{com.ListeCompByPlannerAndCompte()}"  >
                   
 		<f:facet name="header">
             Listes des Compartiment
@@ -165,6 +165,8 @@
 		    <p:column headerText="action">
 		       <p:commandButton  value="get" oncomplete="PF('diagModifTache').show();"  update="diagModifTache" >
 					  <f:setPropertyActionListener target="#{tacheMangementBean.selectedTache}" value="#{VarTache.tache}"/>
+					  <f:setPropertyActionListener value="#{VarTache.user.mail}" target="#{tacheMangementBean.userTache}" />
+					  <f:setPropertyActionListener value="#{VarTache.tache.user}" target="#{tacheMangementBean.userOwner}" />
 					</p:commandButton>		
 		    </p:column>	
 		</p:dataTable>		 

@@ -72,7 +72,7 @@
 			        		    <h:outputText id="desc"  value="#{tacheMangementBean.selectedTache.description}"  />
 			 			     
 				       
-					<p:commandButton value="modifier" actionListener="#{tacheMangementBean.update}"  onsuccess="PF('diagModifTache').hide()"  process="formModifTache" rendered="#{tacheCP.mail != tacheCP.userRendered  }" />
+					<p:commandButton value="modifier" actionListener="#{tacheMangementBean.update}"  onsuccess="PF('diagModifTache').hide()"  process="formModifTache" rendered="#{ tacheMangementBean.rendered()}" />
 					  </h:panelGrid>   
 				</h:form>	
 			</p:dialog>
