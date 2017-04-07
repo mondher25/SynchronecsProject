@@ -93,11 +93,13 @@ public class LoginBean implements Serializable{
 
  
 	public void addNewUser(){
-		
+		System.out.println("start add User");
 		newUser.setGrade("user");
 		newUser.setId((long) counterId());
 		newUser.setAddedBy(logedUser.getMail());
 		userDao.createUser(newUser);
+		newUser = new User();
+		System.out.println("End add User");
 	}
 	
 	public String logout(){

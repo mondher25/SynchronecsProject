@@ -31,7 +31,7 @@
 						
 																        -->
           <h:form id="panel"> 
-			    <p:panel header="Ajouter Compartiment" style="margin-bottom:10px;">
+			    <p:panel header="Ajouter Compartiment" style="margin-bottom:10px;" closable="true" >
 			        <p:messages id="messages" />
  			        <h:panelGrid columns="2" cellpadding="5">
 			            <h:outputLabel for="name" value="Nom Compartiment :" />
@@ -73,17 +73,15 @@
 			</h:form>
 				
 		</div>
-		
-		<div class="ui-g-6">
-				
 						<!-- 
 						
 									AJOUT DES TACHES
 						         
 						
-															        -->
-	<p:outputPanel id="allPan" deferred="true">
-		<h:form id="formTache" rendered="#{not empty tacheCP.idCom}">
+														        -->
+	<p:outputPanel id="allPan" deferred="true" >
+		<div class="ui-g-6">
+		<h:form id="formTache" rendered="#{not empty tacheCP.idCom}" >
 		
 					<p:growl id="msgs" showDetail="true" />	
 			      <p:panel header="Ajouter Tache" style="margin-bottom:10px;">
@@ -103,12 +101,14 @@
 							            <f:selectItem itemLabel="en cours" itemValue="en cours" />
 							            <f:selectItem itemLabel="Terminé" itemValue="Terminé" />
 							   </p:selectOneMenu>
-							   <p:outputLabel for="tache" value="affecte à : " />
-						        <p:selectOneMenu id="tache" value="#{tacheCP.finalListUserString}">
-						            <f:selectItem itemLabel="choisir Un Utilisateur" itemValue="" />
-						            <f:selectItems value="#{tacheCP.UserComAndPlanner()}" var="user" itemLabel="#{user.user.nom} #{user.user.prenom}" />
-						        </p:selectOneMenu>
-			        		
+ 						   <p:outputLabel  value="Ajout User : " for="liste" />
+						       
+						        <p:selectOneMenu  value="#{tacheCP.selectedMail}" id="liste" >
+						        <p:ajax  />
+						            <f:selectItem itemLabel="choisir Un Utilisateur" noSelectionOption="true" />
+						            <f:selectItems value="#{tacheCP.finalListUserString}" var="user" itemLabel="#{user.user.nom} #{user.user.prenom}" itemValue="#{user.user.mail}"/>
+						        </p:selectOneMenu> 
+						        
 			        			<h:outputLabel for="desc" value="Description:" />
 			        		    <p:inputTextarea id="desc" required="true" rows="3" cols="55"  autoResize="true"  value="#{tacheCP.newTache.description}"/>
 		     
@@ -116,9 +116,9 @@
 					 <p:commandButton value="Ajouter" icon="ui-icon-check" actionListener="#{tacheCP.addTache}" process="formTache" update="listtache" />
 			
 				 </p:panel>
-					#{tacheCP.idCom}
 		</h:form>
 
+	 </div>
 	
 	
 						 
@@ -128,9 +128,9 @@
 						         
 						-->
 																      
-	
-	
-	
+
+	<div class="ui-g-12">
+ 
 	
  <h:form id="listtache"> 	   
 	 <p:dataTable  var="VarTache" value="#{tacheCP.listeTacheByComparAndComp()}" rendered="#{not empty tacheCP.idCom}"  >
@@ -139,28 +139,42 @@
             Listes des Taches Par Compartiment
         </f:facet>
   		    <p:column headerText="Id">
-		        <h:outputText  value="#{VarTache.id}" />
+		        <h:outputText  value="#{VarTache.tache.id}" />
 		    </p:column>	
 		    <p:column headerText="Description">
-		        <h:outputText value="#{VarTache.description}" />
+		        <h:outputText value="#{VarTache.tache.description}" />
 		    </p:column>		
 		      		    <p:column headerText="DateDebut">
-		        <h:outputText value="#{VarTache.dateDebut}" />
+		        <h:outputText value="#{VarTache.tache.dateDebut}" />
 		    </p:column>	
 		    <p:column headerText="DateEcheance">
-		        <h:outputText value="#{VarTache.dateEcheance}" />
+		        <h:outputText value="#{VarTache.tache.dateEcheance}" />
 		    </p:column>	
 		     <p:column headerText="Planner_Id">
-		        <h:outputText value="#{VarTache.planner.id}" />
+		        <h:outputText value="#{VarTache.tache.planner.id}" />
 		    </p:column>	
 		    <p:column headerText="Compartiment_Id">
-		        <h:outputText value="#{VarTache.compartiment.id}" />
-		    </p:column>				     
+		        <h:outputText value="#{VarTache.tache.compartiment.id}" />
+		    </p:column >			
+		    <p:column headerText="etat">
+		        <h:outputText value="#{VarTache.tache.etat}" />
+		    </p:column>	  
+		  <p:column headerText="user affecte">
+		        <h:outputText value="#{VarTache.user.mail}" />
+		    </p:column>   
+		    <p:column headerText="action">
+		       <p:commandButton  value="get" oncomplete="PF('diagModifTache').show();"  update="diagModifTache" >
+					  <f:setPropertyActionListener target="#{tacheMangementBean.selectedTache}" value="#{VarTache.tache}"/>
+					</p:commandButton>		
+		    </p:column>	
 		</p:dataTable>		 
 			</h:form>  	   
-			</p:outputPanel>
+			
+
 	    </div>
-			</div>	 
+	</p:outputPanel>
+		</div>	
+
     </ui:define>
 	</ui:composition>
 

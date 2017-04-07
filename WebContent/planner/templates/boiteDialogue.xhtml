@@ -1,6 +1,8 @@
 
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                      
+                      
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -37,9 +39,43 @@
 	        
 	        <div class="EmptyBox10"></div>
 	        
-<p:commandButton value="ajouter Planner"  actionListener="#{plan.addNewPlanner()}"  process="formAddPlanner"    />
+<p:commandButton value="ajouter Planner"  actionListener="#{plan.addNewPlanner()}"   process="formAddPlanner"  oncomplete="PF('diagAddPlanner').hide()"  />
 	</h:form>	
 </p:dialog>
+
+
+
+		<!-- BOITE DE DIALOGUE -->
+			
+			
+			<p:dialog id="diagModifTache" widgetVar="diagModifTache"  showEffect="clip" hideEffect="clip" >
+			 
+				<h:form id="formModifTache">
+				<h3>Edite Tache</h3>
+				 <h:panelGrid id="eventDetails" columns="2">
+						    <!--  calendar date Debut -->
+						    <p:outputLabel for="popup" value="date Debut:" />
+			        		<p:calendar id="popup" value="#{tacheMangementBean.selectedTache.dateDebut}"  />
+			    	 
+					      <!--  calendar date  écheance -->
+					        <p:outputLabel for="popup1" value="date D'écheance" />
+			        		<p:calendar id="popup1" value="#{tacheMangementBean.selectedTache.dateEcheance}"   />   
+					 
+			        		        <p:outputLabel for="console" value="Etat" />
+							        <p:selectOneMenu id="console" value="#{tacheMangementBean.selectedTache.etat}" style="width:125px">
+							            <f:selectItem itemLabel="non-commencé" itemValue="non-commencé" />
+							            <f:selectItem itemLabel="en cours" itemValue="en cours" />
+							            <f:selectItem itemLabel="Terminé" itemValue="Terminé" />
+							   </p:selectOneMenu>		   			    									   			        
+					 
+						 <h:outputLabel for="desc" value="Description:" />
+			        		    <h:outputText id="desc"  value="#{tacheMangementBean.selectedTache.description}"  />
+			 			     
+				       
+					<p:commandButton value="modifier" actionListener="#{tacheMangementBean.update}"  onsuccess="PF('diagModifTache').hide()"  process="formModifTache" rendered="#{tacheCP.mail != tacheCP.userRendered  }" />
+					  </h:panelGrid>   
+				</h:form>	
+			</p:dialog>
 
 
 

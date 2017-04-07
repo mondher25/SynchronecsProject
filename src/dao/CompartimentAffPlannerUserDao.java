@@ -11,7 +11,7 @@ import entities.CompartimentAffPlannerUser;
 public interface CompartimentAffPlannerUserDao {
 	public void AddCompByPlannerUser(CompartimentAffPlannerUser compAff);
 	public List<CompartimentAffPlannerUser> comparByPlaUsr(String mail,Long idp);
-	public List<String> getUserByPlannerAndComAff(Long idp,Long idCom);
+	public List<CompartimentAffPlannerUser> getUserByPlannerAndComAff(Long idp,Long idCom);
 	public List<String> getUserById(String mail);
 
 }

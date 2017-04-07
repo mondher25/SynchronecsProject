@@ -10,6 +10,7 @@ import entities.Tache;
 public interface TacheDao {
 
 	public void addTache(Tache t);
+	public void updateTache(Tache t);
 	public List<Tache> getTacheByCompartiment(Long id);
 	public List<Tache> getTacheByCompartimentAndUser(Long idCom,String mail);
 }

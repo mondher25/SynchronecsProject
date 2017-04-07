@@ -37,6 +37,12 @@ public class TacheJPA implements TacheDao {
 		return listeTacheComCp;
 	}
 
+	@Override
+	public void updateTache(Tache t) {
+		entityManager.merge(t);
+		
+	}
+
  
 
 }

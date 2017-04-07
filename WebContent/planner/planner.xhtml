@@ -22,8 +22,8 @@
 	
 	<ui:define  name="option" >			
 	
-		<h:form id="form">
-  		     
+		<h:form id="formPlanner" >
+  		      
 		    <p:dataTable id="eventsDT" var="pl"  value="#{plan.listePlannerByIdCompte()}"   >
                   
 			 <f:facet name="header">
@@ -46,9 +46,9 @@
 		       </p:link>
 		 </p:column>
 		</p:dataTable>
-		 
+		  
 			</h:form>	
-			 
+		 
 		
     </ui:define> 
 	
