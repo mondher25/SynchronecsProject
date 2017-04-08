@@ -69,13 +69,12 @@ public class GestionBean implements Serializable {
 	
 	
     public void supprimer() {
-    	System.out.println("start supprimer Tache");
+    	System.out.println("----start supprimer Tache-----");
     	tacheDao.remove(deletedTache);
-System.out.println("end supprimer Tache");
+    	System.out.println("end supprimer Tache");
     	 
-        System.out.println("start supprimer TacheUPC");
-    	    
-    		tacheUPCDao.delete( deletedTache.getId()); 
+        System.out.println("--- start supprimer TacheUPC ----- ");
+    	   tacheUPCDao.delete( deletedTache.getId()); 
     	System.out.println("end supprimer TacheUPC");
 	
 
