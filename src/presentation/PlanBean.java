@@ -83,7 +83,7 @@ public class PlanBean implements Serializable{
 		nomSociete=(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nomSociete");
 		connectedUser=userDao.getUserByMailId(mail);
 		System.out.println("init : id user connecte ="+ mail);
-		System.out.println("init : id user connecte ="+ grade);
+		System.out.println("init : grade user connecte ="+ grade);
 	
 	}
 	

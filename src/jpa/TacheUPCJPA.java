@@ -56,6 +56,32 @@ public class TacheUPCJPA implements TacheUPCDao {
 		listeTache=em.createQuery("SELECT t FROM TacheUPC t WHERE idTache=:id").setParameter("id", idTache).getResultList();
 		return listeTache;
 	}
+
+
+
+	@Override
+	public void delete(Long id) {
+//		TacheUPC tache=em.find(TacheUPC.class, id);
+		em.createNativeQuery("DELETE FROM TacheUPC WHERE tache_id=:id").setParameter("id", id).executeUpdate();
+		
+	}
+
+
+
+	@Override
+	public TacheUPC findTacheUPCById(Long id) {
+		TacheUPC tacheUPC=em.find(TacheUPC.class, id);
+		return tacheUPC;
+	}
+
+
+
+//	@Override
+//	public List<TacheUPC> getAllTache() {
+//		List<TacheUPC> liste=new ArrayList<>();
+//		liste=em.createQuery("SELECT t FROM TacheUPC t").getResultList();
+//		return liste;
+//	}
 	
 	
 	

@@ -43,6 +43,34 @@ public class TacheJPA implements TacheDao {
 		
 	}
 
+	@Override
+	public void removeTache(Long id) {
+		Tache tache=findTacheById(id);
+		entityManager.remove(tache);
+		 
+	}
+
+	@Override
+	public List<Tache> getAllTache(String mail) {
+		List<Tache> listeTache=new ArrayList<>();
+		listeTache=entityManager.createQuery("SELECT t FROM Tache t WHERE user_mail_id=:id").setParameter("id", mail).getResultList();
+				return listeTache;
+	}
+
+	@Override
+	public Tache findTacheById(Long id) {
+		Tache tache=entityManager.find(Tache.class, id);
+		return tache;
+	}
+
+	@Override
+	public void remove(Tache tache) {
+		entityManager.remove(entityManager.merge(tache));
+		
+	}
+
+ 
+
  
 
 }

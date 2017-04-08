@@ -7,8 +7,9 @@
 		<class>entities.Tache</class>
 		<class>entities.Planner</class>
 		<class>entities.Compartiment</class>
-	 <class>entities.AffectationPlannerUser</class>
-       
+		 <class>entities.AffectationPlannerUser</class>
+		 <class>entities.TacheUPC</class>
+       <class>entities.CompartimentAffPlannerUser</class>
 	       <properties>
 	<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 	<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>

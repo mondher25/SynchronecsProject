@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+
+<ui:composition template="templates/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:b="http://bootsfaces.net/ui"
+	>
+	
+	
+	
+	<ui:define  name="option" >
+	<h:form id="paneuserg">
+ 
+                         
+                            <div class=" TexAlCenter" style="background-color: #efefef" >
+                            <p:panel id="panel">
+                                <i class="icon-user-add-outline Fs60 Blue"></i>
+                                <h3> Gestion Tache</h3>
+                                <div class="EmptyBox10"></div>
+              						<p:dataTable var="ges" value="#{gestionBean.listeAllTache()}">
+									    <p:column headerText="Id">
+									        <h:outputText value="#{ges.id}" />
+									    </p:column>
+									 
+									    <p:column headerText="etat">
+									        <h:outputText value="#{ges.etat}" />
+									    </p:column>
+									 
+									    <p:column headerText="userGrade">
+									        <h:outputText value="#{ges.user.grade}" />
+									    </p:column>
+									 
+									    <p:column headerText="user_mail_id">
+									        <h:outputText value="#{ges.user.id}" />
+									    </p:column>
+									    <p:column headerText="Action">
+									         <p:commandButton value="Supprimer" action="#{gestionBean.supprimer}"  >
+    									           <p:confirm header="Confirmation" message="vous ete sure de vouloir supprimer cette tache" icon="ui-icon-alert"  />
+  											     <f:setPropertyActionListener target="#{gestionBean.deletedTache}" value="#{ges}"/>
+										     </p:commandButton>	
+ 										     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+									             <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update="panel"   />
+									           <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+									         </p:confirmDialog>  
+									    </p:column>
+									</p:dataTable>
+                                 <div class="EmptyBox10"></div>
+                               
+             </p:panel>
+                            
+                                  
+                            </div>
+                        
+                   
+                       
+        </h:form>                
+                        
+    
+    </ui:define>
+	</ui:composition>
+
+
+ 
+
+
+
+
+</html>

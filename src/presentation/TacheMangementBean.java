@@ -68,6 +68,7 @@ public class TacheMangementBean implements Serializable {
 	private List<CompartimentAffPlannerUser> finalListUserString ;
 	private Tache selectedTache;
 	private TacheUPC tacheUPCa =new TacheUPC();
+	private Tache updateTache;
 
 	  
 	
@@ -124,8 +125,8 @@ public class TacheMangementBean implements Serializable {
 	
 	public boolean rendered(){
 		boolean display ;
-		if(userRendered.equalsIgnoreCase(userTache) || connectedUser.getGrade().equalsIgnoreCase("admin") ){
-			 System.out.println("userOwner"+userOwner);
+		if(userRendered.equalsIgnoreCase(userTache) || connectedUser.getGrade().equalsIgnoreCase("admin") || connectedUser.getMail().equalsIgnoreCase(userRendered) ){
+			 System.out.println("start rendreded ... userOwner"+userOwner);
 			return display=true;
 			
 		}else
@@ -379,6 +380,20 @@ public class TacheMangementBean implements Serializable {
 
 	public void setUserOwner(User userOwner) {
 		this.userOwner = userOwner;
+	}
+
+
+
+
+	public Tache getUpdateTache() {
+		return updateTache;
+	}
+
+
+
+
+	public void setUpdateTache(Tache updateTache) {
+		this.updateTache = updateTache;
 	}
  
 
