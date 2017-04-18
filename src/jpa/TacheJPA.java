@@ -51,9 +51,9 @@ public class TacheJPA implements TacheDao {
 	}
 
 	@Override
-	public List<Tache> getAllTache(String mail) {
+	public List<Tache> getAllTache(Long idUser) {
 		List<Tache> listeTache=new ArrayList<>();
-		listeTache=entityManager.createQuery("SELECT t FROM Tache t WHERE user_mail_id=:id").setParameter("id", mail).getResultList();
+		listeTache=entityManager.createQuery("SELECT t FROM Tache t WHERE user_id=:id").setParameter("id", idUser).getResultList();
 				return listeTache;
 	}
 

@@ -12,11 +12,9 @@ import javax.servlet.http.HttpSession;
 
 import org.primefaces.context.RequestContext;
 
-import dao.CompteDao;
- 
+  
 import dao.UserDao;
-import entities.Compte;
-import entities.User;
+ import entities.User;
  
  
 @ManagedBean(name="loginBean")
@@ -33,8 +31,7 @@ public class LoginBean implements Serializable{
 	@EJB 
 	private UserDao userDao;
 	
-	@EJB 
-	private CompteDao compteDao;
+ 
 	
  
 	
@@ -47,16 +44,13 @@ public class LoginBean implements Serializable{
 	private String type;
 	private String mail;
 	private String password;
-	public static int count =1;
-	private String idUser;
+	 
+ 
+	 
 	private User newUser=new User();
  
 	
-	 public static int counterId()
-	 {
-		 return count++;
-	 }
-		
+	 
 	public String login(){
 		System.out.println("Start Login");
 		RequestContext context = RequestContext.getCurrentInstance();
@@ -67,16 +61,14 @@ public class LoginBean implements Serializable{
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 
 
-		logedUser = userDao.login(mail.trim(),password.trim());
+		logedUser = userDao.login(mail.trim(), password.trim());
 
 
 		
 		if ( logedUser != null) {
 
-			session.setAttribute("mail",logedUser.getMail());
-			session.setAttribute("nomSociete", logedUser.getNomSociete());
-			session.setAttribute("nom", logedUser.getNom());
-			session.setAttribute("grade", logedUser.getGrade());
+			session.setAttribute("logedUser",logedUser);
+
 		 
 			logedin = true;
 			return "planner/planner.xhtml?faces-redirect=true";
@@ -95,8 +87,10 @@ public class LoginBean implements Serializable{
 	public void addNewUser(){
 		System.out.println("start add User");
 		newUser.setGrade("user");
-		newUser.setId((long) counterId());
+		 
+		 
 		newUser.setAddedBy(logedUser.getMail());
+		newUser.setNomSociete(logedUser.getNomSociete());
 		userDao.createUser(newUser);
 		newUser = new User();
 		System.out.println("End add User");
@@ -133,15 +127,7 @@ public class LoginBean implements Serializable{
 		this.userDao = userDao;
 	}
 
-	public CompteDao getCompteDao() {
-		return compteDao;
-	}
-
-
-	public void setCompteDao(CompteDao compteDao) {
-		this.compteDao = compteDao;
-	}
-
+ 
 
  
 	public User getLogedUser() {
@@ -197,16 +183,7 @@ public class LoginBean implements Serializable{
 
 
 
-	public String getIdUser() {
-		return idUser;
-	}
-
-
-
-
-	public void setIdUser(String idUser) {
-		this.idUser = idUser;
-	}
+ 
 
 
 	public User getNewUser() {
@@ -218,8 +195,7 @@ public class LoginBean implements Serializable{
 		this.newUser = newUser;
 	}
 
-
-
+ 
 
  
 

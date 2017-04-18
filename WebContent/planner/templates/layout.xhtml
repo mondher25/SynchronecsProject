@@ -9,10 +9,10 @@
 	>
 	
  		
-<f:metadata>
+<!--  <f:metadata>
         <f:viewParam name="idp" value="#{tacheCP.idp}"/> 
         <f:viewParam name="idp" value="#{com.idp}"/>   
- </f:metadata> 
+ </f:metadata>   --> 
 <h:head>
 
 		<title>ERP COMMUNICATION</title>
@@ -86,7 +86,7 @@
 					                            	 	<div  id="carduser" class="Card OrangeBack  Wid100">
 					                            	 		<div class="Fleft">
 						                            	 		  <span class="Fs16 White">
- 																		Bienvenue: <h:outputText value="#{plan.mail}"></h:outputText>
+ 																		Bienvenue: <h:outputText value="#{plan.logedUser.mail}"></h:outputText>
 																</span>
 					                            	  
 																<h:form>

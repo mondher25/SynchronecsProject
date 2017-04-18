@@ -13,46 +13,58 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
             <meta name="apple-mobile-web-app-capable" content="yes" />
         </f:facet>
-        <title>PrimeFaces Volt</title>
+        <title>Planner</title>
         <ui:insert name="head" />
     </h:head>
 
-    <h:body styleClass="BlueBody">
+    <h:body style="background-color:#EFEFEF;">
+    <div style="margin: 0;padding: 0;height: 50px;background-color: #888;">
+    	<H3 style="color: white;line-height: 50px;padding-left: 10px; ">Synchronecs | Phenix </H3>
+    </div>
+ 
         <h:form id="formlog">
         <p:growl id="mess"></p:growl>
         <div class="Container100">
-            <div class="Container100">
-                <div class="Wid50 OvHidden DispBlock MarAuto WidAutoOnMobile" style="margin-top:7%;">
+            
+                <div class="Wid40 OvHidden DispBlock  MarAuto WidAutoOnMobile" style="margin-top:13%;">
                     <div class="Card ShadowEffect">
                         <div class="Container100">
-                            <div class="Card OrangeBack White TexAlCenter Fs20 FontVoltBold">Log In | Sign Up Panel</div>
+                            <div class="  Black TexAlCenter Fs20 FontVoltBold">Log In | Sign Up Panel</div>
                         </div>
                         
  
-                        <div class="Container100 Responsive100">
-                            <div class="Card TexAlCenter">
-                                <i class="icon-unlocked2 Fs60 TealGreen"></i>
+                        
+                            <div class=" TexAlCenter">
+                                
                                 <div class="EmptyBox10"></div>
-                                <p:inputText styleClass="Wid90" placeholder="E-Mail" value="#{loginBean.mail}"/>
+                                <p:inputText styleClass="Wid70" placeholder="Adresse E-mail" value="#{loginBean.mail}"/>
                                 <div class="EmptyBox10"></div>
-                                <p:password styleClass="Wid90" placeholder="Password" value="#{loginBean.password}" />
+                                <p:password styleClass="Wid70" placeholder="Mot de passe" value="#{loginBean.password}" />
                                  <div class="EmptyBox10"></div>
  
-                                <div class="Separator"></div>                              
+                                                            
                               
-                                <p:commandButton value="Log In" icon="fa fa-unlock" styleClass="GreenButton" action="#{loginBean.login()}" update="mess"/>
-                                <p:commandButton value="Inscription"  styleClass="GreenButton" action="inscription.xhtml?faces-redirect=true"/>
-                               <div class="SeparatorFull"></div>
+                                <p:commandButton value="Connexion" icon="fa fa-unlock"   action="#{loginBean.login()}" update="mess"/>
+                                <p:commandButton value="Inscription"  action="inscription.xhtml?faces-redirect=true"></p:commandButton>
+                              
  
-                               
+<!--                                    <p:commandButton value="Créer un compte" style="background-color:Green"    onclick="PF('diagInscrit').show();" /> 
+ -->
                             </div>
-                        </div>
+                        
                     </div>
                 </div>
-            </div>
+            
         </div>
-
+ 
         </h:form>
+ 
+  
+ 
+        		
+         
+        	
+  
         <h:outputStylesheet name="css/core-layout.css" library="volt-layout" />
         <h:outputStylesheet name="css/animate.css" library="volt-layout" />
         <h:outputStylesheet name="css/volt-font.css" library="volt-layout" />

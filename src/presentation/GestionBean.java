@@ -10,9 +10,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import dao.CompartimentAffPlannerUserDao;
+import dao.CompartimentDao;
 import dao.TacheDao;
 import dao.TacheUPCDao;
 import dao.UserDao;
+import entities.Compartiment;
 import entities.Tache;
 import entities.TacheUPC;
 import entities.User;
@@ -32,12 +35,19 @@ public class GestionBean implements Serializable {
 	@EJB
 	private TacheUPCDao tacheUPCDao;
 	
+	@EJB
+	private CompartimentDao compartimentDao;
+	
+	@EJB
+	private CompartimentAffPlannerUserDao compartimentAffPlannerUserDao;
+	
 	private User connectedUser;
 	private Tache tache;
 	private Tache deletedTache;
+	private Compartiment deletedCompartiment;
 	private TacheUPC tacheUPC;
 	private Tache delTache;
-	  
+	private User logedUser=new User();
 	
 	private String mail;
 	private String grade;	
@@ -49,13 +59,11 @@ public class GestionBean implements Serializable {
 	public void init(){
 		
 		System.out.println(" -- - --- --- -Gestion Tache Start- --- --- ");
-		mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");
-		grade = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("grade");	
-		nom = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("nom");	
+		logedUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("logedUser");
+ 
 		 
-		connectedUser=userDao.getUserByMailId(mail);
-		System.out.println("init : id user connecte ="+ mail);
-		System.out.println("init : grade user connecte ="+ grade);
+	 
+ 
 		
 	}
 	
@@ -63,10 +71,14 @@ public class GestionBean implements Serializable {
 	public List<Tache> listeAllTache()
 	{
 		List<Tache> listeTache=new ArrayList<>();
-		listeTache=tacheDao.getAllTache(connectedUser.getMail());		
+		listeTache=tacheDao.getAllTache(logedUser.getId());		
 		return listeTache;
 	}
-	
+	public List<Compartiment> listeAllCompartiment(){
+		List<Compartiment> listeCompartiment=new ArrayList<>();
+		listeCompartiment=compartimentDao.getAllCompartiment(logedUser.getId());
+		return listeCompartiment;
+	}
 	
     public void supprimer() {
     	System.out.println("----start supprimer Tache-----");
@@ -81,18 +93,20 @@ public class GestionBean implements Serializable {
 
         
     }
+    
+    public void supprimerCom(){
+    	System.out.println("----start supprimer Compartiment-----");
+    	compartimentDao.removeCom(deletedCompartiment);
+    	System.out.println("end supprimer Compartiment");
+        System.out.println("--- start supprimer CompartimentAffUserPlanner----- ");
+    	  compartimentAffPlannerUserDao.deletComp(deletedCompartiment.getId());
+    	System.out.println("end supprimer CompartimentAffUserPlanner");
+    	
+    	
+    	
+    }
      
 
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
 	//Getter And Setter---------------------------------------------->	
 	
 	public TacheDao getTacheDao() {
@@ -189,6 +203,36 @@ public class GestionBean implements Serializable {
 
 	public void setDelTache(Tache delTache) {
 		this.delTache = delTache;
+	}
+
+
+	public User getLogedUser() {
+		return logedUser;
+	}
+
+
+	public void setLogedUser(User logedUser) {
+		this.logedUser = logedUser;
+	}
+
+
+	public CompartimentDao getCompartimentDao() {
+		return compartimentDao;
+	}
+
+
+	public void setCompartimentDao(CompartimentDao compartimentDao) {
+		this.compartimentDao = compartimentDao;
+	}
+
+
+	public Compartiment getDeletedCompartiment() {
+		return deletedCompartiment;
+	}
+
+
+	public void setDeletedCompartiment(Compartiment deletedCompartiment) {
+		this.deletedCompartiment = deletedCompartiment;
 	}
 
  

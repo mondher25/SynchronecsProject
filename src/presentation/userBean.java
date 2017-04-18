@@ -9,10 +9,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import dao.CompteDao;
+ 
  
 import dao.UserDao;
-import entities.Compte;
+ 
  
 import entities.User;
 
@@ -24,8 +24,7 @@ public class userBean {
 	@EJB
 	private UserDao userDao;
 	
-	@EJB
-	private CompteDao compteDao;
+ 
 	
 
 	
@@ -36,19 +35,19 @@ public class userBean {
 	private String password;
 	private String nomSociete;
 	private String grade;
-	private String idUser;
-	private String gradeHidden;
  
+  
 	
 	private User user=new User();
-	private Compte connectedUser;
-	private User newUser=new User();
  
+	private User newUser=new User();
+	private User logedUser;
 	
 	@PostConstruct
 	public void init(){		 
-		mail=(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");
-		grade=(String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("grade");		  
+		logedUser=(User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("logedUser");
+		 
+	 
  	}
 	
 
@@ -57,10 +56,8 @@ public class userBean {
 	public void addNewCompte()
 	{
 		System.out.println("add new User");
-		 
 			user.setGrade("admin");
 			user.setAddedBy("root");
-			user.setId((long) LoginBean.counterId());
 			userDao.createUser(user);	 
 		System.out.println("END add  User");
 		user=new User();
@@ -73,12 +70,6 @@ public class userBean {
 		listeUser=userDao.getUser();
 		return listeUser;
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	//Getter and Setter
@@ -132,29 +123,10 @@ public class userBean {
 		this.user = user;
 	}
 
-	public CompteDao getCompteDao() {
-		return compteDao;
-	}
+ 
+ 
 
-	public void setCompteDao(CompteDao compteDao) {
-		this.compteDao = compteDao;
-	}
-
-	public String getIdUser() {
-		return idUser;
-	}
-
-	public void setIdUser(String idUser) {
-		this.idUser = idUser;
-	}
-
-	public Compte getConnectedUser() {
-		return connectedUser;
-	}
-
-	public void setConnectedUser(Compte connectedUser) {
-		this.connectedUser = connectedUser;
-	}
+ 
 
 	public String getNomSociete() {
 		return nomSociete;
@@ -172,13 +144,7 @@ public class userBean {
 		this.grade = grade;
 	}
 
-	public String getGradeHidden() {
-		return gradeHidden;
-	}
-
-	public void setGradeHidden(String gradeHidden) {
-		this.gradeHidden = gradeHidden;
-	}
+ 
 
 	public User getNewUser() {
 		return newUser;
@@ -188,6 +154,24 @@ public class userBean {
 		this.newUser = newUser;
 	}
 
+
+
+
+	public User getLogedUser() {
+		return logedUser;
+	}
+
+
+
+
+	public void setLogedUser(User logedUser) {
+		this.logedUser = logedUser;
+	}
+
+
+
+
+ 
 	 
 
  

@@ -17,7 +17,8 @@ public void getAllUserByPlannerAffectation(String mail,Long idp);
 public void addDefaultUserAff(AffectationPlannerUser defaultAffUserPlanner);
 public List<AffectationPlannerUser> getPlannerByNomSocieteAndEtat(boolean etat);
 public List<AffectationPlannerUser> listPlannerByAffectationAndMailId(String mail);
-public List<AffectationPlannerUser> getAllPlanner();
+public List<AffectationPlannerUser> listPlannerByAffectationAndId(Long  id);
+public List<AffectationPlannerUser> getAllPlanner(Long idUser);
 public List<AffectationPlannerUser> getUserByPlannerAff(Long idp);
 public User getUserByMailId(String mail);
 }

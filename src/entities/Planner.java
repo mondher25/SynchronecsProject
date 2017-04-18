@@ -32,7 +32,7 @@ public class Planner {
 	
 
 	@OneToOne
-	@JoinColumn(name="user_mail_id")
+	@JoinColumn(name="user_id")
 	private User user;
  
 	private String userGrade;

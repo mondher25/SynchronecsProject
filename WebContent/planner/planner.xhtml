@@ -1,12 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:composite="http://java.sun.com/jsf/composite"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      >
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
 
 <ui:composition template="templates/layout.xhtml"
@@ -14,48 +13,59 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:b="http://bootsfaces.net/ui"
-	>
-	
-	
-	
-	<ui:define  name="option" >			
-	
-		<h:form id="formPlanner" >
-  		      
-		    <p:dataTable id="eventsDT" var="pl"  value="#{plan.listePlannerByIdCompte()}"   >
-                  
-			 <f:facet name="header">
-            Listes des Planner
-        </f:facet>
-   
-		    <p:column headerText="Nom">
-		        <h:outputText value="#{pl.planner.namePlanner}" />
-		    </p:column>		 
- 
-     
-			<p:column headerText="nomSociete">
-		        <h:outputText value="#{pl.planner.nomSociete}" />
-		    </p:column> 
-					 
-	        
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
+
+
+
+	<ui:define name="option">
+
+		<h:form id="formPlanner">
+
+			<p:dataTable id="eventsDT" var="pl"
+				value="#{plan.listePlannerByIdCompte()}">
+
+				<f:facet name="header">
+           			 Listes des Planner
+      		 	 </f:facet>
+
+				<p:column headerText="Nom">
+					<p:commandLink action="tache.xhtml?faces-redirect=true"
+						value="#{pl.planner.namePlanner}" update="eventsDT">
+
+						<f:setPropertyActionListener target="#{com.idp}"
+							value="#{pl.planner.id}" />
+						<f:setPropertyActionListener target="#{tacheCP.idp}"
+							value="#{pl.planner.id}" />
+
+					</p:commandLink>
+				</p:column>
+
+
+				<!--    
 		<p:column headerText="Action">
-  		        <p:link value="get" outcome="tache.xhtml"   >
-		             <f:param  name="idp" value="#{pl.planner.id}"></f:param>
-		       </p:link>
-		 </p:column>
-		</p:dataTable>
-		  
-			</h:form>	
-		 
-		
-    </ui:define> 
-	
-	</ui:composition>
+			  
+ 						 
+				 	  
 
-
+					  
+					
  
+		    	
+		         		        <p:link value="get" outcome="tache.xhtml"   >
+		             <f:param  name="idp" value="#{pl.planner.id}"></f:param>
+		       </p:link>  
+		 </p:column> -->
+			</p:dataTable>
+
+		</h:form>
+
+
+	</ui:define>
+
+</ui:composition>
+
+
+
 
 
 

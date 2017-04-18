@@ -4,22 +4,23 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+
+ 
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 
 import dao.CompartimentAffPlannerUserDao;
 import dao.CompartimentDao;
-import dao.CompteDao;
-
+ 
 import dao.PlannerDao;
 import dao.TacheDao;
 import dao.TacheUPCDao;
 import dao.UserDao;
-import entities.AffectationPlannerUser;
+ 
 import entities.Compartiment;
 import entities.CompartimentAffPlannerUser;
-import entities.Compte;
-import entities.Planner;
+ import entities.Planner;
 import entities.Tache;
 import entities.TacheUPC;
 import entities.User;
@@ -28,10 +29,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
+ 
 
 @ManagedBean(name = "tacheCP")
-@ViewScoped
+@SessionScoped
 public class TacheBean implements Serializable {
 
 	/**
@@ -59,7 +60,7 @@ public class TacheBean implements Serializable {
 
 	private Tache newTache = new Tache();
 	private Compartiment compart = new Compartiment();
-	private Planner planner = new Planner();
+	private Planner planner = new Planner();;
 	private Planner selplan;
 	private Compartiment selComp;
 	private String selectedMail;
@@ -67,7 +68,7 @@ public class TacheBean implements Serializable {
 	private CompartimentAffPlannerUser selctedCAPU;
 	private List<CompartimentAffPlannerUser> finalListUserString ;
 	private TacheUPC tacheUPCa =new TacheUPC();
-	  
+	private User logedUser;  
 	
 
 
@@ -87,15 +88,16 @@ public class TacheBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		System.out.println("inti start tache");
-		mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");
-		grade = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("grade");
-
-		FacesContext fc = FacesContext.getCurrentInstance();
-		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
-		idp = params.get("idp");
-		System.out.println("init idplanner= " + idp);
-		connectedUser = userDao.getUserByMailId(mail);
-		System.out.println("init : id user connecte =" + mail);
+		logedUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("logedUser");
+		 
+	 
+		System.out.println("init TacheBean mail= " + logedUser.getMail());
+//		FacesContext fc = FacesContext.getCurrentInstance();
+//		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
+//		idp = params.get("idp");
+		
+		 
+		 
 
 
 	}
@@ -109,7 +111,7 @@ public class TacheBean implements Serializable {
 	}
 
 
-
+ 
  
 		 
 
@@ -128,19 +130,24 @@ public class TacheBean implements Serializable {
 	 
 
 	public void addTache() {
-
+		selectedPlanner() ;
+		selectedCompartiment();
+		
 		System.out.println("Start add tache");
-		newTache.setUserGrade(connectedUser.getGrade());
+		newTache.setUserGrade(logedUser.getGrade());
 		newTache.setPlanner(selectedPlanner());
 		newTache.setCompartiment(selectedCompartiment());
-		newTache.setUser(connectedUser);
+		newTache.setUser(logedUser);
 		
 		tacheDao.addTache(newTache);
 		TacheUPC tacheUPC =new TacheUPC();
 			
 			tacheUPC.setCompartiment(selectedCompartiment());
-			tacheUPC.setPlanner(selectedPlanner());			 
-			tacheUPC.setUser(userDao.getUserByMailId(selectedMail));
+			tacheUPC.setPlanner(selectedPlanner());	
+			if(logedUser.getGrade().equalsIgnoreCase("admin"))
+				tacheUPC.setUser(userDao.getUserById(Long.parseLong(selectedMail)));
+			else if(logedUser.getGrade().equalsIgnoreCase("user"))
+				tacheUPC.setUser(logedUser);
 			tacheUPC.setTache(newTache);
 			tacheUPC.setEtat(newTache.getEtat());
 			tacheUPCDao.addAffTache(tacheUPC);
@@ -332,7 +339,7 @@ public class TacheBean implements Serializable {
 	}
 
 	public List<CompartimentAffPlannerUser> getFinalListUserString() {
-		if (connectedUser.getGrade().equalsIgnoreCase("admin"))
+		if (logedUser.getGrade().equalsIgnoreCase("admin"))
 		{
 			finalListUserString=compartimentAffPlannerUserDao.getUserByPlannerAndComAff(selectedPlanner().getId(),
 		

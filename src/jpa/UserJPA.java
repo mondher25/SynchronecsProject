@@ -45,10 +45,17 @@ public void createUser(User u) {
  
 
 @Override
-public User getUserByMailId(String mailId) {
-	User user=em.find(User.class, mailId);
+public User getUserById(Long id) {
+	User user=em.find(User.class, id);
 	return user;
 }
+@Override
+public User getUserByMailId(String mail) {
+	User user=new User();
+	 user=(User)em.createQuery("SELECT u FROM User u WHERE mail=:mail").setParameter("mail", mail).getSingleResult();
+	return user;
+}
+
 
 @Override
 public List<User> ListeUserAffTache(String mail, String grade) {
@@ -64,6 +71,8 @@ public List<User> getUser() {
 	
 	return listAllUser;
 }
+
+ 
 
 
 }

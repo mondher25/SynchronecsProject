@@ -47,7 +47,7 @@ public class LoginFilter implements Filter {
 
 		HttpSession session = request.getSession(false);
 
-		if (session == null || session.getAttribute("mail") == null) {
+		if (session == null || session.getAttribute("logedUser") == null) {
 
 			response.sendRedirect(request.getContextPath() + "/faces/login.xhtml"); // No
 																					// logged-in

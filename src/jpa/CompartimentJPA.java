@@ -43,4 +43,18 @@ public class CompartimentJPA implements CompartimentDao {
 				.setParameter("planner", idPlanner).setParameter("user", mail).getResultList();
 		return listCompPlCp;
 	}
+
+	@Override
+	public List<Compartiment> getAllCompartiment(Long idUser) {
+		List<Compartiment> listCompPlCp = new ArrayList<>();
+		listCompPlCp = em.createQuery("SELECT c FROM Compartiment c WHERE user_id=:id ")
+				.setParameter("id", idUser).getResultList();
+		return listCompPlCp;
+	}
+
+	@Override
+	public void removeCom(Compartiment com) {
+		em.remove(em.merge(com));
+		
+	}
 }

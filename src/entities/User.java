@@ -21,18 +21,17 @@ public class User implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@Id	
-	@Column(name="mail")
-	private String mail;
+	@Id		
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 	
 	@Column(name="password")
 	private String password;
 	
+	@Column(name="mail")
+	private String mail;
 	
-	
-	
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+
 	
 	private String nom;
 	
@@ -44,8 +43,7 @@ public class User implements Serializable{
 	
 	private String addedBy;
 	
-	
-
+ 
 
  
  
@@ -105,7 +103,6 @@ public class User implements Serializable{
 	public void setAddedBy(String addedBy) {
 		this.addedBy = addedBy;
 	}
- 
  
 	
 

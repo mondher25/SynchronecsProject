@@ -24,9 +24,9 @@ public class CompartimentAffPlannerUserJPA implements CompartimentAffPlannerUser
 	}
 
 	@Override
-	public List<CompartimentAffPlannerUser> comparByPlaUsr(String mail, Long idp) {
+	public List<CompartimentAffPlannerUser> comparByPlaUsr(Long idUser, Long idp) {
 		List<CompartimentAffPlannerUser> listCom=new ArrayList<>();
-		listCom=em.createQuery("SELECT c FROM CompartimentAffPlannerUser c WHERE planner_id=:idp AND user_id=:mail ").setParameter("mail", mail).setParameter("idp", idp).getResultList();
+		listCom=em.createQuery("SELECT c FROM CompartimentAffPlannerUser c WHERE planner_id=:idp AND user_id=:id ").setParameter("id", idUser).setParameter("idp", idp).getResultList();
 		return listCom;
 	}
 
@@ -43,6 +43,21 @@ public class CompartimentAffPlannerUserJPA implements CompartimentAffPlannerUser
 			List<String> listeUser=new ArrayList<>();
 			listeUser=em.createQuery("SELECT c FROM CompartimentAffPlannerUser c WHERE user_id=:idUser ").setParameter("idUser", mail).getResultList();
 			return listeUser;
+	}
+
+	@Override
+	public List<CompartimentAffPlannerUser> getAllCompartiment(Long idUser,Long idp) {
+		 
+			List<CompartimentAffPlannerUser> listeUser=new ArrayList<>();
+			listeUser=em.createQuery("SELECT c FROM CompartimentAffPlannerUser c WHERE planner_id=:idp AND user_id=:idUser").setParameter("idp", idp).setParameter("idUser", idUser).getResultList();
+			return listeUser;
+	 
+	}
+
+	@Override
+	public void deletComp(Long idCom) {
+		em.createNativeQuery("DELETE FROM CompartimentAffPlannerUser WHERE compartiment_id=:id").setParameter("id", idCom).executeUpdate();
+		
 	}
 
 }

@@ -13,20 +13,18 @@ import javax.faces.context.FacesContext;
 
 import dao.AffectationPlannerUserDao;
 import dao.CompartimentDao;
-import dao.CompteDao;
-
+ 
 import dao.PlannerDao;
 import dao.UserDao;
 import dao.CompartimentAffPlannerUserDao;
 import entities.AffectationPlannerUser;
 import entities.Compartiment;
 import entities.CompartimentAffPlannerUser;
-import entities.Compte;
-import entities.Planner;
+ import entities.Planner;
 import entities.User;
 
 @ManagedBean(name = "com")
-@ViewScoped
+@SessionScoped
 public class CompartimentBean implements Serializable {
 
 	/**
@@ -40,8 +38,7 @@ public class CompartimentBean implements Serializable {
 	@EJB
 	private PlannerDao plan;
 	
-	@EJB
-	private CompteDao compteDao;
+ 
 	
 	@EJB 
 	private UserDao userDao;
@@ -53,46 +50,64 @@ public class CompartimentBean implements Serializable {
 	private AffectationPlannerUserDao affectationPlannerUserDao;
 
 	private Planner planner = new Planner();
-	private Planner selectedPlanner = new Planner();
+	private Planner selectedPlanner;
 	private Compartiment comp = new Compartiment();
 	private User connectedUser;
- 
+	private User logedUser;
 	
 	private String name;
 	private String mail;
 	private String idCom;
 	private String idp;
 	private String grade;
+	
 	private List<AffectationPlannerUser> finalListUserString;
  
 	@PostConstruct
 	public void init() {
-		System.out.println("compartiment");
-		mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");
-		grade = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("grade");
-
-		System.out.println(mail);
-		FacesContext fc = FacesContext.getCurrentInstance();
-		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
-		idp = params.get("idp");
-		connectedUser=userDao.getUserByMailId(mail);
-		System.out.println("init : mail user connecte ="+mail);
+		System.out.println("-------- <> compartiment <> ---------");
+		logedUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("logedUser");
+ 		System.out.println("logedUser id :"+logedUser.getId()+ "mail = : "+ logedUser.getMail());
+ 		System.out.println("init compartiment id planner:"+idp);
+ 		 
+ 		 
+//		FacesContext fc = FacesContext.getCurrentInstance();
+//		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
+//		idp = params.get("idp");
+//		
+ 
+ 		 
+ 
+		
+		
+		 
 	}
 		
-
+//	public String result(){
+//		 FacesContext fc = FacesContext.getCurrentInstance();
+//	      Map<String,String> params = 
+//	         fc.getExternalContext().getRequestParameterMap();
+//	      idp =  params.get("idp"); 
+//	      return "tache.xhtml?faces-redirect=true";
+//	}
  
-	public Planner selectedPlanner() {
-		return selectedPlanner = plan.getPlannerById(Long.parseLong(idp));
-	}
+ 
+	
+  	public Planner selectedPlanner() {
+   		return selectedPlanner =plan.getPlannerById(Long.parseLong(idp));
+   	}
 
 	public void addCom() {
+		
 		System.out.println("start add compartiment");
-		System.out.println("idPlanner = " + idp);
+		
+		System.out.println("idPlanner = " + selectedPlanner().getId());
 		comp.setPlanner(selectedPlanner());
-		comp.setUser(connectedUser);
-		comp.setUserGrade(grade);		
+		comp.setUser(logedUser);
+		comp.setUserGrade(logedUser.getGrade());		
 		com.addCompartiment(comp);
-//		
+ 		selectedPlanner();
+ 		
 //		CompartimentAffPlannerUser compPlaUsr3 =new CompartimentAffPlannerUser();
 //		
 //		compPlaUsr3.setUser(connectedUser);
@@ -120,13 +135,13 @@ public class CompartimentBean implements Serializable {
 //		
 //		}
 //		 if (selectedPlanner.isEtat() == false){
-		finalListUserString =affectationPlannerUserDao.getUserByPlannerAff(selectedPlanner.getId());
+		finalListUserString =affectationPlannerUserDao.getUserByPlannerAff(selectedPlanner().getId());
 			for(AffectationPlannerUser u :finalListUserString ){
 				
 				User user;
 				user = u.getUser();				
 				CompartimentAffPlannerUser compPlaUsr2 =new CompartimentAffPlannerUser();				 
-				compPlaUsr2.setPlanner(selectedPlanner);				 
+				compPlaUsr2.setPlanner(selectedPlanner());				 
 				compPlaUsr2.setUser(user);	 		   
 				compPlaUsr2.setCompartiment(comp);
 				CompartimentAffPlannerUserDao.AddCompByPlannerUser(compPlaUsr2);
@@ -145,7 +160,12 @@ public class CompartimentBean implements Serializable {
 
 	public List<CompartimentAffPlannerUser> ListeCompByPlannerAndCompte() {
 		List<CompartimentAffPlannerUser> listComPlCp = new ArrayList<>();
-		listComPlCp=CompartimentAffPlannerUserDao.comparByPlaUsr(mail, selectedPlanner().getId());
+		if(logedUser.getGrade().equals("admin") ){
+			listComPlCp=CompartimentAffPlannerUserDao.getAllCompartiment(logedUser.getId(),Long.parseLong(idp));
+		}else if(logedUser.getGrade().equalsIgnoreCase("user")){
+			listComPlCp=CompartimentAffPlannerUserDao.comparByPlaUsr(logedUser.getId(), Long.parseLong(idp));
+		}
+		 
 		System.out.println("end List compartiment");
 		return listComPlCp;
 	}
@@ -164,10 +184,12 @@ public class CompartimentBean implements Serializable {
 	}
 
 	public Planner getSelectedPlanner() {
+	
 		return selectedPlanner;
 	}
 
 	public void setSelectedPlanner(Planner selectedPlanner) {
+	 
 		this.selectedPlanner = selectedPlanner;
 	}
 
@@ -222,12 +244,9 @@ public class CompartimentBean implements Serializable {
 	public String getIdp() {
 		return idp;
 	}
-
 	public void setIdp(String idp) {
-
 		this.idp = idp;
 	}
-
 	public String getIdCom() {
 		return idCom;
 	}
@@ -236,18 +255,7 @@ public class CompartimentBean implements Serializable {
 		this.idCom = idCom;
 	}
 
-	public CompteDao getCompteDao() {
-		return compteDao;
-	}
-
-	public void setCompteDao(CompteDao compteDao) {
-		this.compteDao = compteDao;
-	}
-
-
- 
-
-	public User getConnectedUser() {
+ 	public User getConnectedUser() {
 		return connectedUser;
 	}
 
@@ -293,6 +301,18 @@ public class CompartimentBean implements Serializable {
 
 	public void setFinalListUserString(List<AffectationPlannerUser> finalListUserString) {
 		this.finalListUserString = finalListUserString;
+	}
+
+
+
+	public User getLogedUser() {
+		return logedUser;
+	}
+
+
+
+	public void setLogedUser(User logedUser) {
+		this.logedUser = logedUser;
 	}
 
  

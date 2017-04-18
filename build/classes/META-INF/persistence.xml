@@ -3,7 +3,6 @@
 	<persistence-unit name="UP" transaction-type="JTA" >
 	<jta-data-source>java:/dslogin</jta-data-source>	 
 		<class>entities.User</class>
-		<class>entities.Compte</class>
 		<class>entities.Tache</class>
 		<class>entities.Planner</class>
 		<class>entities.Compartiment</class>

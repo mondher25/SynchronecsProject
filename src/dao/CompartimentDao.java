@@ -13,5 +13,7 @@ public interface CompartimentDao {
 	public List<Compartiment> getListCompartimentByPlanner(Long id);
 	public Compartiment getCompartimentById(Long id);
 	public List<Compartiment> getListCompartimentByPlannerAndUser(Long idPlanner,String mail);
+	public List<Compartiment> getAllCompartiment(Long idUser);
+	public void removeCom(Compartiment com);
 
 }

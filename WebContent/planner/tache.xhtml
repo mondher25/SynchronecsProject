@@ -37,38 +37,31 @@
 			            <h:outputLabel for="name" value="Nom Compartiment :" />
 			            <p:inputText id="name" value="#{com.comp.nomCompartiment}" required="true"/>
 			        </h:panelGrid>
-			         <p:commandButton value="Submit" actionListener="#{com.addCom}" process="panel" update="listpanel"/>
+			         <p:commandButton value="Ajouter" actionListener="#{com.addCom}" process="panel" update="listpanel"/>
 			    </p:panel>
 			</h:form>	
 			    
-		
-
-
-
 						<!-- 
 						
 									AFFICHAGE DE COMPARTIMENT_BY_PLANNER
-						         
-						
+
 																           -->
 		
 	<h:form id="listpanel"> 	   
 	 <p:dataTable id="eventsDT" var="cm" value="#{com.ListeCompByPlannerAndCompte()}"  >
                   
-		<f:facet name="header">
+			<f:facet name="header">
             Listes des Compartiment
-        </f:facet>
-  		    <p:column headerText="Id">
-		        <h:outputText value="#{cm.compartiment.id}" />
-		    </p:column>	
-		    <p:column headerText="Nom">
-		        <h:outputText value="#{cm.compartiment.nomCompartiment}" />
-		    </p:column>		
-			<p:column headerText="Action">
-			    	<p:commandButton  value="get" update="allPan"  >
+      	  </f:facet>
+      	  <p:column headerText="Nom">
+ 			    	<p:commandLink  value="#{cm.compartiment.nomCompartiment}" update="allPan"  >
 					  <f:setPropertyActionListener target="#{tacheCP.idCom}" value="#{cm.compartiment.id}"/>
-					</p:commandButton>		        
-		  	</p:column>	
+					</p:commandLink>
+		         
+		    </p:column>		
+			 
+		        
+		  
 		</p:dataTable>		 
 			</h:form>
 				
@@ -106,7 +99,7 @@
 						        <p:selectOneMenu  value="#{tacheCP.selectedMail}" id="liste" >
 						        <p:ajax  />
 						            <f:selectItem itemLabel="choisir Un Utilisateur" noSelectionOption="true" />
-						            <f:selectItems value="#{tacheCP.finalListUserString}" var="user" itemLabel="#{user.user.nom} #{user.user.prenom}" itemValue="#{user.user.mail}"/>
+						            <f:selectItems value="#{tacheCP.finalListUserString}" var="user" itemLabel="#{user.user.nom} #{user.user.prenom}" itemValue="#{user.user.id}"/>
 						        </p:selectOneMenu> 
 						        
 			        			<h:outputLabel for="desc" value="Description:" />
@@ -138,37 +131,21 @@
 		<f:facet name="header">
             Listes des Taches Par Compartiment
         </f:facet>
-  		    <p:column headerText="Id">
-		        <h:outputText  value="#{VarTache.tache.id}" />
-		    </p:column>	
-		    <p:column headerText="Description">
-		        <h:outputText value="#{VarTache.tache.description}" />
-		    </p:column>		
-		      		    <p:column headerText="DateDebut">
-		        <h:outputText value="#{VarTache.tache.dateDebut}" />
-		    </p:column>	
-		    <p:column headerText="DateEcheance">
-		        <h:outputText value="#{VarTache.tache.dateEcheance}" />
-		    </p:column>	
-		     <p:column headerText="Planner_Id">
-		        <h:outputText value="#{VarTache.tache.planner.id}" />
-		    </p:column>	
-		    <p:column headerText="Compartiment_Id">
-		        <h:outputText value="#{VarTache.tache.compartiment.id}" />
-		    </p:column >			
-		    <p:column headerText="etat">
-		        <h:outputText value="#{VarTache.tache.etat}" />
-		    </p:column>	  
-		  <p:column headerText="user affecte">
-		        <h:outputText value="#{VarTache.user.mail}" />
-		    </p:column>   
-		    <p:column headerText="action">
-		       <p:commandButton  value="get" oncomplete="PF('diagModifTache').show();"  update="diagModifTache" >
+ 
+ 	
+
+		  <p:column headerText="Tache/Utilisateur ">
+		         <h:outputText value="#{VarTache.tache.description}" />
+		         <br></br>
+		         <br></br>
+ 
+		       <p:commandLink   value="#{VarTache.user.nom} #{VarTache.user.prenom}" oncomplete="PF('diagModifTache').show();"  update="diagModifTache" >
 					  <f:setPropertyActionListener target="#{tacheMangementBean.selectedTache}" value="#{VarTache.tache}"/>
-					  <f:setPropertyActionListener value="#{VarTache.user.mail}" target="#{tacheMangementBean.userTache}" />
-					  <f:setPropertyActionListener value="#{VarTache.tache.user}" target="#{tacheMangementBean.userOwner}" />
-					</p:commandButton>		
-		    </p:column>	
+					  <f:setPropertyActionListener value="#{VarTache.user.id}" target="#{tacheMangementBean.userTache}" />
+				</p:commandLink>	
+				
+		  </p:column>   
+ 
 		</p:dataTable>		 
 			</h:form>  	   
 			

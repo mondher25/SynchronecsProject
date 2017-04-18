@@ -14,7 +14,7 @@ public interface TacheDao {
 	public List<Tache> getTacheByCompartiment(Long id);
 	public List<Tache> getTacheByCompartimentAndUser(Long idCom,String mail);
 	public void removeTache(Long id);
-	public List<Tache> getAllTache(String mail);
+	public List<Tache> getAllTache(Long idUser);
 	public Tache findTacheById(Long id);
 	public void remove(Tache tache);
  }

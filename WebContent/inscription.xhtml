@@ -13,12 +13,12 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
             <meta name="apple-mobile-web-app-capable" content="yes" />
         </f:facet>
-        <title>PrimeFaces Volt</title>
+        <title>ERP ESSAT-2017</title>
         <ui:insert name="head" />
     </h:head>
 
     <h:body styleClass="BlueBody">
-        <h:form>
+        
         <p:growl id="mess"></p:growl>
         <div class="Container100">
             <div class="Container100">
@@ -53,8 +53,7 @@
 									    <p:password value="#{userBean.user.password}" />		
 									    <h:outputText value=" Password de nv :"  />
 									    <p:password />								    
- 										<h:inputHidden value="#{userBean.gradeHidden}"/>
-									    </p:panelGrid>   
+ 									    </p:panelGrid>   
 									    </p:panel>    
 									     <div class="EmptyBox10"></div>                    
                                 <p:commandButton value="crée un compte"  styleClass="GreenButton"  update="forminsc"  actionListener="#{userBean.addNewCompte()}"/>
@@ -68,7 +67,7 @@
             </div>
         </div>
 
-        </h:form>
+ 
         <h:outputStylesheet name="css/core-layout.css" library="volt-layout" />
         <h:outputStylesheet name="css/animate.css" library="volt-layout" />
         <h:outputStylesheet name="css/volt-font.css" library="volt-layout" />

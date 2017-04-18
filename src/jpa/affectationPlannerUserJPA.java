@@ -74,9 +74,9 @@ public class AffectationPlannerUserJPA implements AffectationPlannerUserDao{
 
 
 	@Override
-	public List<AffectationPlannerUser> getAllPlanner() {
+	public List<AffectationPlannerUser> getAllPlanner(Long idUser) {
 		List<AffectationPlannerUser> liste=new ArrayList<>();
-		liste=em.createQuery("SELECT a FROM AffectationPlannerUser a").getResultList();
+		liste=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE user_id=:id").setParameter("id", idUser).getResultList();
 		return liste;
 	}
 
@@ -98,6 +98,15 @@ public class AffectationPlannerUserJPA implements AffectationPlannerUserDao{
 	public User getUserByMailId(String mail) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+
+	@Override
+	public List<AffectationPlannerUser> listPlannerByAffectationAndId(Long id) {
+		List<AffectationPlannerUser> listPlanner=new ArrayList<>();
+		listPlanner=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE user_id=:user ").setParameter("user", id).getResultList();
+		return listPlanner;
 	}
 
 

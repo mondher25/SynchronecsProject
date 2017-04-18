@@ -9,7 +9,7 @@ import javax.ejb.EJB;
 
 import dao.CompartimentAffPlannerUserDao;
 import dao.CompartimentDao;
-import dao.CompteDao;
+ 
 
 import dao.PlannerDao;
 import dao.TacheDao;
@@ -18,7 +18,7 @@ import dao.UserDao;
 import entities.AffectationPlannerUser;
 import entities.Compartiment;
 import entities.CompartimentAffPlannerUser;
-import entities.Compte;
+ 
 import entities.Planner;
 import entities.Tache;
 import entities.TacheUPC;
@@ -69,7 +69,7 @@ public class TacheMangementBean implements Serializable {
 	private Tache selectedTache;
 	private TacheUPC tacheUPCa =new TacheUPC();
 	private Tache updateTache;
-
+	private User logedUser =new User();
 	  
 	
 
@@ -87,7 +87,7 @@ public class TacheMangementBean implements Serializable {
 	private String idTache;
 	private String userRendered;
 	private String userTache;
-	private User userOwner;
+	 
 	 
 	
 	
@@ -95,19 +95,16 @@ public class TacheMangementBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		System.out.println("inti start tacheManagement");
-		mail = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("mail");
-		grade = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("grade");
-
-		FacesContext fc = FacesContext.getCurrentInstance();
-		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
-		idp = params.get("idp");
-		System.out.println("init idplanner= " + idp);
-		connectedUser = userDao.getUserByMailId(mail);
-		userRendered=connectedUser.getMail();		
-		System.out.println("user  userRendered : " +userRendered);
+		logedUser = (User)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("logedUser");
 		 
-		
-		
+//
+//		FacesContext fc = FacesContext.getCurrentInstance();
+//		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
+//		idp = params.get("idp");
+	 
+		userRendered=logedUser.getId().toString();		
+		System.out.println("user  userRendered : " +userRendered);
+		System.out.println("user  userTache : " +userTache);
 
 	}
 	
@@ -123,10 +120,12 @@ public class TacheMangementBean implements Serializable {
 		
 	}
 	
+//	|| logedUser.getMail().equalsIgnoreCase(userRendered)
+	
 	public boolean rendered(){
 		boolean display ;
-		if(userRendered.equalsIgnoreCase(userTache) || connectedUser.getGrade().equalsIgnoreCase("admin") || connectedUser.getMail().equalsIgnoreCase(userRendered) ){
-			 System.out.println("start rendreded ... userOwner"+userOwner);
+		if(userRendered.equalsIgnoreCase(userTache) || logedUser.getGrade().equalsIgnoreCase("admin")){
+			 
 			return display=true;
 			
 		}else
@@ -373,18 +372,6 @@ public class TacheMangementBean implements Serializable {
 		this.userRendered = userRendered;
 	}
 
-	public User getUserOwner() {
-		 
-		return userOwner;
-	}
-
-	public void setUserOwner(User userOwner) {
-		this.userOwner = userOwner;
-	}
-
-
-
-
 	public Tache getUpdateTache() {
 		return updateTache;
 	}
@@ -394,6 +381,20 @@ public class TacheMangementBean implements Serializable {
 
 	public void setUpdateTache(Tache updateTache) {
 		this.updateTache = updateTache;
+	}
+
+
+
+
+	public User getLogedUser() {
+		return logedUser;
+	}
+
+
+
+
+	public void setLogedUser(User logedUser) {
+		this.logedUser = logedUser;
 	}
  
 

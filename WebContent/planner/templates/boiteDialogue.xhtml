@@ -8,10 +8,11 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:b="http://bootsfaces.net/ui">
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:c="http://java.sun.com/jstl/core">
 
 
-<p:dialog id="diagAddPlanner" widgetVar="diagAddPlanner" >
+<p:dialog id="diagAddPlanner" widgetVar="diagAddPlanner" modal="true"    hideEffect="clip" width="700px" height="500px">
 	<h:form id="formAddPlanner">
 	  
 		<p:inputText value="#{plan.planner.namePlanner}" placeholder="Nom de Planner" required="true" />
@@ -28,7 +29,7 @@
 	        <p:inputSwitch value="#{plan.planner.etat}" />	
 	               
   	        <div class="EmptyBox10"></div>
-	         <h:outputLabel value="Affecté à : " for="clientMail" />
+	         <h:outputLabel value="Membre : " for="clientMail" />
                 <p:autoComplete id="clientMail"
                			  
                         value="#{plan.finalListUserString}"   
@@ -48,22 +49,22 @@
 		<!-- BOITE DE DIALOGUE -->
 			
 			
-			<p:dialog id="diagModifTache" widgetVar="diagModifTache"  showEffect="clip" hideEffect="clip" >
+			<p:dialog id="diagModifTache" widgetVar="diagModifTache"  showEffect="clip" hideEffect="clip" modal="true" width="700px" height="500px">
 			 
 				<h:form id="formModifTache">
 				<h3>Edite Tache</h3>
 				 <h:panelGrid id="eventDetails" columns="2">
 						    <!--  calendar date Debut -->
 						    <p:outputLabel for="popup" value="date Debut:" />
-			        		<p:calendar id="popup" value="#{tacheMangementBean.selectedTache.dateDebut}"  />
+			        	 	<p:calendar id="popup" value="#{tacheMangementBean.selectedTache.dateDebut}" disabled="true"  />
 			    	 
 					      <!--  calendar date  écheance -->
 					        <p:outputLabel for="popup1" value="date D'écheance" />
-			        		<p:calendar id="popup1" value="#{tacheMangementBean.selectedTache.dateEcheance}"   />   
+			        	 	<p:calendar id="popup1" value="#{tacheMangementBean.selectedTache.dateEcheance}"   />   
 					 
 			        		        <p:outputLabel for="console" value="Etat" />
 							        <p:selectOneMenu id="console" value="#{tacheMangementBean.selectedTache.etat}" style="width:125px">
-							            <f:selectItem itemLabel="non-commencé" itemValue="non-commencé" />
+							            <f:selectItem itemLabel="non-commencé" itemValue="non-commencé" itemDisabled="true" />
 							            <f:selectItem itemLabel="en cours" itemValue="en cours" />
 							            <f:selectItem itemLabel="Terminé" itemValue="Terminé" />
 							   </p:selectOneMenu>		   			    									   			        
@@ -77,9 +78,45 @@
 				</h:form>	
 			</p:dialog>
 
+<!--  INSCRIPTION -->
 
 
-
+<p:dialog id="diagInscrit" widgetVar="diagInscrit" modal="true" width="700px" height="500px">
+	<h:form id="formInscrit">
+	  
+	  
+	  
+	  
+	    
+                  
+                                 
+									 <p:panelGrid columns="2">
+								 
+									 
+									    <h:outputText value="Nom:" />
+									    <p:inputText value="#{userBean.user.nom}"/>
+									    <h:outputText value="Prenom:" />
+									    <p:inputText value="#{userBean.user.prenom}" />
+									    <h:outputText value="Nom de la Société:" />
+									    <p:inputText  value="#{userBean.user.nomSociete}" />
+									    <h:outputText value=" Adresse E-mail:" />
+									    <p:inputText placeholder="exemple@exemple.com" value="#{userBean.user.mail}" />
+									    <h:outputText value=" Adresse E-mail de nv:" />
+									    <p:inputText placeholder="exemple@exemple.com"  />
+									    <h:outputText value=" password:"  />
+									    <p:password value="#{userBean.user.password}" />		
+									    <h:outputText value=" Password de nv :"  />
+									    <p:password />								    
+ 									    </p:panelGrid>   
+									     
+									                
+                                  
+ 	  
+	  
+		 
+<p:commandButton value="Valider"  actionListener="#{userBean.addNewCompte()}"  oncomplete="PF('diagInscrit').hide()"   />
+	</h:form>	
+</p:dialog>
 
 
 

@@ -40,7 +40,7 @@ public class Tache {
 	private Planner planner;
 	
 	@OneToOne
-	@JoinColumn(name="user_mail_id")
+	@JoinColumn(name="user_id")
 	private User user;
 	
  
