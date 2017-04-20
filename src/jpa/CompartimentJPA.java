@@ -57,4 +57,17 @@ public class CompartimentJPA implements CompartimentDao {
 		em.remove(em.merge(com));
 		
 	}
+
+	@Override
+	public void deletePlannerCompartiment(Long id) {
+		if(id !=null)
+		em.createNativeQuery("DELETE FROM Compartiment WHERE planner_id=:id").setParameter("id", id).executeUpdate();
+		
+	}
+
+	@Override
+	public void updateCompartiment(Compartiment c) {
+		em.merge(c);
+		
+	}
 }

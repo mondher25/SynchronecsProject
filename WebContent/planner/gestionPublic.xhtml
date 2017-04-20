@@ -4,7 +4,8 @@
       xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
 
 <ui:composition template="templates/layout.xhtml"
@@ -20,33 +21,53 @@
 	
 	<ui:define  name="option" >
 
-<div class="ui-g">
+ 
 	
-	<div class="ui-g-6" >
+	<div >
+	<h1 > Mes Taches</h1>
+	 <hr style="margin-bottom:40px;"></hr>
 	<h:form id="paneuserg" >
  
                          
                             <div class=" TexAlCenter"  >
                             <p:panel id="panel" >
                                
-                                <h3 > Mes Taches</h3>
+                                
                                 <div class="EmptyBox10"></div>
-              						<p:dataTable var="ges" value="#{gestionBean.listeAllTache()}">
-									    <p:column headerText="Id">
-									        <h:outputText value="#{ges.id}" />
-									    </p:column>
+              						<p:dataTable var="ges" value="#{gestionBean.listeAllTache()}" editable="true" editMode="cell">
+   									    <p:column headerText="date de debut">
+									  	<p:cellEditor>
+							                  <f:facet name="output"><h:outputText value="#{ges.dateDebut}" /></f:facet>
+							                  <f:facet name="input"><p:calendar id="modelInput" value="#{ges.dateDebut}" style="width:80%"/></f:facet>
+							             </p:cellEditor>
+									                
+									       </p:column>
 									 
 									    <p:column headerText="etat">
-									        <h:outputText value="#{ges.etat}" />
+									    <p:cellEditor>
+							                  <f:facet name="output"><h:outputText value="#{ges.etat}" /></f:facet>
+							                  <f:facet name="input">
+									 <p:selectOneMenu id="console"  style="width:60%" value="#{ges.etat}" >
+										<f:selectItem itemLabel="non-commencé" itemValue="Activité" />
+										 <f:selectItem itemLabel="en cours" itemValue="Projet" />
+										<f:selectItem itemLabel="terminé" itemValue="Evenement" />												            
+									 </p:selectOneMenu> 
+									 		</f:facet>
+									 		 </p:cellEditor>
+									    
+ 
+									        
 									    </p:column>
 									 
-									    <p:column headerText="userGrade">
-									        <h:outputText value="#{ges.user.grade}" />
-									    </p:column>
+									    <p:column headerText="description">
+									    <p:cellEditor>
+									    	<f:facet name="output"><h:outputText  value="#{ges.description}" /></f:facet>
+             								<f:facet name="input"><p:inputText  value="#{ges.description}" style="width:80%" label="description"/></f:facet>
+									    </p:cellEditor>
 									 
-									    <p:column headerText="user_mail_id">
-									        <h:outputText value="#{ges.user.id}" />
-									    </p:column>
+									    </p:column>									 
+ 
+ 
 									    <p:column headerText="Action">
 									         <p:commandButton value="Supprimer" action="#{gestionBean.supprimer}"  >
     									           <p:confirm header="Confirmation" message="Voulez-vous vraiment supprimer cette tache" icon="ui-icon-alert"  />
@@ -70,7 +91,10 @@
         </h:form>                
                         
     </div>
-    <div class="ui-g-6">
+  <hr style="margin-top:30px"></hr>
+  <h1 > Mes Compartiments</h1>
+   <hr style="margin-bottom:40px;"></hr>
+    <div >
     
     <h:form id="paneuserge" >
  
@@ -78,15 +102,17 @@
                             <div class=" TexAlCenter"  >
                             <p:panel id="panelcomp" >
                                
-                                <h3 > Mes Compartiments</h3>
+                               
                                 <div class="EmptyBox10"></div>
-              						<p:dataTable var="cm" value="#{gestionBean.listeAllCompartiment()}">
-									    <p:column headerText="Id">
-									        <h:outputText value="#{cm.id}" />
-									    </p:column>
-									 
+              						<p:dataTable var="cm" value="#{gestionBean.listeAllCompartiment()}" editable="true" editMode="cell">
+ 
+									 <p:ajax event="cellEdit" listener="#{gestionBean.onCellEditCom}"  />
 									    <p:column headerText="nom">
-									        <h:outputText value="#{cm.nomCompartiment}" />
+									    <p:cellEditor>
+									    	<f:facet name="output"><h:outputText  value="#{cm.nomCompartiment}" /></f:facet>
+             								<f:facet name="input"><p:inputText  value="#{cm.nomCompartiment}" style="width:80%" label="nomCom"/></f:facet>
+									    </p:cellEditor>
+									         
 									    </p:column>
 									 
  
@@ -114,6 +140,67 @@
         </h:form>                
     
     </div>
+  
+    
+    <hr style="margin-top:30px"></hr>
+ 	   <h1 > Mes Planner</h1>
+    <hr style="margin-bottom:40px;"></hr>
+        <div >
+    
+    <h:form id="paneuserges" >
+ 
+                         
+                            <div class=" TexAlCenter"  >
+                            <p:panel id="panelpla" >
+                               
+                             
+                                <div class="EmptyBox10"></div>
+              						<p:dataTable var="pla" value="#{gestionBean.listeAllPlanner()}" editable="true" editMode="cell" >
+ 
+									    <p:column headerText="nom">
+									  	<p:cellEditor>
+							                  <f:facet name="output"><h:outputText value="#{pla.namePlanner}" /></f:facet>
+							                  <f:facet name="input"><p:inputText id="modelInput" value="#{pla.namePlanner}" style="width:80%"/></f:facet>
+							             </p:cellEditor>
+									                
+									       
+									    </p:column>
+									 <p:column headerText="Type">
+									<p:cellEditor>
+							                  <f:facet name="output"><h:outputText value="#{pla.type}" /></f:facet>
+							                  <f:facet name="input">
+									 <p:selectOneMenu id="console"  style="width:60%" value="#{pla.type}" >
+										<f:selectItem itemLabel="Activité" itemValue="Activité" />
+										 <f:selectItem itemLabel="Projet" itemValue="Projet" />
+										<f:selectItem itemLabel="Evenement" itemValue="Evenement" />												            
+									 </p:selectOneMenu> 
+									 		</f:facet>
+									 		 </p:cellEditor>
+									    </p:column>
+ 
+ 
+									    <p:column headerText="Action">
+									         <p:commandButton value="Supprimer" action="#{gestionBean.supprimerPlanner}"  >
+    									           <p:confirm header="Confirmation" message="Voulez-vous vraiment supprimer cette Planner" icon="ui-icon-alert"  />
+  											     <f:setPropertyActionListener target="#{gestionBean.deletedPlanner}" value="#{pla}"/>
+										     </p:commandButton>	
+ 										     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+									             <p:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update="panelpla"   />
+									           <p:commandButton value="Annuler" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+									         </p:confirmDialog>  
+									    </p:column>
+									</p:dataTable>
+                                 <div class="EmptyBox10"></div>
+                               
+             </p:panel>
+                            
+                                  
+                            </div>
+                        
+                   
+                       
+        </h:form>                
+    
     </div>
     </ui:define>
 	</ui:composition>

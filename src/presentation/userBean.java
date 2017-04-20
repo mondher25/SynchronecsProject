@@ -72,6 +72,7 @@ public class userBean {
 	}
 	
 	
+	
 	//Getter and Setter
 	public UserDao getUserDao() {
 		return userDao;

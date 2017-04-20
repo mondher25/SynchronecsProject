@@ -65,7 +65,22 @@ public class TacheJPA implements TacheDao {
 
 	@Override
 	public void remove(Tache tache) {
+		
 		entityManager.remove(entityManager.merge(tache));
+		
+	}
+
+	@Override
+	public void removeCompa(Long id) {
+		if (id != null)
+		entityManager.createNativeQuery("DELETE FROM Tache  WHERE compartiment_id=:id").setParameter("id", id).executeUpdate();
+		
+	}
+
+	@Override
+	public void deletePlannerTache(Long id) {
+		if (id!=null)
+		entityManager.createNativeQuery("DELETE FROM Tache WHERE planner_id=:id" ).setParameter("id", id).executeUpdate();
 		
 	}
 

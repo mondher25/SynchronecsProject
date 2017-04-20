@@ -96,6 +96,14 @@ public class LoginBean implements Serializable{
 		System.out.println("End add User");
 	}
 	
+	public boolean DisplayInsc(){
+		boolean display=false;
+		if(userDao.getUserByGrade()!=null){
+			return display;
+		}else
+			return display=true;
+	}
+	
 	public String logout(){
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession(); 
 			return "/faces/login.xhtml?faces-redirect=true";

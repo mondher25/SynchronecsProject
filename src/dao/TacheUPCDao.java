@@ -16,6 +16,8 @@ public interface TacheUPCDao {
 	public List<TacheUPC> getTacheById(Long idTache);
 	public TacheUPC findTacheUPCById(Long id);
 	public void delete(Long id);
+	public void deleteComp(Long id);
+	public void deletePlannerAffTacheUPC(Long id);
 	
 	 
 }

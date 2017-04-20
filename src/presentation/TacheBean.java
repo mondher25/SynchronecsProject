@@ -2,7 +2,7 @@ package presentation;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
+ 
 import javax.faces.context.FacesContext;
 
  
@@ -66,7 +66,7 @@ public class TacheBean implements Serializable {
 	private String selectedMail;
 	private User connectedUser;
 	private CompartimentAffPlannerUser selctedCAPU;
-	private List<CompartimentAffPlannerUser> finalListUserString ;
+	private List<CompartimentAffPlannerUser> finalListUserString =new ArrayList<>() ;
 	private TacheUPC tacheUPCa =new TacheUPC();
 	private User logedUser;  
 	
@@ -339,6 +339,7 @@ public class TacheBean implements Serializable {
 	}
 
 	public List<CompartimentAffPlannerUser> getFinalListUserString() {
+		
 		if (logedUser.getGrade().equalsIgnoreCase("admin"))
 		{
 			finalListUserString=compartimentAffPlannerUserDao.getUserByPlannerAndComAff(selectedPlanner().getId(),

@@ -72,6 +72,20 @@ public List<User> getUser() {
 	return listAllUser;
 }
 
+@Override
+public User getUserByGrade(){
+	 String grade="admin";
+	User user=null;
+	try{
+		user=(User)em.createQuery("SELECT u FROM User u WHERE grade=:grade").setParameter("grade", grade).getSingleResult();
+		
+	}catch(Exception e){
+		return user;
+	}
+	return user;
+	 
+}
+
  
 
 

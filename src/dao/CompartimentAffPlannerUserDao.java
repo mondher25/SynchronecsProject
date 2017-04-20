@@ -15,5 +15,5 @@ public interface CompartimentAffPlannerUserDao {
 	public List<String> getUserById(String mail);
 	public List<CompartimentAffPlannerUser> getAllCompartiment(Long idUser,Long idp);
 	public void deletComp(Long idCom);
-
+	public void deletePlannerAffComp(Long id);
 }

@@ -15,4 +15,5 @@ public interface UserDao {
  	public User getUserById(Long id); 
 	public List<User> ListeUserAffTache(String mail,String grade);
 	public List<User> getUser();
+	public User getUserByGrade();
 }

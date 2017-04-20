@@ -53,8 +53,22 @@ public List<Planner> getAllPlannerByMailAndnomSociete(String mail, String nomSoc
 	listePlanner=entityManager.createQuery("SELECT p FROM Planner p WHERE user_mail_id=:mail AND nomSociete=:nomSociete").setParameter("mail", mail).setParameter("nomSociete", nomSociete).getResultList();
 	return listePlanner;
 }
+
+@Override
+public List<Planner> getAllPlannerById(Long id) {
+	List <Planner> listePlanner=new ArrayList<>();
+	listePlanner=entityManager.createQuery("SELECT p FROM Planner p WHERE user_id= :id ").setParameter("id", id).getResultList();
+	return listePlanner;
+}
+
+@Override
+public void remove(Planner planner) {
+	entityManager.remove(entityManager.merge(planner));
+	
+}
+}
   
 
  
 
-}
+

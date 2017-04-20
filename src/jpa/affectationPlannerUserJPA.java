@@ -111,6 +111,15 @@ public class AffectationPlannerUserJPA implements AffectationPlannerUserDao{
 
 
 
+	@Override
+	public void deletePlannerAffUser(Long id) {
+		if (id != null)
+		em.createNativeQuery("DELETE FROM AffectationPlannerUser WHERE planner_id=:id" ).setParameter("id", id).executeUpdate();
+		
+	}
+
+
+
  
 
 

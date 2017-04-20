@@ -50,7 +50,7 @@ public class PlanBean implements Serializable{
 	private List<User> listeUser =new ArrayList<>();
 	
 	private List<User> finalListUserObject =new ArrayList<>();
-	private List<String> finalListUserString =new ArrayList<>();
+	private List<String> finalListUserString;
  
 	 
 	private String nom;	
@@ -71,10 +71,6 @@ public class PlanBean implements Serializable{
 	
 //	Iterator<User> it=finalListUserObject.listIterator();
 	 
-	
-
-	
-	
 
 	@PostConstruct
 	public void Init(){
@@ -133,6 +129,7 @@ public class PlanBean implements Serializable{
 		affectationPlannerUserDao.addAff(affectationPlannerUser1);
 
 		if (planner.isEtat() == false) {
+			finalListUserString= new ArrayList<>();
 			for(String u :finalListUserString){
 				
 			 

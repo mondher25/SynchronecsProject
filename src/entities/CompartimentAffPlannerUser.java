@@ -1,5 +1,6 @@
 package entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +20,7 @@ public class CompartimentAffPlannerUser {
 	@JoinColumn(name="compartiment_id")
 	private Compartiment compartiment;
 	
-	@OneToOne
+	@OneToOne 
 	@JoinColumn(name="planner_id")
 	private Planner planner;
 	

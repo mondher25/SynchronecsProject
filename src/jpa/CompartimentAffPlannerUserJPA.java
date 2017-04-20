@@ -56,7 +56,15 @@ public class CompartimentAffPlannerUserJPA implements CompartimentAffPlannerUser
 
 	@Override
 	public void deletComp(Long idCom) {
+		if (idCom != null)
 		em.createNativeQuery("DELETE FROM CompartimentAffPlannerUser WHERE compartiment_id=:id").setParameter("id", idCom).executeUpdate();
+		
+	}
+
+	@Override
+	public void deletePlannerAffComp(Long id) {
+		if(id != null)
+		em.createNativeQuery("DELETE FROM CompartimentAffPlannerUser WHERE planner_id=:id").setParameter("id", id).executeUpdate();
 		
 	}
 

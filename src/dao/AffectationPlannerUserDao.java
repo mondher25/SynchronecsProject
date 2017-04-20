@@ -21,4 +21,5 @@ public List<AffectationPlannerUser> listPlannerByAffectationAndId(Long  id);
 public List<AffectationPlannerUser> getAllPlanner(Long idUser);
 public List<AffectationPlannerUser> getUserByPlannerAff(Long idp);
 public User getUserByMailId(String mail);
+public void deletePlannerAffUser(Long id);
 }

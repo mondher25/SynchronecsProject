@@ -76,6 +76,24 @@ public class TacheUPCJPA implements TacheUPCDao {
 
 
 
+	@Override
+	public void deleteComp(Long id) {
+		if( id != null)
+		em.createNativeQuery("DELETE FROM TacheUPC  WHERE compartiment_id=:id").setParameter("id", id).executeUpdate();
+		
+	}
+
+
+
+	@Override
+	public void deletePlannerAffTacheUPC(Long id) {
+		if (id !=null)
+		em.createNativeQuery("DELETE FROM TacheUPC WHERE planner_id=:id" ).setParameter("id", id).executeUpdate();
+		
+	}
+
+
+
 //	@Override
 //	public List<TacheUPC> getAllTache() {
 //		List<TacheUPC> liste=new ArrayList<>();

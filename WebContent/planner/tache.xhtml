@@ -92,14 +92,14 @@
 							        <p:selectOneMenu id="console" value="#{tacheCP.newTache.etat}" style="width:125px">
 							            <f:selectItem itemLabel="non-commencé" itemValue="non-commencé" />
 							            <f:selectItem itemLabel="en cours" itemValue="en cours" />
-							            <f:selectItem itemLabel="Terminé" itemValue="Terminé" />
+							            <f:selectItem itemLabel="terminé" itemValue="Terminé" />
 							   </p:selectOneMenu>
  						   <p:outputLabel  value="Ajout User : " for="liste" />
 						       
 						        <p:selectOneMenu  value="#{tacheCP.selectedMail}" id="liste" >
 						        <p:ajax  />
-						            <f:selectItem itemLabel="choisir Un Utilisateur" noSelectionOption="true" />
-						            <f:selectItems value="#{tacheCP.finalListUserString}" var="user" itemLabel="#{user.user.nom} #{user.user.prenom}" itemValue="#{user.user.id}"/>
+<!-- 						            <f:selectItem itemLabel="choisir Un Utilisateur" noSelectionOption="true" itemDisabled="true" />
+ -->						            <f:selectItems value="#{tacheCP.finalListUserString}" var="user" itemLabel="#{user.user.nom} #{user.user.prenom}" itemValue="#{user.user.id}"/>
 						        </p:selectOneMenu> 
 						        
 			        			<h:outputLabel for="desc" value="Description:" />

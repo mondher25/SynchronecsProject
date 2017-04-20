@@ -18,4 +18,6 @@ public interface PlannerDao {
 	public Planner getPlannerById(Long id);
 	public List<Planner> getAllPlannerByMailId(String mail);
 	public List<Planner> getAllPlannerByMailAndnomSociete (String mail,String nomSociete);
+	public List<Planner> getAllPlannerById(Long id);
+	public void remove(Planner planner);
 }
