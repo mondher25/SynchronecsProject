@@ -36,6 +36,7 @@ public class TacheUPC {
  
  private String etat;
  
+ private String comment; 
  // SEtter and Getter
 
 public Long getId() {
@@ -85,6 +86,15 @@ public String getEtat() {
 public void setEtat(String etat) {
 	this.etat = etat;
 }
+
+public String getComment() {
+	return comment;
+}
+
+public void setComment(String comment) {
+	this.comment = comment;
+}
+
  
  
 

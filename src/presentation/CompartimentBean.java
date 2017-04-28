@@ -151,7 +151,6 @@ public class CompartimentBean implements Serializable {
 
 //		}
 		
-		 
 		
 		comp = new Compartiment();
 		System.out.println("end add compartiment");

@@ -10,6 +10,7 @@ import javax.faces.context.FacesContext;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 
+import dao.CommentDao;
 import dao.CompartimentAffPlannerUserDao;
 import dao.CompartimentDao;
  
@@ -17,7 +18,7 @@ import dao.PlannerDao;
 import dao.TacheDao;
 import dao.TacheUPCDao;
 import dao.UserDao;
- 
+import entities.Comment;
 import entities.Compartiment;
 import entities.CompartimentAffPlannerUser;
  import entities.Planner;
@@ -53,23 +54,29 @@ public class TacheBean implements Serializable {
 	private UserDao userDao;
 
 	@EJB
-	CompartimentAffPlannerUserDao compartimentAffPlannerUserDao;
+	private CompartimentAffPlannerUserDao compartimentAffPlannerUserDao;
 	
 	@EJB
-	TacheUPCDao tacheUPCDao;
+	private TacheUPCDao tacheUPCDao;
+	
+	@EJB
+	private CommentDao commentDao;	
+
+	
 
 	private Tache newTache = new Tache();
 	private Compartiment compart = new Compartiment();
-	private Planner planner = new Planner();;
+	private Planner planner = new Planner();
+	private Comment comment=new Comment();
 	private Planner selplan;
 	private Compartiment selComp;
 	private String selectedMail;
 	private User connectedUser;
 	private CompartimentAffPlannerUser selctedCAPU;
-	private List<CompartimentAffPlannerUser> finalListUserString =new ArrayList<>() ;
+	private List<CompartimentAffPlannerUser> finalListUserString =null;
 	private TacheUPC tacheUPCa =new TacheUPC();
 	private User logedUser;  
-	
+	private Tache selectedTache;
 
 
 	private Date dateDebut;
@@ -81,7 +88,7 @@ public class TacheBean implements Serializable {
 	private String idCom;
 	private String grade;
 	private String idTache;
-
+	private String commentText;
 	
 	
 	
@@ -160,14 +167,18 @@ public class TacheBean implements Serializable {
 
 		System.out.println("end add tache");
 	}
+	
+ 
+ 
 
 	public List<TacheUPC> listeTacheByComparAndComp() {
+		System.out.println("-------------START Liste tacheByCompartiment----------");
 		List<TacheUPC> listeTacheCmCp = new ArrayList<>();
 		selectedPlanner();
 		selectedCompartiment();
 		listeTacheCmCp = tacheUPCDao.getTacheByPlannerCompartiment(selectedPlanner().getId(), selectedCompartiment().getId());
 		System.out.println("idCom = " + idCom);
-		System.out.println("end Liste tacheByCompartiment");
+		System.out.println("-----------------end Liste tacheByCompartiment---------");
 		return listeTacheCmCp;
 	}
 
@@ -392,6 +403,46 @@ public class TacheBean implements Serializable {
 
 	public void setTacheUPCa(TacheUPC tacheUPCa) {
 		this.tacheUPCa = tacheUPCa;
+	}
+
+	public CommentDao getCommentDao() {
+		return commentDao;
+	}
+
+	public void setCommentDao(CommentDao commentDao) {
+		this.commentDao = commentDao;
+	}
+
+	public Comment getComment() {
+		return comment;
+	}
+
+	public void setComment(Comment comment) {
+		this.comment = comment;
+	}
+
+	public User getLogedUser() {
+		return logedUser;
+	}
+
+	public void setLogedUser(User logedUser) {
+		this.logedUser = logedUser;
+	}
+
+	public Tache getSelectedTache() {
+		return selectedTache;
+	}
+
+	public void setSelectedTache(Tache selectedTache) {
+		this.selectedTache = selectedTache;
+	}
+
+	public String getCommentText() {
+		return commentText;
+	}
+
+	public void setCommentText(String commentText) {
+		this.commentText = commentText;
 	}
 
  

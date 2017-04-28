@@ -16,4 +16,5 @@ public interface UserDao {
 	public List<User> ListeUserAffTache(String mail,String grade);
 	public List<User> getUser();
 	public User getUserByGrade();
+	public void updateCompteUser(User u);
 }

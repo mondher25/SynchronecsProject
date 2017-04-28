@@ -1,19 +1,23 @@
 package presentation;
 
 import java.io.Serializable;
+ 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.event.Event;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
- 
- 
+import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
+ 
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 
 import dao.AffectationPlannerUserDao;
 import dao.CompartimentAffPlannerUserDao;
@@ -29,7 +33,7 @@ import entities.TacheUPC;
 import entities.User;
 
 @ManagedBean(name="gestionBean")
-@ViewScoped
+@SessionScoped
 public class GestionBean implements Serializable {
 			
 	/**
@@ -60,31 +64,42 @@ public class GestionBean implements Serializable {
 	
 	
 	private User connectedUser;
-	private Tache tache;
+ 
 	private Tache deletedTache;
 	private Compartiment deletedCompartiment;
 	private Planner deletedPlanner;
+	
 	private TacheUPC tacheUPC;
 	private Tache delTache;
 	private User logedUser=new User();
-	private Compartiment compartiment =new Compartiment();
+	
+	private Compartiment compartiment=new Compartiment();
+	private Planner planner=new Planner();
+	private Tache tache=new Tache();
+	
+	private Compartiment seleComp;
+	private Planner selectedPlanner;
+ 	private Tache seleTache;
 	
 	private String mail;
 	private String grade;	
 	private String nom;
-	private Long id;
-	
-	
+	private String id;
+	private String nomCompartiment;
+	private String namePlanner;
+	private Long idHidden;
+	private String type;
+	private String description;
+	private String etat;
+	private Date dateDebut;
+	private Date dateEcheance;
+ 
 	@PostConstruct
 	public void init(){
 		
 		System.out.println(" -- - --- --- -GestionBean Start- --- --- ");
 		logedUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("logedUser");
  
-		 
-	 
- 
-		
 	}
 	
 	// liste Tache by id user
@@ -118,8 +133,7 @@ public class GestionBean implements Serializable {
     public void supprimer() {
     	System.out.println("----start supprimer Tache-----");
     	tacheDao.remove(deletedTache);
-    	System.out.println("end supprimer Tache");
-    	 
+    	System.out.println("end supprimer Tache");    	 
         System.out.println("--- start supprimer TacheUPC ----- ");
     	   tacheUPCDao.delete( deletedTache.getId()); 
     	System.out.println("end supprimer TacheUPC");
@@ -140,9 +154,7 @@ public class GestionBean implements Serializable {
     	tacheDao.removeCompa(deletedCompartiment.getId());
     	
     	tacheUPCDao.deleteComp(deletedCompartiment.getId());
-    	
-    	System.out.println("end supprimer Compartiment");
-    	
+    	 
     	System.out.println("----end supprimer Compartiment-----");
     	
     }
@@ -150,7 +162,7 @@ public class GestionBean implements Serializable {
  // supprimer Planner
      
 public void supprimerPlanner(){
-	System.out.println("----start supprimer Planner-----");
+	System.out.println("---- start supprimer Planner -----");
 	
 		plannerDao.remove(deletedPlanner);
 		
@@ -171,17 +183,85 @@ public void supprimerPlanner(){
 }
 
 
-public void onCellEditCom(CellEditEvent  event){
-	System.out.println("start update");
-	Compartiment c=new Compartiment();
+
+
+
+///////////////EDIT Compartiment
+
+ 
+public void updateCom() {
+	
+	System.out.println("start update compartiment");
+ 
 	 
-	Object newValue=event.getNewValue();
-	Object oldValue=event.getOldValue();
-	c.setNomCompartiment(oldValue.toString());
-	compartimentDao.updateCompartiment(c);
-	System.out.println(oldValue.toString());
-	System.out.println("end update");
+	 compartimentDao.updateCompartiment(seleComp);
+//          
+     System.out.println("end update Compartiment");
 }
+ 
+ 
+//public void onRowEdit(RowEditEvent event) {
+//	System.out.println("start update compartiment");
+//	Compartiment cp=(Compartiment)event.getObject();
+//	 compartimentDao.updateCompartiment((Compartiment)event.getObject());
+//	 System.out.println("end update Compartiment");
+//	 
+// 
+//}
+//
+//public void onRowCancel(RowEditEvent event) {
+// 
+//}
+ 
+
+
+
+///////////////EDIT Planner
+
+
+
+public void updatePlanner() {
+	System.out.println("start update planner");
+	
+	plannerDao.updatePlanner( selectedPlanner);      
+   
+     
+     System.out.println("end update planner");
+}
+ 
+ 
+
+
+
+///////////////EDIT Tache
+ 
+
+
+
+	public void updateTache(){
+	System.out.println("start update Tache");
+	 
+ 
+	tacheDao.updateTache(seleTache);
+ 
+	 
+	
+	System.out.println("end update Tache");
+	}
+	
+//	public void onRowEditTache(RowEditEvent event) {
+//		System.out.println("start update Tache");
+//		tacheDao.updateTache((Tache)event.getObject());		 
+//		System.out.println("end update Tache");
+//		
+//		
+//	}
+//	 
+//	public void onRowCancelTache(RowEditEvent event) {
+//		 
+//	}
+	 
+ 
 	//Getter And Setter---------------------------------------------->	
 	
 	public TacheDao getTacheDao() {
@@ -243,10 +323,10 @@ public void onCellEditCom(CellEditEvent  event){
 	public void setDeletedTache(Tache deletedTache) {
 		this.deletedTache = deletedTache;
 	}
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -350,6 +430,115 @@ public void onCellEditCom(CellEditEvent  event){
 		this.compartiment = compartiment;
 	}
 
+	public String getNomCompartiment() {
+		return nomCompartiment;
+	}
+
+	public void setNomCompartiment(String nomCompartiment) {
+		this.nomCompartiment = nomCompartiment;
+	}
+
+	public Long getIdHidden() {
+		return idHidden;
+	}
+
+	public void setIdHidden(Long idHidden) {
+		this.idHidden = idHidden;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+ 
+ 
+
+	public Compartiment getSeleComp() {
+		return seleComp;
+	}
+
+	public void setSeleComp(Compartiment seleComp) {
+		this.seleComp = seleComp;
+	}
+
+	public String getNamePlanner() {
+		return namePlanner;
+	}
+
+	public void setNamePlanner(String namePlanner) {
+		this.namePlanner = namePlanner;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Planner getSelectedPlanner() {
+		return selectedPlanner;
+	}
+
+	public void setSelectedPlanner(Planner selectedPlanner) {
+		this.selectedPlanner = selectedPlanner;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getEtat() {
+		return etat;
+	}
+
+	public void setEtat(String etat) {
+		this.etat = etat;
+	}
+
+ 
+	public Date getDateDebut() {
+		return dateDebut;
+	}
+
+	public void setDateDebut(Date dateDebut) {
+		this.dateDebut = dateDebut;
+	}
+
+	public Planner getPlanner() {
+		return planner;
+	}
+
+	public void setPlanner(Planner planner) {
+		this.planner = planner;
+	}
+
+	public Date getDateEcheance() {
+		return dateEcheance;
+	}
+
+	public void setDateEcheance(Date dateEcheance) {
+		this.dateEcheance = dateEcheance;
+	}
+
+	public Tache getSeleTache() {
+		return seleTache;
+	}
+
+	public void setSeleTache(Tache seleTache) {
+		this.seleTache = seleTache;
+	}
+
+ 
+
+ 
+ 
+ 
  
 	
 	

@@ -86,6 +86,12 @@ public User getUserByGrade(){
 	 
 }
 
+@Override
+public void updateCompteUser(User u) {
+	em.merge(u);
+	
+}
+
  
 
 

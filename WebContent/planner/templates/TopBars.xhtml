@@ -67,14 +67,9 @@
 						<p:graphicImage id="imgpro" name="images/avatar1.svg" library="volt-layout" style="width:40px; height:40px;cursor: pointer;" />
 						<p:growl id="forRightbarrMess"></p:growl>
 				         <p:menu overlay="true" trigger="imgpro" my="left top" at="left bottom" styleClass="Container100">    				              					     		  
-						              <p:submenu label="Disponibilité" styleClass="Wid100"  >    
-						              <p:menuitem  value="Disponible"       />				
-				     				  <p:menuitem  value="Occupé"                 />					
-									  <p:menuitem  value="N'est pas déranger"  />			
-									  <p:menuitem  value="Absent"                />	
-									  </p:submenu>
+ 
 									  <p:submenu label="Compte" styleClass="Wid100" >
-						              <p:menuitem icon="ui-icon-wrench"  value="Parametres"           />                      
+						              <p:menuitem icon="ui-icon-wrench"  value="Parametres"   action="parametreCompte.xhtml?faces-redirect=true"        />                      
 						              <p:menuitem icon="ui-icon-close"   value="Déconnexion"  action="#{loginBean.logout()}"   />						              
 									  <p:menuitem icon="ui-icon-help"    value="Aide"             />   
 									 </p:submenu>	

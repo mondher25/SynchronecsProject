@@ -88,6 +88,9 @@
 					        <p:outputLabel for="popup1" value="date D'écheance" />
 			        		<p:calendar id="popup1" value="#{tacheCP.newTache.dateEcheance}" />
 			        		
+			        		<h:outputLabel for="desc" value="Description:" />
+			        		    <p:inputTextarea id="desc" required="true" rows="3" cols="55"  autoResize="true"  value="#{tacheCP.newTache.description}"/>
+			        		    
 			        		        <p:outputLabel for="console" value="Etat" />
 							        <p:selectOneMenu id="console" value="#{tacheCP.newTache.etat}" style="width:125px">
 							            <f:selectItem itemLabel="non-commencé" itemValue="non-commencé" />
@@ -102,8 +105,8 @@
  -->						            <f:selectItems value="#{tacheCP.finalListUserString}" var="user" itemLabel="#{user.user.nom} #{user.user.prenom}" itemValue="#{user.user.id}"/>
 						        </p:selectOneMenu> 
 						        
-			        			<h:outputLabel for="desc" value="Description:" />
-			        		    <p:inputTextarea id="desc" required="true" rows="3" cols="55"  autoResize="true"  value="#{tacheCP.newTache.description}"/>
+			        			<h:outputLabel for="comment" value="Laisser une Commentaire" />
+			        		    <p:inputTextarea id="comment" required="true" rows="5" cols="55"  autoResize="true"  value="#{tacheCP.newTache.comment}"/>
 		     
 						</h:panelGrid>
 					 <p:commandButton value="Ajouter" icon="ui-icon-check" actionListener="#{tacheCP.addTache}" process="formTache" update="listtache" />
@@ -126,22 +129,22 @@
  
 	
  <h:form id="listtache"> 	   
-	 <p:dataTable  var="VarTache" value="#{tacheCP.listeTacheByComparAndComp()}" rendered="#{not empty tacheCP.idCom}"  >
+	 <p:dataTable   var="VarTache" value="#{tacheCP.listeTacheByComparAndComp()}" rendered="#{not empty tacheCP.idCom}"  >
                   
-		<f:facet name="header">
-            Listes des Taches Par Compartiment
-        </f:facet>
  
  	
 
-		  <p:column headerText="Tache/Utilisateur ">
-		         <h:outputText value="#{VarTache.tache.description}" />
-		         <br></br>
-		         <br></br>
- 
-		       <p:commandLink   value="#{VarTache.user.nom} #{VarTache.user.prenom}" oncomplete="PF('diagModifTache').show();"  update="diagModifTache" >
+		  <p:column style="border:none;">
+		  
+		     
+		         
+ 			 <h:outputText value="#{VarTache.tache.etat}" style="font-weight:bold;font-size:30px;" />
+ 		 
+ 			<br></br>
+		       <p:commandLink   value="#{VarTache.user.nom} #{VarTache.user.prenom}" oncomplete="PF('diagModifTache').show();"  update="diagModifTache" style="font-weight:bold;font-size:40px;" >
 					  <f:setPropertyActionListener target="#{tacheMangementBean.selectedTache}" value="#{VarTache.tache}"/>
 					  <f:setPropertyActionListener value="#{VarTache.user.id}" target="#{tacheMangementBean.userTache}" />
+					   
 				</p:commandLink>	
 				
 		  </p:column>   

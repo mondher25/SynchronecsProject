@@ -53,9 +53,11 @@ public class LoginBean implements Serializable{
 	 
 	public String login(){
 		System.out.println("Start Login");
+		
 		RequestContext context = RequestContext.getCurrentInstance();
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 				"Erreur: Votre adresse E-mail (ou) mot de passe est incorrect", "");
+		
 		boolean logedin = false;
 
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);

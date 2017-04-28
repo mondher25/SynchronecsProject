@@ -66,6 +66,12 @@ public void remove(Planner planner) {
 	entityManager.remove(entityManager.merge(planner));
 	
 }
+
+@Override
+public void updatePlanner(Planner planner) {
+	entityManager.merge(planner);
+	
+}
 }
   
 

@@ -66,8 +66,8 @@ public class CompartimentJPA implements CompartimentDao {
 	}
 
 	@Override
-	public void updateCompartiment(Compartiment c) {
-		em.merge(c);
-		
+	public void updateCompartiment(Compartiment comp) {
+//		em.createNativeQuery("UPDATE Compartiment c SET   nomCompartiment=:nomCom").setParameter("nomCom", nomCom).executeUpdate();
+	em.merge(comp);	
 	}
 }

@@ -66,8 +66,7 @@ public class TacheJPA implements TacheDao {
 	@Override
 	public void remove(Tache tache) {
 		
-		entityManager.remove(entityManager.merge(tache));
-		
+ 		entityManager.remove(entityManager.merge(tache));
 	}
 
 	@Override

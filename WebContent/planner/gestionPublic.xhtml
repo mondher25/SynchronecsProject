@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:composite="http://java.sun.com/jsf/composite"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
 
 <ui:composition template="templates/layout.xhtml"
@@ -13,200 +13,349 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:b="http://bootsfaces.net/ui"
-	>
-	
-	
-	
-	<ui:define  name="option" >
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
 
+
+
+	<ui:define name="option">
+			<h1 style=" font-size: 25px; color:black;border-bottom:1px solid purple; "><span style="background-color: purple;color:#FFF;">Tache</span></h1>
+
+	<div class=" TexAlCenter">
+		
+
+
+			 
+
+
+				
+			 
+
+
+
+
+<!-- 				
+	 
+<h:form id="form">
+<p:growl id="ms" showDetail="true" />
+					<p:dataTable id="tab2" var="tac"
+						value="#{gestionBean.listeAllTache()}" editable="true" selection="#{gestionBean.selectedTache}" >
+
+
+						<p:ajax event="rowEdit" listener="#{gestionBean.onRowEditTache}" />
+						<p:ajax event="rowEditCancel"	listener="#{gestionBean.onRowCancelTache}" />
+
+						<p:column headerText="date de debut">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{tac.dateDebut}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:calendar id="dateD" value="#{tac.dateDebut}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column headerText="date d'echeance">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{tac.dateEcheance}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:calendar id="dateE" value="#{tac.dateEcheance}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+ 						<p:column headerText="etat">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{tac.etat}" />
+								</f:facet>
+								<f:facet name="input">
+							<p:selectOneMenu id="console" value="#{tac.etat}" style="width:125px">
+							            <f:selectItem itemLabel="non-commencé" itemValue="non-commencé" />
+							            <f:selectItem itemLabel="en cours" itemValue="en cours" />
+							            <f:selectItem itemLabel="terminé" itemValue="Terminé" />
+							   </p:selectOneMenu>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>  
+
+						<p:column headerText="description">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{tac.description}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText id="desc" value="#{tac.description}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column style="width:32px">
+							<p:rowEditor />
+						</p:column>
+
+						<p:column headerText="Supprimer">
+							<p:commandButton value="supprimer"
+								action="#{gestionBean.supprimer}">
+								<p:confirm header="Confirmation"
+									message="Voulez-vous vraiment supprimer cette tache"
+									icon="ui-icon-alert" />
+								<f:setPropertyActionListener
+									target="#{gestionBean.deletedTache}" value="#{ges}" />
+							</p:commandButton>
+							<p:confirmDialog global="true" showEffect="fade"
+								hideEffect="fade">
+								<p:commandButton value="Oui" type="button"
+									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+								<p:commandButton value="Annuler" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							</p:confirmDialog>
+						</p:column>
+					</p:dataTable>
+</h:form>
+ -->
  
-	
-	<div >
-	<h1 > Mes Taches</h1>
-	 <hr style="margin-bottom:40px;"></hr>
-	<h:form id="paneuserg" >
- 
-                         
-                            <div class=" TexAlCenter"  >
-                            <p:panel id="panel" >
-                               
-                                
+
+
+
+
+
+
+
+
+					     
                                 <div class="EmptyBox10"></div>
-              						<p:dataTable var="ges" value="#{gestionBean.listeAllTache()}" editable="true" editMode="cell">
-   									    <p:column headerText="date de debut">
-									  	<p:cellEditor>
-							                  <f:facet name="output"><h:outputText value="#{ges.dateDebut}" /></f:facet>
-							                  <f:facet name="input"><p:calendar id="modelInput" value="#{ges.dateDebut}" style="width:80%"/></f:facet>
-							             </p:cellEditor>
-									                
-									       </p:column>
+              						<p:dataTable style="border:none;" var="varTache" value="#{gestionBean.listeAllTache()}">              						
+          							    	   
+   									    <p:column style="border:none;" >
+							                   <h:outputText value="#{varTache.dateDebut}" />
+							  			 </p:column>
+										 
+									  <p:column style="border:none;">									  	
+							                 <h:outputText value="#{varTache.dateEcheance}" /> 									                
+									  </p:column>
+									       
+									    <p:column style="border:none;">
+ 							                <h:outputText value="#{varTache.etat}" /> 												 
+ 									    </p:column>
 									 
-									    <p:column headerText="etat">
-									    <p:cellEditor>
-							                  <f:facet name="output"><h:outputText value="#{ges.etat}" /></f:facet>
-							                  <f:facet name="input">
-									 <p:selectOneMenu id="console"  style="width:60%" value="#{ges.etat}" >
-										<f:selectItem itemLabel="non-commencé" itemValue="Activité" />
-										 <f:selectItem itemLabel="en cours" itemValue="Projet" />
-										<f:selectItem itemLabel="terminé" itemValue="Evenement" />												            
-									 </p:selectOneMenu> 
-									 		</f:facet>
-									 		 </p:cellEditor>
+									    <p:column style="border:none;">
+ 									    	 <h:outputText  value="#{varTache.description}" /> 
+ 									    </p:column>	
 									    
+									    	  <p:column  style="border:none;">
+										            <p:commandButton value="Modifier" style="background-color:green;" oncomplete="PF('diagModifTa').show();" update="diagModifTa" >
+										            	<f:setPropertyActionListener value="#{varTache}" target="#{gestionBean.seleTache}"/>
+										            </p:commandButton>
+										       </p:column>
+ 					 
  
-									        
-									    </p:column>
-									 
-									    <p:column headerText="description">
-									    <p:cellEditor>
-									    	<f:facet name="output"><h:outputText  value="#{ges.description}" /></f:facet>
-             								<f:facet name="input"><p:inputText  value="#{ges.description}" style="width:80%" label="description"/></f:facet>
-									    </p:cellEditor>
-									 
-									    </p:column>									 
- 
- 
-									    <p:column headerText="Action">
-									         <p:commandButton value="Supprimer" action="#{gestionBean.supprimer}"  >
+									    <p:column style="border:none;">
+									         <p:commandButton  value="supprimer" action="#{gestionBean.supprimer}"  >
     									           <p:confirm header="Confirmation" message="Voulez-vous vraiment supprimer cette tache" icon="ui-icon-alert"  />
-  											     <f:setPropertyActionListener target="#{gestionBean.deletedTache}" value="#{ges}"/>
+  											     <f:setPropertyActionListener target="#{gestionBean.deletedTache}" value="#{varTache}"/>
 										     </p:commandButton>	
  										     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-									             <p:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update="panel"   />
+									             <p:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"    />
 									           <p:commandButton value="Annuler" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 									         </p:confirmDialog>  
 									    </p:column>
+ 
 									</p:dataTable>
                                  <div class="EmptyBox10"></div>
                                
-             </p:panel>
-                            
-                                  
-                            </div>
-                        
-                   
-                       
-        </h:form>                
-                        
-    </div>
-  <hr style="margin-top:30px"></hr>
-  <h1 > Mes Compartiments</h1>
-   <hr style="margin-bottom:40px;"></hr>
-    <div >
-    
-    <h:form id="paneuserge" >
+
+
+
+ </div>
+			<h1 style=" font-size: 25px; color:black;border-bottom:1px solid purple; "><span style="background-color: purple;color:#FFF;">Compartiment</span></h1>
+ <div class=" TexAlCenter">
+
+
+			
+
+	 
+
+
+
+
+	 
+
+
+
+					 
+<!-- 					 <h:form id="formc">
+						<p:growl id="msgs" showDetail="true" />
+
+						<p:dataTable id="tab1" var="cm"
+							value="#{gestionBean.listeAllCompartiment()}" editable="true"
+							selectionMode="single" rowKey="#{cm.id}"
+							selection="#{gestionBean.seleComp}">
+
+
+							<p:ajax event="rowEdit" listener="#{gestionBean.onRowEdit}" />
+							<p:ajax event="rowEditCancel"
+								listener="#{gestionBean.onRowCancel}" />
+
+
+
+							<p:column headerText="nom Compartiment">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{cm.nomCompartiment}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{cm.nomCompartiment}" style="width:70%"
+											label="nomCom" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column headerText="Modifier">
+								<p:rowEditor />
+							</p:column>
+
+
+							<p:column headerText="Supprimer">
+								<p:commandButton value="supprimer"
+									action="#{gestionBean.supprimerCom}">
+									<p:confirm header="Confirmation"
+										message="Voulez-vous vraiment supprimer cette Compartiment"
+										icon="ui-icon-alert" />
+									<f:setPropertyActionListener
+										target="#{gestionBean.deletedCompartiment}" value="#{cm}" />
+								</p:commandButton>
+								<p:confirmDialog global="true" showEffect="fade"
+									hideEffect="fade">
+									<p:commandButton value="Oui" type="button"
+										styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="Annuler" type="button"
+										styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								</p:confirmDialog>
+							</p:column>
+
+						</p:dataTable>
+				 </h:form>
+
+
+ -->
+
+
+
+
+
+
+
+
+
+
+
+				                   
+              	<p:dataTable style="border:none;" var="cm" value="#{gestionBean.listeAllCompartiment()}"   >
  
-                         
-                            <div class=" TexAlCenter"  >
-                            <p:panel id="panelcomp" >
-                               
-                               
-                                <div class="EmptyBox10"></div>
-              						<p:dataTable var="cm" value="#{gestionBean.listeAllCompartiment()}" editable="true" editMode="cell">
- 
-									 <p:ajax event="cellEdit" listener="#{gestionBean.onCellEditCom}"  />
-									    <p:column headerText="nom">
-									    <p:cellEditor>
-									    	<f:facet name="output"><h:outputText  value="#{cm.nomCompartiment}" /></f:facet>
-             								<f:facet name="input"><p:inputText  value="#{cm.nomCompartiment}" style="width:80%" label="nomCom"/></f:facet>
-									    </p:cellEditor>
+									    <p:column style="border:none;">
+									 
+									     
+									    	 <h:outputText value="#{cm.nomCompartiment}" /> 
+              								
+							 
 									         
 									    </p:column>
-									 
- 
- 
-									    <p:column headerText="Action">
-									         <p:commandButton value="Supprimer" action="#{gestionBean.supprimerCom}"  >
+									    	 <p:column  style="border:none;">
+										            <p:commandButton value="Modifier"  oncomplete="PF('diagModifCm').show();" update="diagModifCm" style="background-color:green;" >
+										            	<f:setPropertyActionListener value="#{cm}" target="#{gestionBean.seleComp}"/>
+										            </p:commandButton>
+										       </p:column>
+										       
+									    <p:column style="border:none;">
+									         <p:commandButton  value="supprimer" action="#{gestionBean.supprimerCom}"  >
     									           <p:confirm header="Confirmation" message="Voulez-vous vraiment supprimer cette Compartiment" icon="ui-icon-alert"  />
   											     <f:setPropertyActionListener target="#{gestionBean.deletedCompartiment}" value="#{cm}"/>
 										     </p:commandButton>	
  										     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-									             <p:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update="panelcomp"   />
+									             <p:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"   />
 									           <p:commandButton value="Annuler" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 									         </p:confirmDialog>  
 									    </p:column>
-									</p:dataTable>
-                                 <div class="EmptyBox10"></div>
-                               
-             </p:panel>
-                            
-                                  
-                            </div>
-                        
-                   
-                       
-        </h:form>                
-    
-    </div>
+									            
+									</p:dataTable>  
+					 
+
+
+
+				 
+
+
+
+
+
+		
+</div>
+
+
+			<h1 style=" font-size: 25px; color:black;border-bottom:1px solid purple; "><span style="background-color: purple;color:#FFF;">Planner</span></h1>
+			 
+ <div class=" TexAlCenter">
+			 
+
+
+					 
+					
+					<h:form id="formp">
+					
+					
+					<p:dataTable style="border:none;" var="pla" value="#{gestionBean.listeAllPlanner()}" >
+
+						<p:column style="border:none;">
+							<h:outputText value="#{pla.namePlanner}" />
+						</p:column>
+
+						<p:column style="border:none;">
+							<h:outputText value="#{pla.type}" />
+						</p:column>
+
+						<p:column style="border:none;">
+							<p:commandButton value="Modifier"
+								oncomplete="PF('diagModifPl').show();" update="diagModifPl" style="background-color:green;">
+								<f:setPropertyActionListener value="#{pla}"
+									target="#{gestionBean.selectedPlanner}" />
+							</p:commandButton>
+						</p:column>
+
+						<p:column style="border:none;">
+							<p:commandButton action="#{gestionBean.supprimerPlanner}"
+								value="supprimer">
+								<p:confirm header="Confirmation"
+									message="Voulez-vous vraiment supprimer cette Planner"
+									icon="ui-icon-alert" />
+								<f:setPropertyActionListener
+									target="#{gestionBean.deletedPlanner}" value="#{pla}" />
+							</p:commandButton>
+							<p:confirmDialog global="true" showEffect="fade"
+								hideEffect="fade">
+								<p:commandButton value="Oui" type="button"
+									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+								<p:commandButton value="Annuler" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							</p:confirmDialog>
+						</p:column>
+
+					</p:dataTable>
+					<div class="EmptyBox10"></div>
+
+
+
   
-    
-    <hr style="margin-top:30px"></hr>
- 	   <h1 > Mes Planner</h1>
-    <hr style="margin-bottom:40px;"></hr>
-        <div >
-    
-    <h:form id="paneuserges" >
- 
-                         
-                            <div class=" TexAlCenter"  >
-                            <p:panel id="panelpla" >
-                               
-                             
-                                <div class="EmptyBox10"></div>
-              						<p:dataTable var="pla" value="#{gestionBean.listeAllPlanner()}" editable="true" editMode="cell" >
- 
-									    <p:column headerText="nom">
-									  	<p:cellEditor>
-							                  <f:facet name="output"><h:outputText value="#{pla.namePlanner}" /></f:facet>
-							                  <f:facet name="input"><p:inputText id="modelInput" value="#{pla.namePlanner}" style="width:80%"/></f:facet>
-							             </p:cellEditor>
-									                
-									       
-									    </p:column>
-									 <p:column headerText="Type">
-									<p:cellEditor>
-							                  <f:facet name="output"><h:outputText value="#{pla.type}" /></f:facet>
-							                  <f:facet name="input">
-									 <p:selectOneMenu id="console"  style="width:60%" value="#{pla.type}" >
-										<f:selectItem itemLabel="Activité" itemValue="Activité" />
-										 <f:selectItem itemLabel="Projet" itemValue="Projet" />
-										<f:selectItem itemLabel="Evenement" itemValue="Evenement" />												            
-									 </p:selectOneMenu> 
-									 		</f:facet>
-									 		 </p:cellEditor>
-									    </p:column>
- 
- 
-									    <p:column headerText="Action">
-									         <p:commandButton value="Supprimer" action="#{gestionBean.supprimerPlanner}"  >
-    									           <p:confirm header="Confirmation" message="Voulez-vous vraiment supprimer cette Planner" icon="ui-icon-alert"  />
-  											     <f:setPropertyActionListener target="#{gestionBean.deletedPlanner}" value="#{pla}"/>
-										     </p:commandButton>	
- 										     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-									             <p:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update="panelpla"   />
-									           <p:commandButton value="Annuler" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-									         </p:confirmDialog>  
-									    </p:column>
-									</p:dataTable>
-                                 <div class="EmptyBox10"></div>
-                               
-             </p:panel>
-                            
-                                  
-                            </div>
-                        
-                   
-                       
-        </h:form>                
-    
-    </div>
-    </ui:define>
-	</ui:composition>
+			
+		</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
 
 
- 
+
 
 
 

@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 
+import dao.CommentDao;
 import dao.CompartimentAffPlannerUserDao;
 import dao.CompartimentDao;
  
@@ -16,6 +17,7 @@ import dao.TacheDao;
 import dao.TacheUPCDao;
 import dao.UserDao;
 import entities.AffectationPlannerUser;
+import entities.Comment;
 import entities.Compartiment;
 import entities.CompartimentAffPlannerUser;
  
@@ -31,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 @ManagedBean(name = "tacheMangementBean")
-@ViewScoped
+@SessionScoped
 public class TacheMangementBean implements Serializable {
 
 	/**
@@ -52,11 +54,16 @@ public class TacheMangementBean implements Serializable {
 	private UserDao userDao;
 
 	@EJB
-	CompartimentAffPlannerUserDao compartimentAffPlannerUserDao;
+	private CompartimentAffPlannerUserDao compartimentAffPlannerUserDao;
 	
 	@EJB
-	TacheUPCDao tacheUPCDao;
+	private TacheUPCDao tacheUPCDao;
+	
+	@EJB
+	private CommentDao commentDao;
 
+	
+	
 	private Tache newTache = new Tache();
 	private Compartiment compart = new Compartiment();
 	private Planner planner = new Planner();
@@ -70,7 +77,7 @@ public class TacheMangementBean implements Serializable {
 	private TacheUPC tacheUPCa =new TacheUPC();
 	private Tache updateTache;
 	private User logedUser =new User();
-	  
+	private Comment comment=new Comment();  
 	
 
 
@@ -87,7 +94,8 @@ public class TacheMangementBean implements Serializable {
 	private String idTache;
 	private String userRendered;
 	private String userTache;
-	 
+	private String textComment;
+	
 	 
 	
 	
@@ -108,16 +116,41 @@ public class TacheMangementBean implements Serializable {
 
 	}
 	
-	
+	public Planner selectedPlanner() {
+		return selplan = plannerDao.getPlannerById(Long.parseLong(idp));
+	}
 	
 	
 	public void update(){
 		System.out.println("start update");
 		tacheDao.updateTache(selectedTache);
 		System.out.println("end update");
-		System.out.println("userTache : " +userTache);
+		 
 
 		
+	}
+	
+	
+	public void addNewComment(){
+		System.out.println("------------START add Comment-------");
+ 
+		comment.setUser(logedUser);
+		comment.setTache(selectedTache);
+		comment.setDate((Date) new Date());
+		commentDao.addComment(comment);
+		
+		System.out.println("الرخ لا لالا");
+		System.out.println("---------END add Comment-------------");
+		System.out.println("id:"+selectedTache.getId());
+		
+	}
+	
+	public List<Comment> getCommentByTach(){
+		
+		List<Comment> listComment=new ArrayList<>();
+		 
+		listComment=commentDao.getAllComment();
+		return listComment;
 	}
 	
 //	|| logedUser.getMail().equalsIgnoreCase(userRendered)
@@ -395,6 +428,48 @@ public class TacheMangementBean implements Serializable {
 
 	public void setLogedUser(User logedUser) {
 		this.logedUser = logedUser;
+	}
+
+
+
+
+	public CommentDao getCommentDao() {
+		return commentDao;
+	}
+
+
+
+
+	public void setCommentDao(CommentDao commentDao) {
+		this.commentDao = commentDao;
+	}
+
+
+
+
+	public Comment getComment() {
+		return comment;
+	}
+
+
+
+
+	public void setComment(Comment comment) {
+		this.comment = comment;
+	}
+
+
+
+
+	public String getTextComment() {
+		return textComment;
+	}
+
+
+
+
+	public void setTextComment(String textComment) {
+		this.textComment = textComment;
 	}
  
 

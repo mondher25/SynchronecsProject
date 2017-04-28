@@ -49,7 +49,7 @@ public class PlanBean implements Serializable{
 	private AffectationPlannerUser affEtat=new  AffectationPlannerUser();
 	private List<User> listeUser =new ArrayList<>();
 	
-	private List<User> finalListUserObject =new ArrayList<>();
+	 
 	private List<String> finalListUserString;
  
 	 
@@ -74,7 +74,7 @@ public class PlanBean implements Serializable{
 
 	@PostConstruct
 	public void Init(){
-		System.out.println(" -- - --- --- -planner- --- --- ");
+		System.out.println(" -- - --- --- -planBean- --- --- -------");
 		logedUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("logedUser"); 
 	 System.out.println("mail LoguedUser(planner) :"+logedUser.getMail());
 	 System.out.println("id LoguedUser(planner) :"+logedUser.getId());
@@ -129,9 +129,9 @@ public class PlanBean implements Serializable{
 		affectationPlannerUserDao.addAff(affectationPlannerUser1);
 
 		if (planner.isEtat() == false) {
-			finalListUserString= new ArrayList<>();
+			
 			for(String u :finalListUserString){
-				
+				finalListUserString= new ArrayList<>();
 			 
 			User userId=userDao.getUserByMailId(u);
  			AffectationPlannerUser affectationPlannerUser = new AffectationPlannerUser();
@@ -334,13 +334,7 @@ public class PlanBean implements Serializable{
 		this.listeUser = listeUser;
 	}
 
-	public List<User> getFinalListUserObject() {
-		return finalListUserObject;
-	}
-
-	public void setFinalListUserObject(List<User> finalListUserObject) {
-		this.finalListUserObject = finalListUserObject;
-	}
+ 
 
 	public List<String> getFinalListUserString() {
 		return finalListUserString;

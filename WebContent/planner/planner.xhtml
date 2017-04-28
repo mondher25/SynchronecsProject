@@ -21,14 +21,12 @@
 
 		<h:form id="formPlanner">
 
-			<p:dataTable id="eventsDT" var="pl"
+			<p:dataTable style="border:none;" id="eventsDT" var="pl"
 				value="#{plan.listePlannerByIdCompte()}">
 
-				<f:facet name="header">
-           			 Listes des Planner
-      		 	 </f:facet>
+ 
 
-				<p:column headerText="Nom">
+				<p:column style="font-size:20px;border:none; ">
 					<p:commandLink action="tache.xhtml?faces-redirect=true"
 						value="#{pl.planner.namePlanner}" update="eventsDT">
 

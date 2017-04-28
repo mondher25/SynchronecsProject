@@ -25,10 +25,6 @@ public class userBean {
 	private UserDao userDao;
 	
  
-	
-
-	
-
 	private String nom;
 	private String prenom;
 	private String mail;
@@ -36,11 +32,8 @@ public class userBean {
 	private String nomSociete;
 	private String grade;
  
-  
-	
 	private User user=new User();
- 
-	private User newUser=new User();
+ 	private User newUser=new User();
 	private User logedUser;
 	
 	@PostConstruct
@@ -71,7 +64,10 @@ public class userBean {
 		return listeUser;
 	}
 	
-	
+	public void updateProfileUser(){
+ 
+		userDao.updateCompteUser(logedUser);
+	}
 	
 	//Getter and Setter
 	public UserDao getUserDao() {
@@ -123,11 +119,6 @@ public class userBean {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
- 
- 
-
- 
 
 	public String getNomSociete() {
 		return nomSociete;

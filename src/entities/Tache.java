@@ -32,6 +32,8 @@ public class Tache {
 	
 	private String userGrade;
 	
+	private String comment;
+	
 	@ManyToOne
 	@JoinColumn(name="compartiment_id")
 	private Compartiment compartiment;
@@ -106,6 +108,12 @@ public class Tache {
 	}
 	public void setUserGrade(String userGrade) {
 		this.userGrade = userGrade;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
  
 	
