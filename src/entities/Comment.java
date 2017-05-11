@@ -18,8 +18,9 @@ public class Comment {
 	
 	private String commentText;
 	
-	private Date date;
+	private String date;
 	
+ 
 	
 	@OneToOne
 	private Tache tache;
@@ -60,14 +61,17 @@ public class Comment {
 		this.user = user;
 	}
 
-	public Date getDate() {
+ 
+
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
-	
+
+ 
 	
 	
 

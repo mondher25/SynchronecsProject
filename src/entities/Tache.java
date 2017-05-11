@@ -32,7 +32,10 @@ public class Tache {
 	
 	private String userGrade;
 	
-	private String comment;
+	 
+	 
+	
+	private String nomTache;
 	
 	@ManyToOne
 	@JoinColumn(name="compartiment_id")
@@ -109,11 +112,12 @@ public class Tache {
 	public void setUserGrade(String userGrade) {
 		this.userGrade = userGrade;
 	}
-	public String getComment() {
-		return comment;
+ 
+	public String getNomTache() {
+		return nomTache;
 	}
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setNomTache(String nomTache) {
+		this.nomTache = nomTache;
 	}
  
 	

@@ -20,6 +20,7 @@ public class CompartimentAffPlannerUserJPA implements CompartimentAffPlannerUser
 	@Override
 	public void AddCompByPlannerUser(CompartimentAffPlannerUser compAff) {
 		em.merge(compAff);
+		 
 		
 	}
 
@@ -66,6 +67,21 @@ public class CompartimentAffPlannerUserJPA implements CompartimentAffPlannerUser
 		if(id != null)
 		em.createNativeQuery("DELETE FROM CompartimentAffPlannerUser WHERE planner_id=:id").setParameter("id", id).executeUpdate();
 		
+	}
+
+	@Override
+	public List<CompartimentAffPlannerUser> getCompByPlanner(Long idp) {
+
+		List<CompartimentAffPlannerUser> listeUser=new ArrayList<>();
+		listeUser=em.createQuery("SELECT c FROM CompartimentAffPlannerUser c WHERE planner_id=:idp").setParameter("idp", idp).getResultList();
+		return listeUser;
+	}
+
+	@Override
+	public List<CompartimentAffPlannerUser> comparByPublicPlanner(Long idUser) {
+		List<CompartimentAffPlannerUser> liste=new ArrayList<>();
+		liste=em.createQuery("SELECT c FROM CompartimentAffPlannerUser c WHERE user_id=:idUser ").setParameter("idUser", idUser).getResultList();
+		return liste;
 	}
 
 }

@@ -19,6 +19,7 @@ public class CommentJPA implements CommentDao{
 	@Override
 	public void addComment(Comment c) {
 		em.persist(c);
+		em.flush();
 		
 	}
 
@@ -36,6 +37,13 @@ public class CommentJPA implements CommentDao{
 		listeComment=em.createQuery("SELECT c FROM Comment c ").getResultList();
 		
 		return listeComment;
+	}
+
+	@Override
+	public void deleteTacheComm(Long idTache) {
+		if(idTache != null)
+			em.createNativeQuery("DELETE FROM Comment WHERE tache_id=:id").setParameter("id", idTache).executeUpdate();
+		
 	}
 	
 	

@@ -22,7 +22,7 @@
 		<h:form id="formPlanner">
 
 			<p:dataTable style="border:none;" id="eventsDT" var="pl"
-				value="#{plan.listePlannerByIdCompte()}">
+				value="#{plan.listePlannerByIdCompte()}" rendered="#{not empty plan.listePlannerByIdCompte()}" >
 
  
 
@@ -49,6 +49,7 @@
 			</p:dataTable>
 
 		</h:form>
+		
 
 
 	</ui:define>

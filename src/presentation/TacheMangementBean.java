@@ -36,11 +36,10 @@ import java.util.Map;
 @SessionScoped
 public class TacheMangementBean implements Serializable {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
+	
 	@EJB
 	private TacheDao tacheDao;
 
@@ -91,7 +90,7 @@ public class TacheMangementBean implements Serializable {
 	private String mail;
 	private String idCom;
 	private String grade;
-	private String idTache;
+	private Long idTache;
 	private String userRendered;
 	private String userTache;
 	private String textComment;
@@ -136,33 +135,36 @@ public class TacheMangementBean implements Serializable {
  
 		comment.setUser(logedUser);
 		comment.setTache(selectedTache);
-		comment.setDate((Date) new Date());
+		comment.setDate(new Date().toLocaleString());
+		 
 		commentDao.addComment(comment);
-		
-		System.out.println("الرخ لا لالا");
+		comment = new Comment();
 		System.out.println("---------END add Comment-------------");
 		System.out.println("id:"+selectedTache.getId());
 		
 	}
 	
 	public List<Comment> getCommentByTach(){
-		
+		System.out.println("---------START liste Comment--------");
 		List<Comment> listComment=new ArrayList<>();
-		 
-		listComment=commentDao.getAllComment();
+		if(selectedTache != null){
+		listComment=commentDao.listCommentByTacheId(selectedTache.getId());
+		}
+		System.out.println("-----idTache:"+idTache);
+		System.out.println("---------END liste Comment--------");
 		return listComment;
 	}
 	
 //	|| logedUser.getMail().equalsIgnoreCase(userRendered)
 	
 	public boolean rendered(){
-		boolean display ;
+		boolean display=false ;
 		if(userRendered.equalsIgnoreCase(userTache) || logedUser.getGrade().equalsIgnoreCase("admin")){
 			 
 			return display=true;
 			
 		}else
-			return display=false;
+			return display;
 		
 	}
 
@@ -375,11 +377,14 @@ public class TacheMangementBean implements Serializable {
 		this.selectedMail = selectedMail;
 	}
 
-	public String getIdTache() {
+ 
+
+	public Long getIdTache() {
 		return idTache;
 	}
 
-	public void setIdTache(String idTache) {
+	public void setIdTache(Long idTache) {
+		idTache=selectedTache.getId();
 		this.idTache = idTache;
 	}
 

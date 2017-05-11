@@ -39,6 +39,7 @@ public User login(String mail, String password) {
 @Override
 public void createUser(User u) {
 	em.persist(u);
+	em.flush();
 	
 }
 
@@ -51,9 +52,18 @@ public User getUserById(Long id) {
 }
 @Override
 public User getUserByMailId(String mail) {
-	User user=new User();
-	 user=(User)em.createQuery("SELECT u FROM User u WHERE mail=:mail").setParameter("mail", mail).getSingleResult();
+	User user =null ;
+	try{
+		user = (User) em.createQuery("SELECT u FROM User u WHERE mail=:mail").
+				setParameter("mail", mail).				 
+				getSingleResult();
+	}catch (Exception e) {
+		return user;
+	}
+
+ 
 	return user;
+	 
 }
 
 
@@ -89,7 +99,21 @@ public User getUserByGrade(){
 @Override
 public void updateCompteUser(User u) {
 	em.merge(u);
+ 
 	
+}
+
+@Override
+public List<User> getAllUserByGrade() {
+	 String grade="user";
+		List<User> user=new ArrayList<>();
+		try{
+			user=em.createQuery("SELECT u FROM User u WHERE grade=:grade").setParameter("grade", grade).getResultList();
+			
+		}catch(Exception e){
+			return user;
+		}
+		return user;
 }
 
  

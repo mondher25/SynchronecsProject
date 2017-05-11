@@ -15,6 +15,7 @@ import dao.UserDao;
  
  
 import entities.User;
+import service.SendMail;
 
 @ManagedBean(name="userBean")
 @ViewScoped
@@ -36,25 +37,26 @@ public class userBean {
  	private User newUser=new User();
 	private User logedUser;
 	
+	
+	
 	@PostConstruct
 	public void init(){		 
-		logedUser=(User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("logedUser");
-		 
+		logedUser=(User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("logedUser");		
 	 
  	}
 	
-
-	
-	
+ 		
 	public void addNewCompte()
 	{
 		System.out.println("add new User");
 			user.setGrade("admin");
 			user.setAddedBy("root");
 			userDao.createUser(user);	 
+
 		System.out.println("END add  User");
 		user=new User();
 		newUser=new User();
+		
 	}
 	
  
@@ -159,6 +161,8 @@ public class userBean {
 	public void setLogedUser(User logedUser) {
 		this.logedUser = logedUser;
 	}
+
+
 
 
 

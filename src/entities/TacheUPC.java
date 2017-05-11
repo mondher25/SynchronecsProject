@@ -6,8 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+ import javax.persistence.OneToOne;
 
 @Entity 
 public class TacheUPC {
@@ -26,7 +25,7 @@ public class TacheUPC {
  @JoinColumn(name="compartiment_id")
  private Compartiment compartiment;
 
- @OneToOne
+ @OneToOne(cascade=CascadeType.ALL)
  @JoinColumn(name="tache_id")
  private Tache tache;
  
@@ -36,7 +35,10 @@ public class TacheUPC {
  
  private String etat;
  
- private String comment; 
+ private String userGrade;
+ 
+ 
+ private String nomTache;
  // SEtter and Getter
 
 public Long getId() {
@@ -87,12 +89,21 @@ public void setEtat(String etat) {
 	this.etat = etat;
 }
 
-public String getComment() {
-	return comment;
+ 
+public String getNomTache() {
+	return nomTache;
 }
 
-public void setComment(String comment) {
-	this.comment = comment;
+public void setNomTache(String nomTache) {
+	this.nomTache = nomTache;
+}
+
+public String getUserGrade() {
+	return userGrade;
+}
+
+public void setUserGrade(String userGrade) {
+	this.userGrade = userGrade;
 }
 
  

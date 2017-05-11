@@ -12,12 +12,19 @@
 	 >
 
 
-<p:dialog id="diagAddPlanner" widgetVar="diagAddPlanner" modal="true"    hideEffect="clip" width="700px" height="500px">
+
+
+
+		<!-- BOITE DE DIALOGUE -->
+			
+			<p:dialog id="diagAddPlanner" widgetVar="diagAddPlanner" modal="true"  hideEffect="clip" width="700px" height="500px">
 	<h:form id="formAddPlanner">
-	  
+	 
+	<h:outputText value="nom Planner: " /> 
 		<p:inputText value="#{plan.planner.namePlanner}" placeholder="Nom de Planner" required="true" />
 		
-			<div class="EmptyBox10"></div>				   			    									   			        
+			<div class="EmptyBox10"></div>	
+			<h:outputText value="Type Planner " />			   			    									   			        
 					<p:selectOneMenu id="console"  style="width:125px" value="#{plan.planner.type}" >
 					 <f:selectItem itemLabel="Activité" itemValue="Activité" />
 				 <f:selectItem itemLabel="Projet" itemValue="Projet" />
@@ -29,24 +36,24 @@
 	        <p:inputSwitch value="#{plan.planner.etat}" />	
 	               
   	        <div class="EmptyBox10"></div>
-	         <h:outputLabel value="Membre : " for="clientMail" />
+  	         <h:outputText value="Superviseur " />
+  	              <p:autoComplete     value="#{plan.selectedUserMail}"  completeMethod="#{plan.completeTheme}"  />  
+  	        
+	         <!-- <h:outputLabel value="Membre : " for="clientMail" rendered="#{plan.rendered()}"/>
                 <p:autoComplete id="clientMail"  value="#{plan.finalListUserString}"   
                         completeMethod="#{plan.completeTheme}" 
                         forceSelection="true"
                         multiple="true"
-                         />  
+                        rendered="#{plan.rendered()}"
+                         />   -->
 	        
 	        <div class="EmptyBox10"></div>
 	        
-<p:commandButton style="background-color:green;" value="ajouter Planner"  actionListener="#{plan.addNewPlanner()}"   process="formAddPlanner"  oncomplete="PF('diagAddPlanner').hide()"  />
+<p:commandButton style="background-color:green;" value="ajouter Planner"  actionListener="#{plan.addNewPlanner()}"      oncomplete="PF('diagAddPlanner').hide()" />
+	 
 	</h:form>	
 </p:dialog>
 
-
-
-		<!-- BOITE DE DIALOGUE -->
-			
-			
 			<p:dialog  maximizable="true" closeOnEscape="true"   id="diagModifTache" widgetVar="diagModifTache"  showEffect="clip" hideEffect="clip" modal="true" width="700px" height="500px">
 			 
 				<h:form id="formModifTache">
@@ -68,30 +75,31 @@
 							   </p:selectOneMenu>		   			    									   			        
 					 
 						 <h:outputLabel for="desc" value="Description:" />
-			        	 <h:outputText id="desc"  value="#{tacheMangementBean.selectedTache.description}"  /> 
-			        	  
- 			 			 <h:outputLabel for="comment" value="Commentaire :" />
-			        	 <h:outputText style="  font-size:25px;font-weight:bold;" id="comment"  value="#{tacheMangementBean.selectedTache.comment}"  /> 
+			        	 <h:outputText id="desc" style="height:100px;" value="#{tacheMangementBean.selectedTache.description}"  /> 
+			         
 			        	 
  					<p:commandButton value="modifier" actionListener="#{tacheMangementBean.update}"  onsuccess="PF('diagModifTache').hide()"  process="formModifTache" rendered="#{ tacheMangementBean.rendered()}" />
 					
 					  </h:panelGrid>
 					   
 					   <hr></hr>
-				 
+				 </h:form>
+				 <h:form id="tab">
+				 <p:outputPanel id="comm" deferred="true"  >
+ 				  
  				   <table >
 					   
-					   <ui:repeat  var="comment" value="#{tacheMangementBean.getCommentByTach()}">
+					   <ui:repeat   var="comment" value="#{tacheMangementBean.getCommentByTach()}">
 					   <thead></thead>
 					   <tbody  >
 					   <tr>
-					   	<td style="font-size: 25px;">
+					   	<td style="font-size: 20px;">
 					   	 #{tacheMangementBean.logedUser.mail}
 					   	
 					   	</td>
 					   	 
 					    
-					   	<td style="font-size: 18px;color:blue;">
+					   	<td style="font-size: 18px">
 					   	#{comment.date}
 					   	</td>
 					   	 </tr>
@@ -106,10 +114,10 @@
 					   
 					   </ui:repeat>
 					   </table>  
-					     
+			</p:outputPanel>
 			        	<p:inputTextarea id="commentb" required="true" rows="5" cols="55"  autoResize="true"  value="#{tacheMangementBean.comment.commentText}"/>
 			        	<br/>
-			        				        	<p:commandButton style="background-color:red;" value="Comment  " actionListener="#{tacheMangementBean.addNewComment}"   />
+			        	<p:commandButton style="background-color:red;" value="Commentaire  " actionListener="#{tacheMangementBean.addNewComment}" process="tab"  update="comm" />
 				
 				</h:form>	
 			</p:dialog>
@@ -197,49 +205,7 @@
 			
 			
 			
-			
-
-<!--  INSCRIPTION -->
-
-
-<p:dialog id="diagInscrit" widgetVar="diagInscrit" modal="true" width="700px" height="500px">
-	<h:form id="formInscrit">
-	  
-	  
-	  
-	  
-	    
-                  
-                                 
-									 <p:panelGrid columns="2">
-								 
-									 
-									    <h:outputText value="Nom:" />
-									    <p:inputText value="#{userBean.user.nom}"/>
-									    <h:outputText value="Prenom:" />
-									    <p:inputText value="#{userBean.user.prenom}" />
-									    <h:outputText value="Nom de la Société:" />
-									    <p:inputText  value="#{userBean.user.nomSociete}" />
-									    <h:outputText value=" Adresse E-mail:" />
-									    <p:inputText placeholder="exemple@exemple.com" value="#{userBean.user.mail}" />
-									    <h:outputText value=" Adresse E-mail de nv:" />
-									    <p:inputText placeholder="exemple@exemple.com"  />
-									    <h:outputText value=" password:"  />
-									    <p:password value="#{userBean.user.password}" />		
-									    <h:outputText value=" Password de nv :"  />
-									    <p:password />								    
- 									    </p:panelGrid>   
-									     
-									                
-                                  
- 	  
-	  
-		 
-<p:commandButton value="Valider"  actionListener="#{userBean.addNewCompte()}"  oncomplete="PF('diagInscrit').hide()"   />
-	</h:form>	
-</p:dialog>
-
-
+	
 
 
 

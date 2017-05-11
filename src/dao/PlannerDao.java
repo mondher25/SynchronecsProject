@@ -21,4 +21,6 @@ public interface PlannerDao {
 	public List<Planner> getAllPlannerById(Long id);
 	public void remove(Planner planner);
 	public void updatePlanner(Planner planner);
+	public List<String> listPlanner();
+	
 }

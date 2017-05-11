@@ -45,11 +45,11 @@
                                                             
                               
                                 <p:commandButton value="Connexion" icon="fa fa-unlock"   action="#{loginBean.login()}" update="mess"/>
-                                <p:commandButton value="Inscription"  action="inscription.xhtml?faces-redirect=true" rendered="#{loginBean.DisplayInsc()}" style="background-color:green;"/>
-                              
+<!--                                 <p:commandButton value="Inscription"  action="inscription.xhtml?faces-redirect=true" rendered="#{loginBean.DisplayInsc()}" style="background-color:green;"/>
+ -->                              
  
-<!--                                    <p:commandButton value="Créer un compte" style="background-color:Green"    onclick="PF('diagInscrit').show();" /> 
- -->
+                                     <p:commandLink value="Créer un compte"  rendered="#{loginBean.DisplayInsc()}"  onclick="PF('diagInscrit').show();" /> 
+  
                             </div>
                         
                     </div>
@@ -61,6 +61,49 @@
  
   
  
+        			
+
+<!--  INSCRIPTION -->
+
+
+<p:dialog id="diagInscrit" widgetVar="diagInscrit" modal="true" width="700px" height="500px" closeOnEscape="true"    >
+	<h:form id="formInscrit">
+	  
+	   <div class=" TexAlCenter"  >
+	    <h3>Créer votre Compte</h3>
+	  
+	    <div class="EmptyBox10"></div>
+                  
+                                 
+									  
+								 
+									 
+									   
+									    <p:inputText placeholder="Votre Nom" styleClass="Wid50" value="#{userBean.user.nom}"/>
+									    <div class="EmptyBox10"></div>
+									    <p:inputText placeholder="Votre Prenom" styleClass="Wid50" value="#{userBean.user.prenom}" />
+									     <div class="EmptyBox10"></div>
+									    <p:inputText placeholder="Nom de la societe" styleClass="Wid50" value="#{userBean.user.nomSociete}" />
+									    <div class="EmptyBox10"></div>
+									    <p:inputText placeholder="Votre adresse Mail" styleClass="Wid50" value="#{userBean.user.mail}" />
+									    <div class="EmptyBox10"></div>
+									    <p:inputText placeholder="confirmer votre adresse Mail" styleClass="Wid50" />
+									    <div class="EmptyBox10"></div>
+									    <p:password placeholder="Votre mot de passe" styleClass="Wid50" value="#{userBean.user.password}" />		
+									     <div class="EmptyBox10"></div>
+									    <p:password styleClass="Wid50" placeholder="confirmer votre mot de passe" />								    
+ 								 
+									     
+									   <div class="EmptyBox10"></div>             
+                                  
+ 	  
+	  
+		 
+<p:commandButton value="Valider" icon="fa fa-check-circle-o" style="background-color:green;" actionListener="#{userBean.addNewCompte()}"  onclick="PF('diagInscrit').hide()"   />
+</div>
+	</h:form>	
+</p:dialog>
+
         		
          
         	

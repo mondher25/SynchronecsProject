@@ -4,7 +4,8 @@
       xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 
 
 <ui:composition template="templates/layout.xhtml"
@@ -19,27 +20,57 @@
 	
 	
 	<ui:define  name="option" >
+	
+	<div class="ui-g-12">
 	<h:form id="paneuserg">
 	
-       <div class=" TexAlCenter" style="background-color: #efefef">
+       <div class=" TexAlCenter"  >
          <i class="icon-user-add-outline Fs60 Blue"></i>
            <h3>Créer un Compte Utilisateur</h3>
                <div class="EmptyBox10"></div>
                    <p:inputText styleClass="Wid50" placeholder="Nom" value="#{loginBean.newUser.nom}"/>
                         <div class="EmptyBox10"></div>
-                          <p:inputText styleClass="Wid50" placeholder="Prenom" value="#{loginBean.newUser.prenom}" />                             
-                             <div class="EmptyBox10"></div>
+                          <p:inputText styleClass="Wid50" placeholder="Prenom" value="#{loginBean.newUser.prenom}" /> 
+                          <div class="EmptyBox10"></div>
+                                                     
+                           <h:outputText styleClass="Wid40" value="#{loginBean.password}" style="backgroun-color:#EFEFEF;"/>                                      
+                           <div class="EmptyBox10"></div>                            
+                            
                              <p:inputText styleClass="Wid50" placeholder="E-Mail" value="#{loginBean.newUser.mail}" />
                             <div class="EmptyBox10"></div>
                            <p:inputText styleClass="Wid50" placeholder="E-Mail Again"/>
-                            <div class="EmptyBox10"></div>
-                           <p:password styleClass="Wid50" placeholder="Password" value="#{loginBean.newUser.password}"/>
-                           <div class="EmptyBox10"></div>
-                          <p:password styleClass="Wid50" placeholder="Password Again"/>              
-                           <div class="EmptyBox10"></div>
-        <p:commandButton value="Valider" icon="fa fa-check-circle-o"  actionListener="#{loginBean.addNewUser()}"/>
+                           
+						 <div class="EmptyBox10"></div>
+                           
+        <p:commandButton value="Valider" icon="fa fa-check-circle-o" style="background-color:green;" actionListener="#{loginBean.addNewUser()}"/>
      </div>   
    </h:form>
+   </div>
+   
+   
+   
+  <!--  
+   <div class="ui-g-12">
+    <h:form id="formSup">
+      <div class=" TexAlCenter"  >
+   <i class="icon-user-add-outline Fs60 Blue"></i>
+       <h3>Cree un Superviseur  Planner</h3>
+       <div class="EmptyBox10"></div>
+            
+                <p:autoComplete    value="#{plan.selectedUserMail}"  completeMethod="#{plan.completeTheme}"  />  
+                 <div class="EmptyBox10"></div>
+ 				  <p:selectOneMenu  value="#{plan.selectedStringPlan}"   >	
+		  					<f:selectItems  value="#{plan.finalListPlanner}" var="pl" itemLabel="#{pl.namePlanner}" itemValue="#{pl.id}"/>
+			    </p:selectOneMenu> 
+			     <div class="EmptyBox10"></div>
+			      <div class="EmptyBox10"></div>
+        <p:commandButton value="Valider"  style="background-color:#CCC;" actionListener="#{plan.addSuperPl()}" update="formSup" />     
+   		 </div> 
+   </h:form>  
+  </div> 
+    -->
+   
+   
     </ui:define>
 	</ui:composition>
 

@@ -19,6 +19,7 @@ public class TacheJPA implements TacheDao {
 	@Override
 	public void addTache(Tache t) {
 		entityManager.persist(t);
+		entityManager.flush();
 		
 	}
 
@@ -40,6 +41,7 @@ public class TacheJPA implements TacheDao {
 	@Override
 	public void updateTache(Tache t) {
 		entityManager.merge(t);
+		 
 		
 	}
 

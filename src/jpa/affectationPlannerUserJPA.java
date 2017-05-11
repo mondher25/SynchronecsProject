@@ -1,11 +1,15 @@
 package jpa;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import dao.AffectationPlannerUserDao;
 import entities.AffectationPlannerUser;
@@ -21,6 +25,7 @@ public class AffectationPlannerUserJPA implements AffectationPlannerUserDao{
 	@Override
 	public void addAff(AffectationPlannerUser affPlaUser) {
 		em.merge(affPlaUser);
+		em.flush();
 		
 	}
 
@@ -46,6 +51,7 @@ public class AffectationPlannerUserJPA implements AffectationPlannerUserDao{
 	@Override
 	public void addDefaultUserAff(AffectationPlannerUser defaultAffUserPlanner) {
 		em.persist(defaultAffUserPlanner);
+		em.flush();
 		
 	}
 
@@ -116,6 +122,41 @@ public class AffectationPlannerUserJPA implements AffectationPlannerUserDao{
 		if (id != null)
 		em.createNativeQuery("DELETE FROM AffectationPlannerUser WHERE planner_id=:id" ).setParameter("id", id).executeUpdate();
 		
+	}
+
+
+
+	@Override
+	public List<AffectationPlannerUser> getPublicPlanner() {
+		List<AffectationPlannerUser> listPlanner=new ArrayList<>();
+		boolean etat=true;
+		listPlanner=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE etat=:etat ").setParameter("etat",etat).getResultList();
+		
+		
+		return listPlanner;
+	}
+
+
+
+	@Override
+	public List<AffectationPlannerUser> getSuperPlanner(Long id) {
+	 
+		List<AffectationPlannerUser> liste=new ArrayList<>();
+//		Set set = new HashSet();
+//		List<AffectationPlannerUser> liste2=new ArrayList<>();
+		liste=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE superviseur_id=:id ").setParameter("id", id).getResultList();
+	
+//		set.addAll(liste);
+//		liste.clear();
+//		liste.addAll(set);
+//		for(int i = 0; i < liste.size(); i++){
+// 			AffectationPlannerUser o=liste.get(i) ;
+// 			if(!liste2.contains(o)) 
+// 				liste2.add(o);	 			 
+// 			
+// 		}
+//		
+		return liste;
 	}
 
 

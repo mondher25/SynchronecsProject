@@ -37,12 +37,16 @@
                                <hr style="width:50%"></hr>
                             
                             
-                            <p:dialog header="initialiser mot de passe" widgetVar="dlg2" modal="true" height="150">
-								<h:panelGrid columns="2" cellpadding="5">
-								<p:outputLabel value="Entrez nouveau mot de passe" />
-											<p:password value="#{userBean.logedUser.password}" /> 
-											<p:outputLabel value="Confirmez nouveau mot de passe" />
-											<p:inputText></p:inputText>
+                            <p:dialog width="700px" height="200px" widgetVar="dlg2" modal="true"  closeOnEscape="true" >
+								<h:panelGrid  columns="2" >
+								 
+								<p:outputLabel value="Entrer un nouveau mot de passe" />
+											<p:password styleClass="Wid70" value="#{userBean.logedUser.password}" />
+											 
+											<p:outputLabel value="Confirmer votre nouveau mot de passe" />
+											
+											<p:inputText styleClass="Wid70" />
+											  
 											<p:commandButton action="#{userBean.updateProfileUser()}" value="valider" style="background-color:green;" onclick="PF('dlg2').hide();" />
 								</h:panelGrid>
 								</p:dialog>  

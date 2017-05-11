@@ -22,6 +22,7 @@ public class PlannerJPA implements PlannerDao {
 public void AddPlanner(Planner planner) {
  
 	entityManager.persist(planner);
+	entityManager.flush();
 	
 }
 
@@ -70,7 +71,15 @@ public void remove(Planner planner) {
 @Override
 public void updatePlanner(Planner planner) {
 	entityManager.merge(planner);
+	 
 	
+}
+
+@Override
+public List<String> listPlanner() {
+	List <String> listePlanner=new ArrayList<>();
+	listePlanner=entityManager.createQuery("SELECT p FROM Planner p ").getResultList();
+	return listePlanner;
 }
 }
   

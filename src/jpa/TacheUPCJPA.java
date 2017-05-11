@@ -22,6 +22,7 @@ public class TacheUPCJPA implements TacheUPCDao {
 	@Override
 	public void addAffTache(TacheUPC tacheUPC) {
 		em.merge(tacheUPC);
+	 
 		
 	}
 
@@ -90,6 +91,19 @@ public class TacheUPCJPA implements TacheUPCDao {
 		if (id !=null)
 		em.createNativeQuery("DELETE FROM TacheUPC WHERE planner_id=:id" ).setParameter("id", id).executeUpdate();
 		
+	}
+
+
+
+	@Override
+	public List<TacheUPC> getTacheByUser(Long idp, Long idCom) {
+		List <TacheUPC> listeTache=new ArrayList<>();
+		  String userGrade="user";
+		  listeTache=em.createQuery("SELECT t FROM TacheUPC t WHERE planner_id=:idp AND compartiment_id=:idCom AND userGrade=:userGrade").
+				setParameter("userGrade", userGrade).
+				setParameter("idp", idp).
+				setParameter("idCom", idCom).getResultList();
+		return listeTache;
 	}
 
 

@@ -20,9 +20,11 @@ import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 
 import dao.AffectationPlannerUserDao;
+import dao.CommentDao;
 import dao.CompartimentAffPlannerUserDao;
 import dao.CompartimentDao;
 import dao.PlannerDao;
+import dao.SupPlannerDao;
 import dao.TacheDao;
 import dao.TacheUPCDao;
 import dao.UserDao;
@@ -61,6 +63,12 @@ public class GestionBean implements Serializable {
 	
 	@EJB
 	private AffectationPlannerUserDao affectationPlannerUserDao;
+	
+	@EJB
+	private CommentDao commentDao;
+	
+	@EJB
+	private SupPlannerDao supPlannerDao;
 	
 	
 	private User connectedUser;
@@ -133,6 +141,7 @@ public class GestionBean implements Serializable {
     public void supprimer() {
     	System.out.println("----start supprimer Tache-----");
     	tacheDao.remove(deletedTache);
+    	commentDao.deleteTacheComm(deletedTache.getId());
     	System.out.println("end supprimer Tache");    	 
         System.out.println("--- start supprimer TacheUPC ----- ");
     	   tacheUPCDao.delete( deletedTache.getId()); 
@@ -165,6 +174,8 @@ public void supprimerPlanner(){
 	System.out.println("---- start supprimer Planner -----");
 	
 		plannerDao.remove(deletedPlanner);
+		
+		supPlannerDao.deleteSupPlanner(deletedPlanner.getId());
 		
 		affectationPlannerUserDao.deletePlannerAffUser(deletedPlanner.getId());
 		

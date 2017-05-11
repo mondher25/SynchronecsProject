@@ -23,7 +23,13 @@
     
   <!-- END Login filter -->
  
- 
+ <!-- FILTRE UTF-8 -->
+     
+    <filter>
+        <filter-name>caractere</filter-name>
+        <filter-class>service.FiltreClass</filter-class>
+    </filter>
+  <!-- END FILTRE UTF-8 -->
 
   <servlet>
     <servlet-name>Faces Servlet</servlet-name>
@@ -113,7 +119,7 @@
   <context-param>
     <param-name>primefaces.THEME</param-name>
     <param-value>volt</param-value>
-  </context-param>
+  </context-param>   
   <context-param>
     <param-name>javax.faces.FACELETS_LIBRARIES</param-name>
     <param-value>/WEB-INF/primefaces-volt.taglib.xml</param-value>

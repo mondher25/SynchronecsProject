@@ -12,4 +12,5 @@ public interface CommentDao {
 	public void addComment(Comment c);
 	public List<Comment> listCommentByTacheId(Long idTache);
 	public List<Comment> getAllComment();
+	public void deleteTacheComm(Long idTache);
 }

@@ -15,6 +15,8 @@ import org.primefaces.context.RequestContext;
   
 import dao.UserDao;
  import entities.User;
+import service.Password;
+import service.SendMail;
  
  
 @ManagedBean(name="loginBean")
@@ -24,8 +26,7 @@ public class LoginBean implements Serializable{
 	/**
 	 * 
 	 */
-	
-	
+
 	private static final long serialVersionUID = 1L;
 
 	@EJB 
@@ -36,7 +37,7 @@ public class LoginBean implements Serializable{
  
 	
 	private User user = new User() ;
-	 
+	
 	
 	private User logedUser;
 	 
@@ -88,12 +89,22 @@ public class LoginBean implements Serializable{
  
 	public void addNewUser(){
 		System.out.println("start add User");
+		
+		 
+		newUser.setPassword(password);
 		newUser.setGrade("user");
 		 
 		 
-		newUser.setAddedBy(logedUser.getMail());
+		newUser.setAddedBy(logedUser.getPrenom());
 		newUser.setNomSociete(logedUser.getNomSociete());
 		userDao.createUser(newUser);
+		try {
+			
+			SendMail.sendMail( newUser.getMail(),"VOTRE MOT DE PASSE EST:"+newUser.getPassword());
+			
+		} catch (Exception e) {
+			System.out.println("erreur");
+		}
 		newUser = new User();
 		System.out.println("End add User");
 	}
@@ -150,50 +161,24 @@ public class LoginBean implements Serializable{
 	public String getType() {
 		return type;
 	}
-
-
-
-
 	public void setType(String type) {
 		this.type = type;
 	}
 
-
-
-
- 
-
-
-
 	public String getMail() {
 		return mail;
 	}
-
-
-
-
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
 
-
-
-
 	public String getPassword() {
-		return password;
+		return password=Password.randomPassword(8);
 	}
-
-
-
 
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-
-
-
- 
 
 
 	public User getNewUser() {
@@ -206,7 +191,7 @@ public class LoginBean implements Serializable{
 	}
 
  
-
+ 
  
 
 	

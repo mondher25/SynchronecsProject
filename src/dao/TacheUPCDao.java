@@ -18,6 +18,7 @@ public interface TacheUPCDao {
 	public void delete(Long id);
 	public void deleteComp(Long id);
 	public void deletePlannerAffTacheUPC(Long id);
+	public List<TacheUPC> getTacheByUser(Long idp,Long idCom);
 	
 	 
 }

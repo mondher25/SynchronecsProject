@@ -108,15 +108,14 @@ public class CompartimentBean implements Serializable {
 		comp.setUser(logedUser);
 		comp.setUserGrade(logedUser.getGrade());		
 		com.addCompartiment(comp);
- 		selectedPlanner();
+// 		selectedPlanner();
+ 		CompartimentAffPlannerUser compPlaUsr3 =new CompartimentAffPlannerUser();
+ 	
+ 		compPlaUsr3.setUser(logedUser);
+ 		compPlaUsr3.setCompartiment(comp);
+ 		compPlaUsr3.setPlanner(selectedPlanner());
  		
-//		CompartimentAffPlannerUser compPlaUsr3 =new CompartimentAffPlannerUser();
-//		
-//		compPlaUsr3.setUser(connectedUser);
-//		compPlaUsr3.setCompartiment(comp);
-//		compPlaUsr3.setPlanner(selectedPlanner);
-//		
-//		CompartimentAffPlannerUserDao.AddCompByPlannerUser(compPlaUsr3);
+ 		CompartimentAffPlannerUserDao.AddCompByPlannerUser(compPlaUsr3);
 		
 		System.out.println("planner etat :" +planner.isEtat());
 		System.out.println("etat --------------- planner " );
@@ -137,19 +136,19 @@ public class CompartimentBean implements Serializable {
 //		
 //		}
 //		 if (selectedPlanner.isEtat() == false){
-		finalListUserString =affectationPlannerUserDao.getUserByPlannerAff(selectedPlanner().getId());
-			for(AffectationPlannerUser u :finalListUserString ){
-				
-				User user;
-				user = u.getUser();				
-				CompartimentAffPlannerUser compPlaUsr2 =new CompartimentAffPlannerUser();				 
-				compPlaUsr2.setPlanner(selectedPlanner());				 
-				compPlaUsr2.setUser(user);	 		   
-				compPlaUsr2.setCompartiment(comp);
-				CompartimentAffPlannerUserDao.AddCompByPlannerUser(compPlaUsr2);
-				}
-
-//		}
+//		finalListUserString =affectationPlannerUserDao.getUserByPlannerAff(selectedPlanner().getId());
+//			for(AffectationPlannerUser u :finalListUserString ){
+//				
+//				User user;
+//				user = u.getUser();				
+//				CompartimentAffPlannerUser compPlaUsr2 =new CompartimentAffPlannerUser();				 
+//				compPlaUsr2.setPlanner(selectedPlanner());				 
+//				compPlaUsr2.setUser(user);	 		   
+//				compPlaUsr2.setCompartiment(comp);
+//				CompartimentAffPlannerUserDao.AddCompByPlannerUser(compPlaUsr2);
+//				}
+//
+////		}
 		
 		
 		comp = new Compartiment();
@@ -160,15 +159,22 @@ public class CompartimentBean implements Serializable {
 
 
 	public List<CompartimentAffPlannerUser> ListeCompByPlannerAndCompte() {
-		List<CompartimentAffPlannerUser> listComPlCp = new ArrayList<>();
-		if(logedUser.getGrade().equals("admin") ){
-			listComPlCp=CompartimentAffPlannerUserDao.getAllCompartiment(logedUser.getId(),Long.parseLong(idp));
-		}else if(logedUser.getGrade().equalsIgnoreCase("user")){
-			listComPlCp=CompartimentAffPlannerUserDao.comparByPlaUsr(logedUser.getId(), Long.parseLong(idp));
+//		List<CompartimentAffPlannerUser> listComPlCp = new ArrayList<>();
+		List<CompartimentAffPlannerUser> filtredList = new ArrayList<>();
+//		if(logedUser.getGrade().equals("admin") ){
+//			listComPlCp=CompartimentAffPlannerUserDao.getAllCompartiment(logedUser.getId(),Long.parseLong(idp));
+//		}else if(logedUser.getGrade().equalsIgnoreCase("user")){
+		 	
+//	}
+//		listComPlCp=CompartimentAffPlannerUserDao.getCompByPlanner( Long.parseLong(idp));
+		if(selectedPlanner().isEtat() == true){
+			filtredList=CompartimentAffPlannerUserDao.getCompByPlanner(selectedPlanner().getId());
+		}else{
+			filtredList.addAll(CompartimentAffPlannerUserDao.comparByPlaUsr(logedUser.getId(),selectedPlanner().getId()));
 		}
-		 
+		
 		System.out.println("end List compartiment");
-		return listComPlCp;
+		return filtredList;
 	}
 
 //	public List<Compartiment> ListeCompByPlanner() {

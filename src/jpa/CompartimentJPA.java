@@ -20,6 +20,7 @@ public class CompartimentJPA implements CompartimentDao {
 	@Override
 	public void addCompartiment(Compartiment c) {
 		em.persist(c);
+		em.flush();
 	}
 
 	@Override
@@ -69,5 +70,6 @@ public class CompartimentJPA implements CompartimentDao {
 	public void updateCompartiment(Compartiment comp) {
 //		em.createNativeQuery("UPDATE Compartiment c SET   nomCompartiment=:nomCom").setParameter("nomCom", nomCom).executeUpdate();
 	em.merge(comp);	
+	 
 	}
 }

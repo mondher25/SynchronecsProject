@@ -1,9 +1,7 @@
 package dao;
 
 import java.util.List;
-
 import javax.ejb.Local;
-
 import entities.AffectationPlannerUser;
 import entities.User;
  
@@ -22,4 +20,6 @@ public List<AffectationPlannerUser> getAllPlanner(Long idUser);
 public List<AffectationPlannerUser> getUserByPlannerAff(Long idp);
 public User getUserByMailId(String mail);
 public void deletePlannerAffUser(Long id);
+public List<AffectationPlannerUser> getPublicPlanner();
+public List<AffectationPlannerUser> getSuperPlanner(Long id);
 }

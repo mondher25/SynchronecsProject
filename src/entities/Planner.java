@@ -42,7 +42,7 @@ public class Planner {
 	private String 	nomSociete;
 	
 
-	
+	private Long superviseur_id;
 	
 		
 	//getter setter 
@@ -101,6 +101,14 @@ public class Planner {
 
 	public void setNomSociete(String nomSociete) {
 		this.nomSociete = nomSociete;
+	}
+
+	public Long getSuperviseur_id() {
+		return superviseur_id;
+	}
+
+	public void setSuperviseur_id(Long superviseur_id) {
+		this.superviseur_id = superviseur_id;
 	}
 
 
