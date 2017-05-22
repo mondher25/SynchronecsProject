@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="templates/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:b="http://bootsfaces.net/ui"
+	>
+	
+	<ui:define  name="option" >
+	
+    
+   	<div class="ui-g-6">
+ 
+	<h:form > 	   
+	 <p:dataTable  style="border:none;margin-top:10px;" var="vartca" value="#{tacheCP.getDateTache()}"   >
+       	  <p:column style="border:none;" headerText="Tache Retardé">
+ 			   	<h:outputText  value="#{vartca}"  />	 
+		  </p:column>	
+	</p:dataTable>		 
+	</h:form>
+	</div>
+   
+     	<div class="ui-g-6">
+     	 
+     	 
+	<h:form > 	   
+	 <p:dataTable  style="border:none;margin-top:10px;" var="t" value="#{tacheCP.listeTacheTermine()}"   >
+       	  <p:column style="border:none;" headerText="Tache Terminé">
+ 			   	<h:outputText  value="#{t.nomTache}"  />	 
+		  </p:column>	
+	</p:dataTable>		 
+	</h:form>
+	</div>
+   
+      	<div class="ui-g-6">
+       
+    
+	<h:form > 	   
+	 <p:dataTable  style="border:none;margin-top:10px;" var="ta" value="#{tacheCP.listeTacheEncours()}"   >
+       	  <p:column style="border:none;" headerText="Tache En cours">
+ 			   	<h:outputText  value="#{ta.nomTache}"  />	 
+		  </p:column>	
+	</p:dataTable>		 
+	</h:form>
+	</div>
+   
+         	<div class="ui-g-6">
+          
+	<h:form > 	   
+	 <p:dataTable  style="border:none;margin-top:10px;" var="ta" value="#{tacheCP.listeTacheNonCommence()}"   >
+       	  <p:column style="border:none;" headerText="Tache Non Commencé">
+ 			   	<h:outputText  value="#{ta.nomTache}"  />	 
+		  </p:column>	
+	</p:dataTable>		 
+	</h:form>
+	</div>
+	<h:form id="formPlanner"> </h:form>
+
+    </ui:define>
+	</ui:composition>
+
+
+ 
+
+
+
+
+</html>

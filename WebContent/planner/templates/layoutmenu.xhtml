@@ -9,10 +9,10 @@
     <h:form id="menuform">	
         <pv:menu>     	
             <p:submenu  label="General" icon="" > 
-                 <p:menuitem id="btn1" value="Planner" icon="icon-email"  outcome="planner.xhtml"  />
-                  
-                 <p:menuitem id="btn3" value="Gestion Prive" icon="icon-email" outcome="gestionPrive.xhtml" />  
-                 <p:menuitem id="btn4" value="Getion Public" icon="icon-email" outcome="gestionPublic.xhtml" />    
+                 <p:menuitem id="btn1" value="Planner" icon="icon-email"  outcome="planner.xhtml"  />                  
+                 <p:menuitem id="btn3" value="Gestion Prive" icon="icon-email" outcome="gestionPrive.xhtml" rendered="#{plan.renderedGestionPrive()}" />  
+                 <p:menuitem id="btn4" value="Getion Public" icon="icon-email" outcome="gestionPublic.xhtml" />  
+                 <p:menuitem id="btn5" value="Tache Retarde" icon="icon-email" outcome="tacheRetarde.xhtml" />                   
             </p:submenu>   
            
     </pv:menu>

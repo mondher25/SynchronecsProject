@@ -19,5 +19,6 @@ public interface TacheDao {
 	public void remove(Tache tache);
 	public void removeCompa(Long id);
 	public void deletePlannerTache(Long id);
+	public List<Tache> getAllTache();
 	 
  }

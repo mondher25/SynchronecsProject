@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
  import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity 
 public class TacheUPC {
@@ -37,9 +41,14 @@ public class TacheUPC {
  
  private String userGrade;
  
+ @Temporal(TemporalType.DATE)
+ private Date dateEcheance;
  
  private String nomTache;
- // SEtter and Getter
+ 
+ 
+ 
+ // Setter and Getter
 
 public Long getId() {
 	return id;
@@ -104,6 +113,14 @@ public String getUserGrade() {
 
 public void setUserGrade(String userGrade) {
 	this.userGrade = userGrade;
+}
+
+public Date getDateEcheance() {
+	return dateEcheance;
+}
+
+public void setDateEcheance(Date dateEcheance) {
+	this.dateEcheance = dateEcheance;
 }
 
  

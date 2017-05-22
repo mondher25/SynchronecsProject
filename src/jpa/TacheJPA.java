@@ -85,6 +85,14 @@ public class TacheJPA implements TacheDao {
 		
 	}
 
+	@Override
+	public List<Tache> getAllTache() {
+		List<Tache> listeTache=new ArrayList<>();
+		 listeTache=entityManager.createQuery("SELECT t FROM Tache t ").getResultList();
+	 
+		 return listeTache;
+	}
+
  
 
  

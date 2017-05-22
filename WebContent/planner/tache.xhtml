@@ -27,13 +27,14 @@
 	          						<!-- 
 						
 									    AJOUT DE COMPARTIMENT
-						         
-						
+
 																        -->
           <h:form id="panel"> 
 			        <p:messages id="messages" />
-			            <p:inputText styleClass="Wid60" placeholder="Nom de Compartiment" id="name" value="#{com.comp.nomCompartiment}" required="true"/>
-			              <p:commandButton value="Ajouter Compartiment" actionListener="#{com.addCom}" process="panel" update="listpanel"/>
+			        <h:panelGrid columns="2" cellspacing="0" >
+			            <p:inputText styleClass="Wid100" placeholder="Ajout  Compartiment" id="name" value="#{com.comp.nomCompartiment}" required="true"  />
+			            <p:commandButton icon="ui-icon-plus" actionListener="#{com.addCom}" process="panel" update="listpanel"/>
+			        </h:panelGrid>
 	   	 </h:form>	
 			    
 						<!-- 
@@ -43,52 +44,97 @@
 																           -->
 		
 	<h:form id="listpanel"> 	   
-	 <p:dataTable id="eventsDT" style="border:none;margin-top:10px;" var="cm" value="#{com.ListeCompByPlannerAndCompte()}" rendered="#{not empty com.ListeCompByPlannerAndCompte()}"  >
+	 <p:dataTable id="eventsDT" style="border:none;margin-top:10px;" var="cm" value="#{com.ListeCompByPlanner()}" rendered="#{not empty com.ListeCompByPlanner()}"  >
        	  <p:column style="border:none;">
- 			    	<p:commandLink  value="#{cm.compartiment.nomCompartiment}" update="allPan"  >
-					  <f:setPropertyActionListener target="#{tacheCP.idCom}" value="#{cm.compartiment.id}"/>
+ 			    	<p:commandLink  value="#{cm.nomCompartiment}" update="allPan"  >
+					  <f:setPropertyActionListener target="#{tacheCP.idCom}" value="#{cm.id}"/>
 					</p:commandLink>		         
 		    </p:column>	
+		  
 		</p:dataTable>		 
 			</h:form>
-		</div>
+</div>
 						<!-- 
 						
 									AJOUT DES TACHES
 						         
 						
 														        -->
+	<div class="ui-g-6">													        
 	<p:outputPanel id="allPan" deferred="true" >
-		<div class="ui-g-6">
-		<h:form id="formTache" rendered="#{not empty tacheCP.idCom}" >
+		
+	
+
+						<!-- 
+						
+									AFFICHAGE DE TACHE_BY_COMPARTIMENT
+						         
+						-->
+	<div class="ui-g-12">
+	 <h:form id="formPlanner"> </h:form>
+ <h:form id="listtache"  > 	 
+   
+	 <p:dataTable   var="VarTache" value="#{tacheCP.listeTacheByComparAndComp()}" rendered="#{not empty tacheCP.idCom}"   >
+	 <f:facet name="header">
+	 <p:toolbar style="border:0;background:none;">
+	      <f:facet name="left">
+	      <p:commandButton icon="ui-icon-plus"  oncomplete="PF('addtach').show()" update="addtach" style="margin-left:0;" />
+	      </f:facet>
+	       <f:facet name="left">
+	       
+	       </f:facet>
+	     </p:toolbar>
+	 </f:facet>
+       <p:column style="border:none;">
+			<h:outputText value="#{VarTache.tache.nomTache}" style="font-weight:bold;font-size:16px;" /> :
+ 		 	 
+ 			 
+		       <p:commandLink   value="#{VarTache.user.nom} #{VarTache.user.prenom}" oncomplete="PF('diagModifTache').show();"  update="diagModifTache"   >
+					  <f:setPropertyActionListener target="#{tacheMangementBean.selectedTache}" value="#{VarTache.tache}"/>
+					  <f:setPropertyActionListener value="#{VarTache.user.id}" target="#{tacheMangementBean.userTache}" />
+			</p:commandLink>
+		  </p:column>   
+		</p:dataTable>		 
+			</h:form>  	
+	 </div>
+	</p:outputPanel>
+	
+	
+</div>
+		</div>	
+	
+		<!-- aJOUT   TACHE -->	
+		
+		<p:dialog id="addtach" widgetVar="addtach" header="Nouveau Tache" modal="true" resizable="false">
+			<h:form id="formTache" rendered="#{not empty tacheCP.idCom}" >
 		
 					<p:growl id="msgs" showDetail="true" />	
-			      <p:panel style="margin-bottom:10px;">
-					<h:panelGrid columns="2" >
-							  <h:outputLabel for="nom" value="choisir un nom" />
-			        		    <p:inputText  id="nom"    value="#{tacheCP.newTache.nomTache}"/>
+
+					<h:panelGrid columns="2" cellpadding="5">
+							  <h:outputLabel for="nom" value="Nom" />
+			        		    <p:inputText  id="nom"    value="#{tacheCP.newTache.nomTache}" required="true" requiredMessage="Nom Invalide"/>
 			        		    
 						    <!--  calendar date Debut -->
-						    <p:outputLabel for="popup" value="date Debut:" />
+						    <p:outputLabel for="popup" value="Date Debut:" />
 			        		<p:calendar id="popup" value="#{tacheCP.newTache.dateDebut}" />
 			     
 					      <!--  calendar date  écheance -->
-					        <p:outputLabel for="popup1" value="date D'écheance" />
+					        <p:outputLabel for="popup1" value="Date D'écheance" />
 			        		<p:calendar id="popup1" value="#{tacheCP.newTache.dateEcheance}" />
 			        		
 			        		<h:outputLabel for="desc" value="Description:" />
-			        		    <p:inputTextarea id="desc" required="true" requiredMessage="champ obligatoire" rows="3" cols="55"  autoResize="true"  value="#{tacheCP.newTache.description}"/>
+			        		    <p:inputTextarea id="desc" required="true" requiredMessage="champ obligatoire" rows="3" cols="22"  autoResize="true"  value="#{tacheCP.newTache.description}"/>
 			        		    
 			        		        <p:outputLabel for="console" value="Etat" />
 							        <p:selectOneMenu id="console" value="#{tacheCP.newTache.etat}" style="width:125px">
 							            <f:selectItem itemLabel="non-commencé" itemValue="non-commencé" />
-							            <f:selectItem itemLabel="en cours" itemValue="en cours" />
-							            <f:selectItem itemLabel="terminé" itemValue="Terminé" />
+							            <f:selectItem itemLabel="en-cours" itemValue="en-cours" />
+							            <f:selectItem itemLabel="terminé" itemValue="terminé" />
 							   </p:selectOneMenu>
-							   <h:outputLabel value="Membre : " for="clientMail"  />
+							   <h:outputLabel value="Membre : " for="clientMail" rendered="#{tacheCP.rendered()}" />
                 <p:autoComplete id="clientMail"  value="#{tacheCP.selectedUserMail}"   
                         completeMethod="#{tacheCP.completeTheme}" 
-                         />  
+                        rendered="#{tacheCP.rendered()}" />  
 <!--  						   <p:outputLabel  value="Ajout User : " for="liste" />
 						       
 						        <p:selectOneMenu  value="#{tacheCP.selectedMail}" id="liste" rendered="#{tacheCP.rendered()}">
@@ -98,35 +144,17 @@
 						        </p:selectOneMenu> 
 						         -->
 						</h:panelGrid>
-					 <p:commandButton value="Ajouter" icon="ui-icon-check" actionListener="#{tacheCP.addTache}" process="formTache" update="listtache formTache" />
-			
-				 </p:panel>
-		</h:form>
-
-	 </div>
-						<!-- 
 						
-									AFFICHAGE DE TACHE_BY_COMPARTIMENT
-						         
-						-->
-	<div class="ui-g-12">
- <h:form id="listtache"  > 	   
-	 <p:dataTable   var="VarTache" value="#{tacheCP.listeTacheByComparAndComp()}" rendered="#{not empty tacheCP.listeTacheByComparAndComp()}"  >
-       <p:column style="border:none;">
-			 <h:outputText value="#{VarTache.tache.nomTache}" style="font-weight:bold;font-size:18px;" /> :
- 		 	<h:outputText value="#{VarTache.tache.etat}" style="font-weight:bold;font-size:18px;" />
- 			<br></br>
-		       <p:commandLink   value="#{VarTache.user.nom} #{VarTache.user.prenom}" oncomplete="PF('diagModifTache').show();"  update="diagModifTache" style="font-weight:bold;font-size:20px;" >
-					  <f:setPropertyActionListener target="#{tacheMangementBean.selectedTache}" value="#{VarTache.tache}"/>
-					  <f:setPropertyActionListener value="#{VarTache.user.id}" target="#{tacheMangementBean.userTache}" />
-			</p:commandLink>
-		  </p:column>   
-		</p:dataTable>		 
-			</h:form>  	
-	 </div>
-	</p:outputPanel>
-		</div>	
-
+					 <p:commandButton value="Ajouter" icon="ui-icon-check" actionListener="#{tacheCP.addTache}" process="formTache" update="listtache formTache" onsuccess="PF('addtach').hide()" />
+			
+			
+		</h:form>
+		
+		
+		
+		</p:dialog>		
+			
+			
     </ui:define>
 	</ui:composition>
 

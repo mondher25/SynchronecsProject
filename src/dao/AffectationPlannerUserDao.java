@@ -20,6 +20,7 @@ public List<AffectationPlannerUser> getAllPlanner(Long idUser);
 public List<AffectationPlannerUser> getUserByPlannerAff(Long idp);
 public User getUserByMailId(String mail);
 public void deletePlannerAffUser(Long id);
-public List<AffectationPlannerUser> getPublicPlanner();
+public List<AffectationPlannerUser> getPublicPlanner(String nomSociete);
 public List<AffectationPlannerUser> getSuperPlanner(Long id);
+public AffectationPlannerUser getSuperviseurPlanner(Long idp,Long idS);
 }

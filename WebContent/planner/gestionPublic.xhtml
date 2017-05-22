@@ -18,8 +18,8 @@
 
 
 	<ui:define name="option">
-			<h1 style=" font-size: 25px; color:black;border-bottom:1px solid purple; "><span style="background-color: purple;color:#FFF;">Tache</span></h1>
-
+<!-- 			<h1 style=" font-size: 25px; color:black;border-bottom:1px solid purple; "><span style="background-color: purple;color:#FFF;">Tache</span></h1>
+ -->
 	<div class=" TexAlCenter">
 		
 
@@ -127,33 +127,36 @@
 
 					     
                                 <div class="EmptyBox10"></div>
-              						<p:dataTable style="border:none;" var="varTache" value="#{gestionBean.listeAllTache()}">              						
-          							    	   
-   									    <p:column style="border:none;" >
+              						<p:dataTable  id="tacheTable" style="border:none;" var="varTache" value="#{gestionBean.listeAllTache()}">              						
+          							    	        <f:facet name="header">
+												            Tache
+												        </f:facet>
+												         <p:column style="border:none;" headerText="Nom du Tache">
+ 									    	 <h:outputText  value="#{varTache.nomTache}" /> 
+ 									    </p:column>	
+          							    	  
+   									    <p:column style="border:none;"  headerText="Date de Debut ">
 							                   <h:outputText value="#{varTache.dateDebut}" />
 							  			 </p:column>
 										 
-									  <p:column style="border:none;">									  	
+									  <p:column style="border:none;" headerText="Date d'echeance">									  	
 							                 <h:outputText value="#{varTache.dateEcheance}" /> 									                
 									  </p:column>
 									       
-									    <p:column style="border:none;">
+									    <p:column style="border:none;" headerText="Etat du Tache">
  							                <h:outputText value="#{varTache.etat}" /> 												 
  									    </p:column>
 									 
-									    <p:column style="border:none;">
- 									    	 <h:outputText  value="#{varTache.description}" /> 
- 									    </p:column>	
+									   
 									    
-									    	  <p:column  style="border:none;">
-										            <p:commandButton value="Modifier" style="background-color:green;" oncomplete="PF('diagModifTa').show();" update="diagModifTa" >
-										            	<f:setPropertyActionListener value="#{varTache}" target="#{gestionBean.seleTache}"/>
-										            </p:commandButton>
-										       </p:column>
+									     
  					 
  
 									    <p:column style="border:none;">
-									         <p:commandButton  value="supprimer" action="#{gestionBean.supprimer}"  >
+									     <p:commandButton icon="ui-icon-pencil"   style="background-color:green;" oncomplete="PF('diagModifTa').show();" update="diagModifTa" >
+										            	<f:setPropertyActionListener value="#{varTache}" target="#{gestionBean.seleTache}"/>
+										            </p:commandButton>
+									         <p:commandButton  icon="ui-icon-trash" action="#{gestionBean.supprimer}" update="tacheTable"  style="background-color:red;"  >
     									           <p:confirm header="Confirmation" message="Voulez-vous vraiment supprimer cette tache" icon="ui-icon-alert"  />
   											     <f:setPropertyActionListener target="#{gestionBean.deletedTache}" value="#{varTache}"/>
 										     </p:commandButton>	
@@ -170,8 +173,7 @@
 
 
  </div>
-			<h1 style=" font-size: 25px; color:black;border-bottom:1px solid purple; "><span style="background-color: purple;color:#FFF;">Compartiment</span></h1>
- <div class=" TexAlCenter">
+  <div class=" TexAlCenter">
 
 
 			
@@ -253,9 +255,11 @@
 
 
 				                   
-              	<p:dataTable style="border:none;" var="cm" value="#{gestionBean.listeAllCompartiment()}"   >
- 
-									    <p:column style="border:none;">
+              	<p:dataTable id="compTable" style="border:none;" var="cm" value="#{gestionBean.listeAllCompartiment()}"   >
+ 											 <f:facet name="header">
+												 Compartiment
+											 </f:facet>
+									    <p:column style="border:none;" headerText="nom du Compartiment">
 									 
 									     
 									    	 <h:outputText value="#{cm.nomCompartiment}" /> 
@@ -263,14 +267,13 @@
 							 
 									         
 									    </p:column>
-									    	 <p:column  style="border:none;">
-										            <p:commandButton value="Modifier"  oncomplete="PF('diagModifCm').show();" update="diagModifCm" style="background-color:green;" >
+									     
+										       
+									    <p:column style="border:none;" headerText="Action">
+									    <p:commandButton icon="ui-icon-pencil"  oncomplete="PF('diagModifCm').show();" update="diagModifCm" style="background-color:green;" >
 										            	<f:setPropertyActionListener value="#{cm}" target="#{gestionBean.seleComp}"/>
 										            </p:commandButton>
-										       </p:column>
-										       
-									    <p:column style="border:none;">
-									         <p:commandButton  value="supprimer" action="#{gestionBean.supprimerCom}"  >
+									         <p:commandButton  icon="ui-icon-trash" action="#{gestionBean.supprimerCom}" update="compTable" style="background-color:red;" >
     									           <p:confirm header="Confirmation" message="Voulez-vous vraiment supprimer cette Compartiment" icon="ui-icon-alert"  />
   											     <f:setPropertyActionListener target="#{gestionBean.deletedCompartiment}" value="#{cm}"/>
 										     </p:commandButton>	
@@ -295,38 +298,36 @@
 </div>
 
 
-			<h1 style=" font-size: 25px; color:black;border-bottom:1px solid purple; "><span style="background-color: purple;color:#FFF;">Planner</span></h1>
-			 
+ 			 
  <div class=" TexAlCenter">
 			 
 
 
 					 
 					
-					<h:form id="formp">
-					
-					
-					<p:dataTable style="border:none;" var="pla" value="#{gestionBean.listeAllPlanner()}" >
 
-						<p:column style="border:none;">
+					
+					
+					<p:dataTable id="plannerTable" style="border:none;" var="pla" value="#{gestionBean.listeAllPlanner()}" >
+ 								<f:facet name="header">
+									Planner
+								</f:facet>
+						<p:column style="border:none;"  headerText="Nom du Planner">
 							<h:outputText value="#{pla.namePlanner}" />
 						</p:column>
 
-						<p:column style="border:none;">
+						<p:column style="border:none; "  headerText="Type de Planner">
 							<h:outputText value="#{pla.type}" />
 						</p:column>
 
-						<p:column style="border:none;">
-							<p:commandButton value="Modifier"
+						<p:column style="border:none; "  headerText="Action">
+						<p:commandButton icon="ui-icon-pencil"
 								oncomplete="PF('diagModifPl').show();" update="diagModifPl" style="background-color:green;">
 								<f:setPropertyActionListener value="#{pla}"
 									target="#{gestionBean.selectedPlanner}" />
 							</p:commandButton>
-						</p:column>
-
-						<p:column style="border:none;">
 							<p:commandButton action="#{gestionBean.supprimerPlanner}"
-								value="supprimer">
+								icon="ui-icon-trash" update="plannerTable"  style="background-color:red;">
 								<p:confirm header="Confirmation"
 									message="Voulez-vous vraiment supprimer cette Planner"
 									icon="ui-icon-alert" />
@@ -345,12 +346,81 @@
 					</p:dataTable>
 					<div class="EmptyBox10"></div>
 
-
-
-  
-			
-		</h:form>
 		</div>
+		
+			
+			
+			
+		<!-- BOITE DE DIALOGUE MODIFEIR COMPARTIMENT -->
+					
+			<p:dialog id="diagModifCm" widgetVar="diagModifCm"   modal="true" >	
+			 	  
+				<h:form id="formModifCm">				 
+				 <h:panelGrid id="eventCm" columns="3">						    
+						    <p:outputLabel for="nomC" value="Nom Compartiment:" />
+ 			        	 	<p:inputText id="nomC" value="#{gestionBean.seleComp.nomCompartiment}"  />
+			        	 	
+			    <p:commandButton value="Valider" actionListener="#{gestionBean.updateCom}"  onsuccess="PF('diagModifCm').hide();"  process="formModifCm" update="compTable"  />
+					  </h:panelGrid>   
+				</h:form>	
+				 
+			</p:dialog>
+			
+		<!-- END BOITE DE DIALOGUE MODIFEIR COMPARTIMENT -->
+		
+		
+		
+			
+	
+			<!-- BOITE DE DIALOGUE MODIFEIR PLANNER -->
+						
+			<p:dialog id="diagModifPl" widgetVar="diagModifPl"   modal="true" >			 
+				<h:form id="formModifPl">				 
+				 <h:panelGrid id="eventPl" columns="4">						    
+						    <p:outputLabel for="plan" value="Nom Planner" />						     
+			        	 	<p:inputText id="plan" value="#{gestionBean.selectedPlanner.namePlanner}"    />
+			  <p:selectOneMenu id="typ"   value="#{gestionBean.selectedPlanner.type}"  >
+					 <f:selectItem itemLabel="Activité" itemValue="Activité" />
+				 <f:selectItem itemLabel="Projet" itemValue="Projet" />
+				<f:selectItem itemLabel="Evenement" itemValue="Evenement" />												            
+			 </p:selectOneMenu> 
+			        	 	
+			    <p:commandButton value="Valider" update="plannerTable"  actionListener="#{gestionBean.updatePlanner}"  onsuccess="PF('diagModifPl').hide();"  process="formModifPl"  />
+					  </h:panelGrid>   
+				</h:form>	
+			</p:dialog>
+			
+		<!-- END BOITE DE DIALOGUE MODIFEIR PLANNER -->		
+			
+	
+	
+				<!-- BOITE DE DIALOGUE MODIFEIR TACHE -->
+						
+			<p:dialog id="diagModifTa" widgetVar="diagModifTa"   modal="true" >			 
+				<h:form id="formModifTa">				 
+				 <h:panelGrid id="eventTa" columns="2">						    
+						    <p:outputLabel for="dated" value="date de debut" />						     
+			        	 	<p:calendar id="dated" value="#{gestionBean.seleTache.dateDebut}"  />
+			        	 	
+			        	 	<p:outputLabel for="datee" value="date d'echeance" />						     
+			        	 	<p:calendar id="datee" value="#{gestionBean.seleTache.dateEcheance}"  />
+			        	 	
+			        	 	<p:outputLabel for="descrp" value="Description" />						     
+			        	 	<p:inputTextarea rows="6" cols="30" id="descrp" value="#{gestionBean.seleTache.description}"  />
+			        	 	<p:outputLabel for="etat" value="etat " />
+			  <p:selectOneMenu id="etat"   value="#{gestionBean.seleTache.etat}"  >
+							            <f:selectItem itemLabel="non-commencé" itemValue="non-commencé" />
+							            <f:selectItem itemLabel="en-cours" itemValue="en-cours" />
+							            <f:selectItem itemLabel="Terminé" itemValue="terminé" />											            
+			 </p:selectOneMenu> 
+			        	 	
+			    <p:commandButton value="Valider"   actionListener="#{gestionBean.updateTache}"  onsuccess="PF('diagModifTa').hide();" update="tacheTable"  process="formModifTa"  />
+					  </h:panelGrid>   
+				</h:form>	
+			</p:dialog>
+	
+			
+	<h:form id="formPlanner"> </h:form>
 	</ui:define>
 </ui:composition>
 

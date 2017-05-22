@@ -113,8 +113,12 @@ public class GestionBean implements Serializable {
 	// liste Tache by id user
 
 	public List<Tache> listeAllTache()
-	{
+	{	
+		
 		List<Tache> listeTache=new ArrayList<>();
+		if (logedUser.getGrade().equals("admin"))
+			listeTache=tacheDao.getAllTache();
+		else
 		listeTache=tacheDao.getAllTache(logedUser.getId());		
 		return listeTache;
 	}
@@ -123,7 +127,11 @@ public class GestionBean implements Serializable {
 	
 	public List<Compartiment> listeAllCompartiment(){
 		List<Compartiment> listeCompartiment=new ArrayList<>();
+		if (logedUser.getGrade().equals("admin"))
+			listeCompartiment=compartimentDao.getAllCompartiment();
+		else
 		listeCompartiment=compartimentDao.getAllCompartiment(logedUser.getId());
+		
 		return listeCompartiment;
 	}
 	
@@ -131,6 +139,9 @@ public class GestionBean implements Serializable {
 	
 	public List<Planner> listeAllPlanner(){
 		List<Planner> listePlanner=new ArrayList<>();
+		if (logedUser.getGrade().equals("admin"))
+			listePlanner=plannerDao.getAllPlanner();
+		else
 		listePlanner=plannerDao.getAllPlannerById(logedUser.getId());
 		return listePlanner;
 	}
@@ -250,14 +261,14 @@ public void updatePlanner() {
 
 
 	public void updateTache(){
-	System.out.println("start update Tache");
+	System.out.println("start update Tache AND TacheUPC");
 	 
  
 	tacheDao.updateTache(seleTache);
- 
+	tacheUPCDao.updateTacheUPC(seleTache.getId(),seleTache.getEtat());
 	 
 	
-	System.out.println("end update Tache");
+	System.out.println("end update Tache AND TacheUPC");
 	}
 	
 //	public void onRowEditTache(RowEditEvent event) {

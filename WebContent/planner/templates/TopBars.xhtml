@@ -63,7 +63,10 @@
 				                         </p:panelGrid>
 								    </p:overlayPanel>		 
 				        </f:facet>   
-				        <f:facet name="right">	    
+				        <f:facet name="right">	  
+				         <h:outputText value="Bienvenue:  #{plan.logedUser.mail}" ></h:outputText>
+				        
+				          
 						<p:graphicImage id="imgpro" name="images/avatar1.svg" library="volt-layout" style="width:40px; height:40px;cursor: pointer;" />
 						<p:growl id="forRightbarrMess"></p:growl>
 				         <p:menu overlay="true" trigger="imgpro" my="left top" at="left bottom" styleClass="Container100">    				              					     		  

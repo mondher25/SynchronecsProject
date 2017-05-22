@@ -22,6 +22,8 @@ import entities.Tache;
 import entities.TacheUPC;
 import entities.User;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -92,6 +94,7 @@ public class TacheBean implements Serializable {
 	private String grade;
 	private String idTache;
 	private String commentText;
+	private String nomTache;
 	
 	
 	
@@ -118,18 +121,20 @@ public class TacheBean implements Serializable {
 	}
 
 	public Compartiment selectedCompartiment() {
+
 		return selComp = compartimentDao.getCompartimentById(Long.parseLong(idCom));
+		
 	}
 
 
 	public boolean rendered(){
 		boolean display=false ;
-		if(logedUser.getGrade().equalsIgnoreCase("user")){
+		if(logedUser.getGrade().equalsIgnoreCase("admin") || logedUser.getId() == affectationPlannerUser1.getSuperviseur_id()){
 			 
-			return display;
+			return display=true;
 			
 		}else
-			return display=true;
+			return display;
 		
 	}
 	
@@ -167,7 +172,7 @@ public class TacheBean implements Serializable {
 		// user = u.getUser();
 		//
 		// CompartimentAffPlannerUser compPlaUsr2 =new
-		// CompartimentAffPlannerUser();
+		// ClisteTacheByComparAndComfompartimentAfffPlannerUser();
 		//// compPlaUsr2.setPlanner(selectedPlanner);
 		//// compPlaUsr2.setUser(user);
 		//// compPlaUsr2.setCompartiment(comp);
@@ -179,7 +184,8 @@ public class TacheBean implements Serializable {
 		
 		selectedPlanner() ;
 		selectedCompartiment();
-		 user=userDao.getUserByMailId(selectedUserMail.trim());
+ 		if(selectedUserMail !=null)
+ 			user=userDao.getUserByMailId(selectedUserMail.trim());
 		
 		System.out.println("Start add tache");
 		newTache.setUserGrade(logedUser.getGrade());
@@ -196,35 +202,48 @@ public class TacheBean implements Serializable {
  				tacheUPC.setEtat(newTache.getEtat());
  				tacheUPC.setNomTache(newTache.getNomTache());
  				tacheUPC.setUserGrade(logedUser.getGrade());
+ 				tacheUPC.setDateEcheance(newTache.getDateEcheance());
  				tacheUPCDao.addAffTache(tacheUPC);	
  				
- 
- 				
- 			  	if(user != null)				 
- 					{
  			  		tacheUPCu.setCompartiment(selectedCompartiment());
  			  		tacheUPCu.setPlanner(selectedPlanner());	
- 	 				tacheUPCu.setUser(userDao.getUserByMailId(selectedUserMail.trim()));  	 		
+ 			  		
+ 			  		if(selectedUserMail != null)	{
+ 			  			tacheUPCu.setUser(userDao.getUserByMailId(selectedUserMail.trim())); 
+ 			  			affectationPlannerUser1.setUser(userDao.getUserByMailId(selectedUserMail.trim()));
+ 			  			compPlaUsr3.setUser(userDao.getUserByMailId(selectedUserMail.trim()));
+ 			  		} 	 				 
+ 			  		else
+ 			  		{
+ 			  			tacheUPCu.setUser(logedUser); 
+ 			  			affectationPlannerUser1.setUser(logedUser);
+ 			  			compPlaUsr3.setUser(logedUser);
+ 			  			
+ 			  		}
+ 			  		
  	 				tacheUPCu.setTache(newTache);
  	 				tacheUPCu.setEtat(newTache.getEtat());
  	 				tacheUPCu.setNomTache(newTache.getNomTache());
  	 				tacheUPCu.setUserGrade(user.getGrade());
+ 	 				tacheUPCu.setDateEcheance(newTache.getDateEcheance());
  	 				tacheUPCDao.addAffTache(tacheUPCu);	
  					
- 	 					compPlaUsr3.setUser(userDao.getUserByMailId(selectedUserMail.trim()));
+ 	 					 
 		 		 		compPlaUsr3.setCompartiment(selectedCompartiment());
 		 		 		compPlaUsr3.setPlanner(selectedPlanner()); 		
 		 		 		compartimentAffPlannerUserDao.AddCompByPlannerUser(compPlaUsr3);
 		 		 		 	 				 		 		
 				 		 		affectationPlannerUser1.setPlanner(selectedPlanner());
-				 		 		affectationPlannerUser1.setUser(userDao.getUserByMailId(selectedUserMail.trim()));
+				 		 		affectationPlannerUser1.setNomSociete(logedUser.getNomSociete());
+				 		 		
 				 		 		if (selectedPlanner().isEtat() == false)
 				 		 		affectationPlannerUser1.setEtat(false);
 				 		 		else
 				 		 		affectationPlannerUser1.setEtat(true); 	
+				 		 		
  				 		 		affectationPlannerUser1.setSuperviseur_id(selectedPlanner().getSuperviseur_id());
 				 		 		affectationPlannerUserDao.addAff(affectationPlannerUser1);
- 					}
+ 					 
  			  	
 				newTache = new Tache();
 				tacheUPC =new TacheUPC();
@@ -236,20 +255,44 @@ public class TacheBean implements Serializable {
 
 	}
 	
- 
- 
+  public List<TacheUPC> getDateTache(){
+	  List<TacheUPC> liste=new ArrayList<TacheUPC>();
+	  liste=tacheUPCDao.getTacheByDate(logedUser.getId());
+	  return liste;
+  }
+
+  public List<TacheUPC> listeTacheTermine(){
+	  List<TacheUPC> liste=new ArrayList<TacheUPC>();
+	  liste=tacheUPCDao.getTacheTermine(logedUser.getId());
+	  return liste;
+  }
+
+  public List<TacheUPC> listeTacheEncours(){
+	  List<TacheUPC> liste=new ArrayList<TacheUPC>();
+	  liste=tacheUPCDao.getTacheEnCour(logedUser.getId());
+	  return liste;
+  }
+
+  public List<TacheUPC> listeTacheNonCommence(){
+	  List<TacheUPC> liste=new ArrayList<TacheUPC>();
+	  liste=tacheUPCDao.getTacheNonCommence(logedUser.getId());
+	  return liste;
+  }
 
 	public List<TacheUPC> listeTacheByComparAndComp() {
 		System.out.println("-------------START Liste tacheByCompartiment----------");
 		List<TacheUPC> listeTacheCmCp = new ArrayList<>();
 		selectedPlanner();
-		selectedCompartiment();
+		selectedCompartiment(); 
 		listeTacheCmCp = tacheUPCDao.getTacheByUser(selectedPlanner().getId(), selectedCompartiment().getId());
 		System.out.println("idCom = " + idCom);
 		System.out.println("-----------------end Liste tacheByCompartiment---------");
 		return listeTacheCmCp;
 	}
-
+     
+	
+	
+	
 //	public List<Tache> listeTacheByComp() {
 //		List<Tache> listeTache = new ArrayList<>();
 //		selectedPlanner();
@@ -560,6 +603,14 @@ public class TacheBean implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getNomTache() {
+		return nomTache;
+	}
+
+	public void setNomTache(String nomTache) {
+		this.nomTache = nomTache;
 	}
 
 

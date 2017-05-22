@@ -17,5 +17,6 @@ public interface CompartimentDao {
 	public void removeCom(Compartiment com);
 	public void deletePlannerCompartiment(Long id);
 	public void updateCompartiment(Compartiment comp);
+	public List<Compartiment> getAllCompartiment();
 
 }

@@ -1,9 +1,7 @@
 package dao;
 
 import java.util.List;
-
 import javax.ejb.Local;
-
 import entities.TacheUPC;
 
 @Local
@@ -19,6 +17,10 @@ public interface TacheUPCDao {
 	public void deleteComp(Long id);
 	public void deletePlannerAffTacheUPC(Long id);
 	public List<TacheUPC> getTacheByUser(Long idp,Long idCom);
-	
+	public List<TacheUPC> getTacheByDate(Long idUser);
+	public List<TacheUPC> getTacheNonCommence(Long idUser);
+	public List<TacheUPC> getTacheTermine(Long idUser);
+	public List<TacheUPC> getTacheEnCour(Long idUser);
+	public void updateTacheUPC(Long idTache,String etat);
 	 
 }

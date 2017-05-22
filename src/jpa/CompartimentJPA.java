@@ -72,4 +72,11 @@ public class CompartimentJPA implements CompartimentDao {
 	em.merge(comp);	
 	 
 	}
+
+	@Override
+	public List<Compartiment> getAllCompartiment() {
+		List<Compartiment> listeCom = new ArrayList<Compartiment>();
+		listeCom = em.createQuery("SELECT c FROM Compartiment c").getResultList();
+		return listeCom;
+	}
 }

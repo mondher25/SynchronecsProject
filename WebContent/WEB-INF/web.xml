@@ -140,9 +140,6 @@
     <filter-name>PrimeFaces FileUpload Filter</filter-name>
     <servlet-name>Faces Servlet</servlet-name>
   </filter-mapping>
-  <session-config>
-    <session-timeout>15</session-timeout>
-  </session-config>
   <login-config>
     <auth-method>FORM</auth-method>
     <realm-name>web_app_default</realm-name>

@@ -17,27 +17,27 @@
 
 		<!-- BOITE DE DIALOGUE -->
 			
-			<p:dialog id="diagAddPlanner" widgetVar="diagAddPlanner" modal="true"  hideEffect="clip" width="700px" height="500px">
+<p:dialog id="diagAddPlanner" widgetVar="diagAddPlanner" modal="true" footer="Fin" resizable="false" header="Ajouter Planner " hideEffect="clip">
+	
 	<h:form id="formAddPlanner">
-	 
-	<h:outputText value="nom Planner: " /> 
-		<p:inputText value="#{plan.planner.namePlanner}" placeholder="Nom de Planner" required="true" />
-		
-			<div class="EmptyBox10"></div>	
-			<h:outputText value="Type Planner " />			   			    									   			        
-					<p:selectOneMenu id="console"  style="width:125px" value="#{plan.planner.type}" >
+	    <p:growl id="grow"></p:growl> 
+	 <h:panelGrid columns="2" cellpadding="5">
+	    <h:outputText   value="Nom Planner" /> 
+		<p:inputText   value="#{plan.planner.namePlanner}" placeholder="Nom de Planner" required="true" requiredMessage="Ecrire Nom de Planner " />
+	
+		<h:outputText value="Type Planner " />			   			    									   			        
+		<p:selectOneMenu id="console"  style="width:125px" value="#{plan.planner.type}" >
 					 <f:selectItem itemLabel="Activité" itemValue="Activité" />
 				 <f:selectItem itemLabel="Projet" itemValue="Projet" />
 				<f:selectItem itemLabel="Evenement" itemValue="Evenement" />												            
-			 </p:selectOneMenu> 
-			 
-		<div class="EmptyBox10"></div>
-			        <h:outputText value="Public " />
-	        <p:inputSwitch value="#{plan.planner.etat}" />	
-	               
-  	        <div class="EmptyBox10"></div>
-  	         <h:outputText value="Superviseur " />
-  	              <p:autoComplete     value="#{plan.selectedUserMail}"  completeMethod="#{plan.completeTheme}"  />  
+		</p:selectOneMenu> 
+		
+		<h:outputText value="Public " />
+	    <p:inputSwitch value="#{plan.planner.etat}" />	
+
+
+  	    <h:outputText value="Superviseur " rendered="#{plan.renderedGestionPrive()}"  />
+  	    <p:autoComplete rendered="#{plan.renderedGestionPrive()}"    value="#{plan.selectedUserMail}"  completeMethod="#{plan.completeTheme}"  />  
   	        
 	         <!-- <h:outputLabel value="Membre : " for="clientMail" rendered="#{plan.rendered()}"/>
                 <p:autoComplete id="clientMail"  value="#{plan.finalListUserString}"   
@@ -46,18 +46,20 @@
                         multiple="true"
                         rendered="#{plan.rendered()}"
                          />   -->
-	        
-	        <div class="EmptyBox10"></div>
-	        
-<p:commandButton style="background-color:green;" value="ajouter Planner"  actionListener="#{plan.addNewPlanner()}"      oncomplete="PF('diagAddPlanner').hide()" />
+	      
+	      
+	    </h:panelGrid>    
+	    
+	     <p:commandButton style="background-color:green;" styleClass="Fright" value="Terminer"   actionListener="#{plan.addNewPlanner()}"    onsuccess="PF('diagAddPlanner').hide()" update="grow formPlanner" />
+	    
 	 
 	</h:form>	
 </p:dialog>
 
-			<p:dialog  maximizable="true" closeOnEscape="true"   id="diagModifTache" widgetVar="diagModifTache"  showEffect="clip" hideEffect="clip" modal="true" width="700px" height="500px">
+			<p:dialog header="Modifer Tache"  maximizable="true" closeOnEscape="true"   id="diagModifTache" widgetVar="diagModifTache"  showEffect="clip" hideEffect="clip" modal="true" width="700px" height="500px">
 			 
 				<h:form id="formModifTache">
-				<h1  >Edite Tache</h1>
+				 
 				 <h:panelGrid id="eventDetails" columns="2">
 						    <!--  calendar date Debut -->
 						    <p:outputLabel for="popup" value="date Debut:" />
@@ -70,15 +72,15 @@
 			        		        <p:outputLabel for="console" value="Etat" />
 							        <p:selectOneMenu id="console" value="#{tacheMangementBean.selectedTache.etat}" style="width:125px">
 							            <f:selectItem itemLabel="non-commencé" itemValue="non-commencé" itemDisabled="true" />
-							            <f:selectItem itemLabel="en cours" itemValue="en cours" />
-							            <f:selectItem itemLabel="Terminé" itemValue="Terminé" />
+							            <f:selectItem itemLabel="en-cours" itemValue="en-cours" />
+							            <f:selectItem itemLabel="Terminé" itemValue="terminé" />
 							   </p:selectOneMenu>		   			    									   			        
 					 
 						 <h:outputLabel for="desc" value="Description:" />
 			        	 <h:outputText id="desc" style="height:100px;" value="#{tacheMangementBean.selectedTache.description}"  /> 
 			         
 			        	 
- 					<p:commandButton value="modifier" actionListener="#{tacheMangementBean.update}"  onsuccess="PF('diagModifTache').hide()"  process="formModifTache" rendered="#{ tacheMangementBean.rendered()}" />
+ 					<p:commandButton value="modifier" actionListener="#{tacheMangementBean.update}"  onsuccess="PF('diagModifTache').hide()"   process="formModifTache" rendered="#{ tacheMangementBean.rendered()}" />
 					
 					  </h:panelGrid>
 					   
@@ -93,18 +95,18 @@
 					   <thead></thead>
 					   <tbody  >
 					   <tr>
-					   	<td style="font-size: 20px;">
+					   	<td style="font-weight: bolder;">
 					   	 #{tacheMangementBean.logedUser.mail}
 					   	
 					   	</td>
 					   	 
 					    
-					   	<td style="font-size: 18px">
+					   	<td style="height: 100px;width: 200px;" >
 					   	#{comment.date}
 					   	</td>
 					   	 </tr>
-					   	<tr>
-					   		<td>
+					   	<tr  >
+					   		<td >
 					   		<br/>
 					   	 #{comment.commentText}
 					   	
@@ -117,7 +119,7 @@
 			</p:outputPanel>
 			        	<p:inputTextarea id="commentb" required="true" rows="5" cols="55"  autoResize="true"  value="#{tacheMangementBean.comment.commentText}"/>
 			        	<br/>
-			        	<p:commandButton style="background-color:red;" value="Commentaire  " actionListener="#{tacheMangementBean.addNewComment}" process="tab"  update="comm" />
+			        	<p:commandButton style="background-color:red;" value="Commentaire  " actionListener="#{tacheMangementBean.addNewComment}" process="tab"  update="comm tab" />
 				
 				</h:form>	
 			</p:dialog>
@@ -130,83 +132,7 @@
 			
 			
 			
-			
-			
-			
-		<!-- BOITE DE DIALOGUE MODIFEIR COMPARTIMENT -->
-					
-			<p:dialog id="diagModifCm" widgetVar="diagModifCm"   modal="true" >	
-			 	  
-				<h:form id="formModifCm">				 
-				 <h:panelGrid id="eventCm" columns="3">						    
-						    <p:outputLabel for="nomC" value="Nom Compartiment:" />
- 			        	 	<p:inputText id="nomC" value="#{gestionBean.seleComp.nomCompartiment}"  />
-			        	 	
-			    <p:commandButton value="Valider" actionListener="#{gestionBean.updateCom}"  onsuccess="PF('diagModifCm').hide();"  process="formModifCm"   />
-					  </h:panelGrid>   
-				</h:form>	
-				 
-			</p:dialog>
-			
-		<!-- END BOITE DE DIALOGUE MODIFEIR COMPARTIMENT -->
 		
-		
-		
-			
-	
-			<!-- BOITE DE DIALOGUE MODIFEIR PLANNER -->
-						
-			<p:dialog id="diagModifPl" widgetVar="diagModifPl"   modal="true" >			 
-				<h:form id="formModifPl">				 
-				 <h:panelGrid id="eventPl" columns="4">						    
-						    <p:outputLabel for="plan" value="Nom Planner" />						     
-			        	 	<p:inputText id="plan" value="#{gestionBean.selectedPlanner.namePlanner}"    />
-			  <p:selectOneMenu id="typ"   value="#{gestionBean.selectedPlanner.type}"  >
-					 <f:selectItem itemLabel="Activité" itemValue="Activité" />
-				 <f:selectItem itemLabel="Projet" itemValue="Projet" />
-				<f:selectItem itemLabel="Evenement" itemValue="Evenement" />												            
-			 </p:selectOneMenu> 
-			        	 	
-			    <p:commandButton value="Valider"   actionListener="#{gestionBean.updatePlanner}"  onsuccess="PF('diagModifPl').hide();"  process="formModifPl"  />
-					  </h:panelGrid>   
-				</h:form>	
-			</p:dialog>
-			
-		<!-- END BOITE DE DIALOGUE MODIFEIR PLANNER -->		
-			
-	
-	
-				<!-- BOITE DE DIALOGUE MODIFEIR TACHE -->
-						
-			<p:dialog id="diagModifTa" widgetVar="diagModifTa"   modal="true" >			 
-				<h:form id="formModifTa">				 
-				 <h:panelGrid id="eventTa" columns="2">						    
-						    <p:outputLabel for="dated" value="date de debut" />						     
-			        	 	<p:calendar id="dated" value="#{gestionBean.seleTache.dateDebut}"  />
-			        	 	
-			        	 	<p:outputLabel for="datee" value="date d'echeance" />						     
-			        	 	<p:calendar id="datee" value="#{gestionBean.seleTache.dateEcheance}"  />
-			        	 	
-			        	 	<p:outputLabel for="descrp" value="Description" />						     
-			        	 	<p:inputTextarea rows="6" cols="30" id="descrp" value="#{gestionBean.seleTache.description}"  />
-			        	 	<p:outputLabel for="etat" value="etat " />
-			  <p:selectOneMenu id="etat"   value="#{gestionBean.seleTache.etat}"  >
-							            <f:selectItem itemLabel="non-commencé" itemValue="non-commencé" />
-							            <f:selectItem itemLabel="en cours" itemValue="en cours" />
-							            <f:selectItem itemLabel="Terminé" itemValue="Terminé" />											            
-			 </p:selectOneMenu> 
-			        	 	
-			    <p:commandButton value="Valider"   actionListener="#{gestionBean.updateTache}"  onsuccess="PF('diagModifTa').hide();"  process="formModifTa"  />
-					  </h:panelGrid>   
-				</h:form>	
-			</p:dialog>
-			
-		<!-- END BOITE DE DIALOGUE MODIFEIR TACHE -->			
-			
-			
-			
-	
-
 
 
 

@@ -82,7 +82,8 @@ public class AffectationPlannerUserJPA implements AffectationPlannerUserDao{
 	@Override
 	public List<AffectationPlannerUser> getAllPlanner(Long idUser) {
 		List<AffectationPlannerUser> liste=new ArrayList<>();
-		liste=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE user_id=:id").setParameter("id", idUser).getResultList();
+		boolean etat=false;
+		liste=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE user_id=:id AND etat=:etat").setParameter("id", idUser).setParameter("etat", etat).getResultList();
 		return liste;
 	}
 
@@ -127,10 +128,10 @@ public class AffectationPlannerUserJPA implements AffectationPlannerUserDao{
 
 
 	@Override
-	public List<AffectationPlannerUser> getPublicPlanner() {
+	public List<AffectationPlannerUser> getPublicPlanner(String nomSociete) {
 		List<AffectationPlannerUser> listPlanner=new ArrayList<>();
 		boolean etat=true;
-		listPlanner=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE etat=:etat ").setParameter("etat",etat).getResultList();
+		listPlanner=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE etat=:etat AND nomSociete=:nomSociete ").setParameter("etat",etat).setParameter("nomSociete", nomSociete).getResultList();
 		
 		
 		return listPlanner;
@@ -144,8 +145,8 @@ public class AffectationPlannerUserJPA implements AffectationPlannerUserDao{
 		List<AffectationPlannerUser> liste=new ArrayList<>();
 //		Set set = new HashSet();
 //		List<AffectationPlannerUser> liste2=new ArrayList<>();
-		liste=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE superviseur_id=:id ").setParameter("id", id).getResultList();
-	
+//		liste=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE superviseur_id=:id AND user_id<>:id ").setParameter("id", id).getResultList();
+		liste=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE superviseur_id=:id  ").setParameter("id", id).getResultList();
 //		set.addAll(liste);
 //		liste.clear();
 //		liste.addAll(set);
@@ -157,6 +158,21 @@ public class AffectationPlannerUserJPA implements AffectationPlannerUserDao{
 // 		}
 //		
 		return liste;
+	}
+
+
+
+	@Override
+	public AffectationPlannerUser getSuperviseurPlanner(Long idp,Long idS) {
+		AffectationPlannerUser userAffPl=null;
+		 
+		try{
+		userAffPl=(AffectationPlannerUser)em.createQuery("SELECT a FROM AffectationPlannerUser WHERE planner_id=:idp AND supreviseur_id=:id").setParameter("idp", idp).setParameter("id", idS).getSingleResult();
+		}catch(Exception e){
+			
+			return userAffPl;
+		}
+		return userAffPl;
 	}
 
 

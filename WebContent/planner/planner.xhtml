@@ -20,21 +20,33 @@
 	<ui:define name="option">
 
 		<h:form id="formPlanner">
-
-			<p:dataTable style="border:none;" id="eventsDT" var="pl"
-				value="#{plan.listePlannerByIdCompte()}" rendered="#{not empty plan.listePlannerByIdCompte()}" >
-
- 
-
-				<p:column style="font-size:20px;border:none; ">
-					<p:commandLink action="tache.xhtml?faces-redirect=true"
-						value="#{pl.planner.namePlanner}" update="eventsDT">
-
-						<f:setPropertyActionListener target="#{com.idp}"
-							value="#{pl.planner.id}" />
-						<f:setPropertyActionListener target="#{tacheCP.idp}"
-							value="#{pl.planner.id}" />
-
+		
+		
+		<div class="ui-g-9">							
+							<p:dataTable  style="border:none;" id="ev" var="pla" value="#{plan.listePlannerPrive()}"   >
+							 					<f:facet name="header">
+												 Mes Planner 
+											 </f:facet>
+								<p:column style="font-size:20px;border:none; "  headerText="">
+												<p:commandLink style="color:black;font-size:16px;" action="tache.xhtml?faces-redirect=true" value="#{pla.planner.namePlanner}" update="ev">
+													<f:setPropertyActionListener target="#{com.idp}" value="#{pla.planner.id}" />
+													<f:setPropertyActionListener target="#{tacheCP.idp}" value="#{pla.planner.id}" />
+												</p:commandLink>
+								</p:column>
+							</p:dataTable>
+						</div>
+						
+						
+	<div class="ui-g-3">
+			<p:dataTable style="border:none; " id="eventsDT" var="pl"
+				value="#{plan.listePlannerPublic()}"   >
+				 <f:facet name="header"  >
+				 	Planner Public
+				 </f:facet>
+				<p:column style="font-size:20px;border:none; "  >
+					<p:commandLink style="color:black;font-size:16px;" action="tache.xhtml?faces-redirect=true" value="#{pl.planner.namePlanner}" update="eventsDT">
+						<f:setPropertyActionListener target="#{com.idp}" value="#{pl.planner.id}" />
+						<f:setPropertyActionListener target="#{tacheCP.idp}" value="#{pl.planner.id}" />
 					</p:commandLink>
 				</p:column>
 
@@ -46,7 +58,25 @@
 		             <f:param  name="idp" value="#{pl.planner.id}"></f:param>
 		       </p:link>  
 		 </p:column> -->
+		 
+		 			 
+		 
 			</p:dataTable>
+		</div>
+			<div class="ui-g-12">	
+			<p:dataTable style="border:none;" id="eva" var="pln" value="#{pln.listePlannerSupervise()}"  rendered="#{ not empty pln.listePlannerSupervise()}" >
+			<p:column style="font-size:20px;border:none; " headerText="Planner Supervise">
+								<p:commandLink  style="color:black;font-size:16px;" action="tache.xhtml?faces-redirect=true" value="#{pln.planner.namePlanner}" update="eva">
+									<f:setPropertyActionListener target="#{com.idp}" value="#{pln.planner.id}" />
+									<f:setPropertyActionListener target="#{tacheCP.idp}" value="#{pln.planner.id}" />
+							
+								</p:commandLink>
+			</p:column>
+			</p:dataTable>
+					</div>
+					
+					
+						
 
 		</h:form>
 		

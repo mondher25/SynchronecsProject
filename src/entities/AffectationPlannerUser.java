@@ -26,7 +26,7 @@ public class AffectationPlannerUser {
     @JoinColumn(name="user_id")
     private User  user;
  
-    
+    private String nomSociete;
      
 	
 	private boolean etat;
@@ -75,6 +75,14 @@ public class AffectationPlannerUser {
 
 	public void setSuperviseur_id(Long superviseur_id) {
 		this.superviseur_id = superviseur_id;
+	}
+
+	public String getNomSociete() {
+		return nomSociete;
+	}
+
+	public void setNomSociete(String nomSociete) {
+		this.nomSociete = nomSociete;
 	}
 
  
