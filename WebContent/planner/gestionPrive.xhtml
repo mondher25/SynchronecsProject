@@ -23,26 +23,25 @@
 	
 	<div class="ui-g-12">
 	<h:form id="paneuserg">
-	
+	<p:growl id="growl" showDetail="false" sticky="true" />
        <div class=" TexAlCenter"  >
          <i class="icon-user-add-outline Fs60 Blue"></i>
            <h3>Créer un Compte Utilisateur</h3>
                <div class="EmptyBox10"></div>
-                   <p:inputText styleClass="Wid50" placeholder="Nom" value="#{loginBean.newUser.nom}"/>
+                   <p:inputText styleClass="Wid50" required="true" requiredMessage="Champ Obligatoire" placeholder="Nom" value="#{loginBean.newUser.nom}"/>
                         <div class="EmptyBox10"></div>
-                          <p:inputText styleClass="Wid50" placeholder="Prenom" value="#{loginBean.newUser.prenom}" /> 
+                          <p:inputText styleClass="Wid50" required="true" requiredMessage="Champ Obligatoire" placeholder="Prenom" value="#{loginBean.newUser.prenom}" /> 
                           <div class="EmptyBox10"></div>
                                                      
-                           <h:outputText styleClass="Wid40" value="#{loginBean.password}" style="backgroun-color:#EFEFEF;"/>                                      
+                           <h:inputHidden styleClass="Wid40"  value="#{loginBean.password}" style="backgroun-color:#EFEFEF;"/>                                      
                            <div class="EmptyBox10"></div>                            
                             
-                             <p:inputText styleClass="Wid50" placeholder="E-Mail" value="#{loginBean.newUser.mail}" />
-                            <div class="EmptyBox10"></div>
-                           <p:inputText styleClass="Wid50" placeholder="E-Mail Again"/>
-                           
+                             <p:inputText styleClass="Wid50" required="true" requiredMessage="adresse de messagerie invalide" placeholder="Adresse de messagerie" value="#{loginBean.newUser.mail}" >
+                            <p:keyFilter regEx="/[a-z0-9_\.\-@]/i" />
+                           </p:inputText>
 						 <div class="EmptyBox10"></div>
                            
-        <p:commandButton value="Valider" icon="fa fa-check-circle-o" style="background-color:green;" actionListener="#{loginBean.addNewUser()}"/>
+        <p:commandButton value="Valider" icon="fa fa-check-circle-o" update="paneuserg growl" style="background-color:green;" actionListener="#{loginBean.addNewUser()}"/>
      </div>   
    </h:form>
  </div>
@@ -66,8 +65,7 @@
    		 </div> 
    </h:form>  
   </div> 
-    -->
-   
+    -->   	   
    
    <h:form id="formPlanner"> </h:form>
     </ui:define>

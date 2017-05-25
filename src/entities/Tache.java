@@ -30,7 +30,7 @@ public class Tache {
 	
 	private String userGrade;
 	
-	 
+	private Long userResponsable;
 	 
 	
 	private String nomTache;
@@ -116,6 +116,12 @@ public class Tache {
 	}
 	public void setNomTache(String nomTache) {
 		this.nomTache = nomTache;
+	}
+	public Long getUserResponsable() {
+		return userResponsable;
+	}
+	public void setUserResponsable(Long userResponsable) {
+		this.userResponsable = userResponsable;
 	}
  
 	

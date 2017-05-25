@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.event.SelectEvent;
 
 import dao.AffectationPlannerUserDao;
 import dao.CommentDao;
@@ -111,7 +112,9 @@ public class GestionBean implements Serializable {
 	}
 	
 	// liste Tache by id user
-
+    public void onRowSelect(SelectEvent event) {
+         
+    }
 	public List<Tache> listeAllTache()
 	{	
 		
@@ -119,7 +122,7 @@ public class GestionBean implements Serializable {
 		if (logedUser.getGrade().equals("admin"))
 			listeTache=tacheDao.getAllTache();
 		else
-		listeTache=tacheDao.getAllTache(logedUser.getId());		
+		listeTache=tacheDao.getAllTacheUser(logedUser.getId());		
 		return listeTache;
 	}
 	
@@ -282,6 +285,8 @@ public void updatePlanner() {
 //	public void onRowCancelTache(RowEditEvent event) {
 //		 
 //	}
+	
+	
 	 
  
 	//Getter And Setter---------------------------------------------->	

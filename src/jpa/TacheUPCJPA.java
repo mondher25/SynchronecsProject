@@ -96,8 +96,8 @@ public class TacheUPCJPA implements TacheUPCDao {
 	@Override
 	public List<TacheUPC> getTacheByUser(Long idp, Long idCom) {
 		List<TacheUPC> liste=new ArrayList<>();
-		String userGrade="user";
-		liste=em.createQuery("SELECT t FROM TacheUPC t WHERE planner_id=:id AND compartiment_id=:idC AND userGrade=:userGrade").setParameter("id", idp).setParameter("idC", idCom).setParameter("userGrade", userGrade).getResultList();	
+		
+		liste=em.createQuery("SELECT t FROM TacheUPC t WHERE planner_id=:id AND compartiment_id=:idC ").setParameter("id", idp).setParameter("idC", idCom).getResultList();	
 		return liste;
 	}
 
@@ -105,8 +105,7 @@ public class TacheUPCJPA implements TacheUPCDao {
 
 	@Override
 	public List<TacheUPC> getTacheByDate(Long idUser) {
-		List <TacheUPC> liste=new ArrayList<>();
-		 
+		List <TacheUPC> liste=new ArrayList<>();		 
 		liste=em.createNativeQuery("SELECT nomTache FROM TacheUPC WHERE user_id=:id AND dateEcheance < now()").
 		setParameter("id", idUser). getResultList();
 		return liste;
@@ -129,7 +128,7 @@ public class TacheUPCJPA implements TacheUPCDao {
 	public List<TacheUPC> getTacheTermine(Long idUser) {
 		List <TacheUPC> liste=new ArrayList<>();
 		String etat="terminé";
-		liste=em.createQuery("SELECT t FROM TacheUPC t WHERE etat=:etat AND user_id=:id ").
+		liste=em.createQuery("SELECT t FROM TacheUPC t WHERE etat=:etat AND user_id=:id").
 		setParameter("id", idUser).setParameter("etat", etat). getResultList();
 		return liste;
 	}
@@ -140,7 +139,7 @@ public class TacheUPCJPA implements TacheUPCDao {
 	public List<TacheUPC> getTacheEnCour(Long idUser) {
 		List <TacheUPC> liste=new ArrayList<>();
 		String etat="en-cours";
-		liste=em.createQuery("SELECT t FROM TacheUPC t WHERE etat=:etat AND user_id=:id ").
+		liste=em.createQuery("SELECT t FROM TacheUPC t WHERE etat=:etat AND user_id=:id").
 		setParameter("id", idUser).setParameter("etat", etat). getResultList();
 		return liste;
 	}
@@ -151,6 +150,47 @@ public class TacheUPCJPA implements TacheUPCDao {
 	public void updateTacheUPC(Long idTache, String etat) {
 		em.createNativeQuery("UPDATE TacheUPC set etat=:etat WHERE tache_id=:id").setParameter("etat", etat).setParameter("id", idTache).getResultList();
 		
+	}
+
+
+
+	@Override
+	public List<TacheUPC> getAllTacheByDate() {
+		List <TacheUPC> liste=new ArrayList<>();		 
+		liste=em.createNativeQuery("SELECT nomTache FROM TacheUPC WHERE  dateEcheance < now()"). getResultList();
+		return liste;
+	}
+
+
+
+	@Override
+	public List<TacheUPC> getAllTacheNonCommence() {
+		List <TacheUPC> listen=new ArrayList<>();
+		String etat="non-commencé";
+		listen=em.createQuery("SELECT t FROM TacheUPC t WHERE etat=:etat").setParameter("etat", etat). getResultList();
+		return listen;
+	}
+
+
+
+	@Override
+	public List<TacheUPC> getAllTacheTermine() {
+		List <TacheUPC> listet=new ArrayList<>();
+		String etat="terminé";
+		listet=em.createQuery("SELECT t FROM TacheUPC t WHERE  etat=:etat").
+		setParameter("etat", etat). getResultList();
+		return listet;
+	}
+
+
+
+	@Override
+	public List<TacheUPC> getAllTacheEnCour() {
+		List <TacheUPC> listec=new ArrayList<>();
+		String etat="en-cours";
+		listec=em.createQuery("SELECT t FROM TacheUPC t WHERE etat=:etat").
+		setParameter("etat", etat). getResultList();
+		return listec;
 	}
 
 }

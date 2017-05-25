@@ -31,7 +31,14 @@ public class SupPlannerJPA implements SupPlannerDao {
 	@Override
 	public List<SupPlanner> getSupPlanner(Long idUser) {
 		List<SupPlanner> liste=new ArrayList<>();
-		liste=em.createQuery("SELECT s FROM SupPlanner WHERE user_id=:id").setParameter("id", idUser).getResultList();
+		liste=em.createQuery("SELECT s FROM SupPlanner s WHERE user_id=:id").setParameter("id", idUser).getResultList();
+		return liste;
+	}
+
+	@Override
+	public List<SupPlanner> getAllSupPlanner() {
+		List<SupPlanner> liste=new ArrayList<>();
+		liste=em.createQuery("SELECT s FROM SupPlanner s").getResultList();
 		return liste;
 	}
 	

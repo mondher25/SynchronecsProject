@@ -66,11 +66,11 @@
 <!--  INSCRIPTION -->
 
 
-<p:dialog id="diagInscrit" widgetVar="diagInscrit" modal="true" width="700px" height="500px" closeOnEscape="true"    >
+<p:dialog header="Créer votre Compte Administrateur" id="diagInscrit" widgetVar="diagInscrit" modal="true" width="700px" height="500px" closeOnEscape="true"    >
 	<h:form id="formInscrit">
 	  
 	   <div class=" TexAlCenter"  >
-	    <h3>Créer votre Compte</h3>
+	     
 	  
 	    <div class="EmptyBox10"></div>
                   
@@ -85,9 +85,8 @@
 									     <div class="EmptyBox10"></div>
 									    <p:inputText placeholder="Nom de la societe" styleClass="Wid50" value="#{userBean.user.nomSociete}" />
 									    <div class="EmptyBox10"></div>
-									    <p:inputText placeholder="Votre adresse Mail" styleClass="Wid50" value="#{userBean.user.mail}" />
-									    <div class="EmptyBox10"></div>
-									    <p:inputText placeholder="confirmer votre adresse Mail" styleClass="Wid50" />
+									    <p:inputText placeholder="Votre adresse de messagerie" styleClass="Wid50" value="#{userBean.user.mail}" />
+									     
 									    <div class="EmptyBox10"></div>
 									    <p:password placeholder="Votre mot de passe" styleClass="Wid50" value="#{userBean.user.password}" />		
 									     <div class="EmptyBox10"></div>

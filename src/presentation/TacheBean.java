@@ -3,6 +3,11 @@ package presentation;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+
+import org.primefaces.model.chart.PieChartModel;
+
+ 
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import dao.AffectationPlannerUserDao;
@@ -10,6 +15,7 @@ import dao.CommentDao;
 import dao.CompartimentAffPlannerUserDao;
 import dao.CompartimentDao; 
 import dao.PlannerDao;
+import dao.SupPlannerDao;
 import dao.TacheDao;
 import dao.TacheUPCDao;
 import dao.UserDao;
@@ -18,6 +24,7 @@ import entities.Comment;
 import entities.Compartiment;
 import entities.CompartimentAffPlannerUser;
 import entities.Planner;
+import entities.SupPlanner;
 import entities.Tache;
 import entities.TacheUPC;
 import entities.User;
@@ -61,6 +68,9 @@ public class TacheBean implements Serializable {
 	
 	@EJB
 	private AffectationPlannerUserDao affectationPlannerUserDao;
+	
+	@EJB 
+	private SupPlannerDao supPlannerDao;
 
 	
 
@@ -76,14 +86,24 @@ public class TacheBean implements Serializable {
 	private CompartimentAffPlannerUser compPlaUsr3 =new CompartimentAffPlannerUser();
 	private AffectationPlannerUser affectationPlannerUser1 = new AffectationPlannerUser();
 	private CompartimentAffPlannerUser selctedCAPU;
+	List<TacheUPC> listNonCommencer = new ArrayList<TacheUPC>();
+	List<TacheUPC> listEncours = new ArrayList<TacheUPC>();
+	List<TacheUPC> listTerminer = new ArrayList<TacheUPC>();
+	List<TacheUPC> listRetarder = new ArrayList<TacheUPC>();
+	private PieChartModel modelTache;
 //	private List<User> finalListUserString ;
 	private String selectedUserMail;
  	private TacheUPC tacheUPC =new TacheUPC();
  	private TacheUPC tacheUPCu =new TacheUPC();
+ 	private SupPlanner sup=new SupPlanner();
 	private User logedUser;  
 	private Tache selectedTache;
 	private User user;
-
+	private int nbNonCommencer;
+	private int nbEncours;
+	private int nbTerminer;
+	private int nbRetarder;
+	
 	private Date dateDebut;
 	private Date dateEcheance;
 	private String description;
@@ -126,10 +146,21 @@ public class TacheBean implements Serializable {
 		
 	}
 
+ 
 
 	public boolean rendered(){
 		boolean display=false ;
-		if(logedUser.getGrade().equalsIgnoreCase("admin") || logedUser.getId() == affectationPlannerUser1.getSuperviseur_id()){
+			 
+		  List<Long> liste=new ArrayList<Long>();
+		  liste=affectationPlannerUserDao.getSuperviseurPlanner(selectedPlanner().getId());
+		 for(int i = 0; i < liste.size(); i++){
+  			Long superviseurId=liste.get(i) ;
+  			if(superviseurId == logedUser.getId() ) 
+ 				return display=true;	 			 
+  			
+ 		}
+		 
+		if(logedUser.getGrade().equalsIgnoreCase("admin") ){
 			 
 			return display=true;
 			
@@ -138,6 +169,17 @@ public class TacheBean implements Serializable {
 		
 	}
 	
+	public boolean disabledSup(){
+		boolean display;
+		 
+		if(logedUser.getGrade().equals("admin") ){
+			 
+			return display=false;
+			
+		}else
+			return display=true;
+		
+	}
 	
 	  public List<String> completeTheme(String query) {
 	    	
@@ -190,66 +232,72 @@ public class TacheBean implements Serializable {
 		System.out.println("Start add tache");
 		newTache.setUserGrade(logedUser.getGrade());
 		newTache.setPlanner(selectedPlanner());
-		newTache.setCompartiment(selectedCompartiment());	
-		 
+		newTache.setCompartiment(selectedCompartiment());
 		newTache.setUser(logedUser);
+		newTache.setUserResponsable(logedUser.getId());
 		tacheDao.addTache(newTache);		
-		
- 				tacheUPC.setCompartiment(selectedCompartiment());
- 				tacheUPC.setPlanner(selectedPlanner());	
- 				tacheUPC.setUser(logedUser); 				
- 				tacheUPC.setTache(newTache);
- 				tacheUPC.setEtat(newTache.getEtat());
- 				tacheUPC.setNomTache(newTache.getNomTache());
- 				tacheUPC.setUserGrade(logedUser.getGrade());
- 				tacheUPC.setDateEcheance(newTache.getDateEcheance());
- 				tacheUPCDao.addAffTache(tacheUPC);	
+		      
+ 	  if(logedUser.getGrade().equals("user")){
+			  	tacheUPC.setCompartiment(selectedCompartiment());
+			 	tacheUPC.setPlanner(selectedPlanner());	
+				tacheUPC.setUser(logedUser); 				
+				tacheUPC.setTache(newTache);
+				tacheUPC.setEtat(newTache.getEtat());
+				tacheUPC.setNomTache(newTache.getNomTache());
+				tacheUPC.setUserGrade(logedUser.getGrade());
+				tacheUPC.setDateEcheance(newTache.getDateEcheance());
+				tacheUPCDao.addAffTache(tacheUPC);
+ 		  }
+			 		
+		  		 
  				
- 			  		tacheUPCu.setCompartiment(selectedCompartiment());
- 			  		tacheUPCu.setPlanner(selectedPlanner());	
+		 
  			  		
- 			  		if(selectedUserMail != null)	{
+ 			  		if(selectedUserMail != null && user != null )	{
  			  			tacheUPCu.setUser(userDao.getUserByMailId(selectedUserMail.trim())); 
- 			  			affectationPlannerUser1.setUser(userDao.getUserByMailId(selectedUserMail.trim()));
+ 			  			affectationPlannerUser1.setUser(userDao.getUserByMailId(selectedUserMail.trim())); 			  			 
  			  			compPlaUsr3.setUser(userDao.getUserByMailId(selectedUserMail.trim()));
+ 			  			affectationPlannerUser1.setEtatsupervise("sans");
+ 			  			 
  			  		} 	 				 
  			  		else
  			  		{
  			  			tacheUPCu.setUser(logedUser); 
- 			  			affectationPlannerUser1.setUser(logedUser);
+ 			  			affectationPlannerUser1.setUser(logedUser); 			  		 
  			  			compPlaUsr3.setUser(logedUser);
+ 			  			affectationPlannerUser1.setEtatsupervise("sans");
  			  			
  			  		}
- 			  		
- 	 				tacheUPCu.setTache(newTache);
- 	 				tacheUPCu.setEtat(newTache.getEtat());
- 	 				tacheUPCu.setNomTache(newTache.getNomTache());
- 	 				tacheUPCu.setUserGrade(user.getGrade());
- 	 				tacheUPCu.setDateEcheance(newTache.getDateEcheance());
- 	 				tacheUPCDao.addAffTache(tacheUPCu);	
- 					
- 	 					 
-		 		 		compPlaUsr3.setCompartiment(selectedCompartiment());
-		 		 		compPlaUsr3.setPlanner(selectedPlanner()); 		
-		 		 		compartimentAffPlannerUserDao.AddCompByPlannerUser(compPlaUsr3);
+ 			  		 if(logedUser.getGrade().equals("admin"))
+ 		  			{tacheUPCu.setTache(newTache);
+ 	 	 				tacheUPCu.setEtat(newTache.getEtat());
+ 	 	 				tacheUPCu.setNomTache(newTache.getNomTache());
+ 	 	 				tacheUPCu.setUserGrade(logedUser.getGrade());
+ 	 	 				tacheUPCu.setDateEcheance(newTache.getDateEcheance());
+ 	 	 				tacheUPCu.setCompartiment(selectedCompartiment());
+ 	 			  		tacheUPCu.setPlanner(selectedPlanner());
+ 	 	 				tacheUPCDao.addAffTache(tacheUPCu);	
+  			  			} 
+			 		 		compPlaUsr3.setCompartiment(selectedCompartiment());
+			 		 		compPlaUsr3.setPlanner(selectedPlanner()); 		
+			 		 		compartimentAffPlannerUserDao.AddCompByPlannerUser(compPlaUsr3);
 		 		 		 	 				 		 		
 				 		 		affectationPlannerUser1.setPlanner(selectedPlanner());
 				 		 		affectationPlannerUser1.setNomSociete(logedUser.getNomSociete());
-				 		 		
-				 		 		if (selectedPlanner().isEtat() == false)
-				 		 		affectationPlannerUser1.setEtat(false);
+				 		 		if(selectedPlanner().isEtat() == false)
+				 		 			affectationPlannerUser1.setEtat(false);
 				 		 		else
-				 		 		affectationPlannerUser1.setEtat(true); 	
-				 		 		
+				 		 			affectationPlannerUser1.setEtat(true);
  				 		 		affectationPlannerUser1.setSuperviseur_id(selectedPlanner().getSuperviseur_id());
 				 		 		affectationPlannerUserDao.addAff(affectationPlannerUser1);
- 					 
+ 			  		 
  			  	
 				newTache = new Tache();
 				tacheUPC =new TacheUPC();
 				tacheUPCu =new TacheUPC();
-				compPlaUsr3 =new CompartimentAffPlannerUser();
+				compPlaUsr3 =new CompartimentAffPlannerUser();				 
 				affectationPlannerUser1 = new AffectationPlannerUser();
+				
  				System.out.println("end add tache");
 
 
@@ -257,24 +305,36 @@ public class TacheBean implements Serializable {
 	
   public List<TacheUPC> getDateTache(){
 	  List<TacheUPC> liste=new ArrayList<TacheUPC>();
+	  if(logedUser.getGrade().equals("admin"))
+		  liste=tacheUPCDao.getAllTacheByDate();
+	  else
 	  liste=tacheUPCDao.getTacheByDate(logedUser.getId());
 	  return liste;
   }
 
   public List<TacheUPC> listeTacheTermine(){
 	  List<TacheUPC> liste=new ArrayList<TacheUPC>();
+	  if(logedUser.getGrade().equals("admin"))
+		  liste=tacheUPCDao.getAllTacheTermine();
+	  else
 	  liste=tacheUPCDao.getTacheTermine(logedUser.getId());
 	  return liste;
   }
 
   public List<TacheUPC> listeTacheEncours(){
 	  List<TacheUPC> liste=new ArrayList<TacheUPC>();
+	  if(logedUser.getGrade().equals("admin"))
+		  liste=tacheUPCDao.getAllTacheTermine();	  
+	  else
 	  liste=tacheUPCDao.getTacheEnCour(logedUser.getId());
 	  return liste;
   }
 
   public List<TacheUPC> listeTacheNonCommence(){
 	  List<TacheUPC> liste=new ArrayList<TacheUPC>();
+	  if(logedUser.getGrade().equals("admin"))
+		  liste=tacheUPCDao.getAllTacheNonCommence();
+	  else
 	  liste=tacheUPCDao.getTacheNonCommence(logedUser.getId());
 	  return liste;
   }
@@ -290,8 +350,36 @@ public class TacheBean implements Serializable {
 		return listeTacheCmCp;
 	}
      
-	
-	
+	public void filtrageParEtat(){
+		if(logedUser.getGrade().equals("admin"))
+			{
+			
+			
+			nbNonCommencer = (tacheUPCDao.getAllTacheNonCommence()).size();
+			nbEncours=(tacheUPCDao.getAllTacheEnCour()).size();
+			nbTerminer=(tacheUPCDao.getAllTacheTermine()).size();
+			nbRetarder=(tacheUPCDao.getAllTacheByDate()).size();
+			}
+		
+		else{
+			nbNonCommencer = (tacheUPCDao.getTacheNonCommence(logedUser.getId())).size();
+			nbEncours=(tacheUPCDao.getTacheEnCour(logedUser.getId())).size();
+			nbTerminer=(tacheUPCDao.getTacheTermine(logedUser.getId())).size();
+			nbRetarder=(tacheUPCDao.getTacheByDate(logedUser.getId())).size();
+		}
+		
+		
+	}
+
+	public PieChartModel initializeModelTache() {
+		modelTache = new PieChartModel();
+		modelTache.set("Tache non Commencé", nbNonCommencer);
+		modelTache.set("Tache en Cours", nbEncours);
+		modelTache.set("Tache Terminé", nbTerminer);
+		modelTache.set("Tache Retardé", nbRetarder); 
+		modelTache.setLegendPosition("e");
+		return modelTache;
+		}
 	
 //	public List<Tache> listeTacheByComp() {
 //		List<Tache> listeTache = new ArrayList<>();
@@ -302,6 +390,8 @@ public class TacheBean implements Serializable {
 //		System.out.println("end Liste tacheByCompartiment");
 //		return listeTache;
 //	}
+	
+	
 
 	// Getter and Setter
 	public Date getDateDebut() {
@@ -611,6 +701,78 @@ public class TacheBean implements Serializable {
 
 	public void setNomTache(String nomTache) {
 		this.nomTache = nomTache;
+	}
+
+	public SupPlannerDao getSupPlannerDao() {
+		return supPlannerDao;
+	}
+
+	public void setSupPlannerDao(SupPlannerDao supPlannerDao) {
+		this.supPlannerDao = supPlannerDao;
+	}
+
+	public List<TacheUPC> getListNonCommencer() {
+		return listNonCommencer;
+	}
+
+	public void setListNonCommencer(List<TacheUPC> listNonCommencer) {
+		this.listNonCommencer = listNonCommencer;
+	}
+
+	public List<TacheUPC> getListEncours() {
+		return listEncours;
+	}
+
+	public void setListEncours(List<TacheUPC> listEncours) {
+		this.listEncours = listEncours;
+	}
+
+	public List<TacheUPC> getListTerminer() {
+		return listTerminer;
+	}
+
+	public void setListTerminer(List<TacheUPC> listTerminer) {
+		this.listTerminer = listTerminer;
+	}
+
+	public SupPlanner getSup() {
+		return sup;
+	}
+
+	public void setSup(SupPlanner sup) {
+		this.sup = sup;
+	}
+
+	public int getNbNonCommencer() {
+		return nbNonCommencer;
+	}
+
+	public void setNbNonCommencer(int nbNonCommencer) {
+		this.nbNonCommencer = nbNonCommencer;
+	}
+
+	public int getNbEncours() {
+		return nbEncours;
+	}
+
+	public void setNbEncours(int nbEncours) {
+		this.nbEncours = nbEncours;
+	}
+
+	public int getNbTerminer() {
+		return nbTerminer;
+	}
+
+	public void setNbTerminer(int nbTerminer) {
+		this.nbTerminer = nbTerminer;
+	}
+
+	public PieChartModel getModelTache() {
+		return modelTache;
+	}
+
+	public void setModelTache(PieChartModel modelTache) {
+		this.modelTache = modelTache;
 	}
 
 

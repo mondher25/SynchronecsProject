@@ -33,6 +33,8 @@ public class AffectationPlannerUser {
 	
 	private Long superviseur_id;
 	
+	private String etatsupervise;
+	
 	
 	//Getter and Setter
 	
@@ -83,6 +85,14 @@ public class AffectationPlannerUser {
 
 	public void setNomSociete(String nomSociete) {
 		this.nomSociete = nomSociete;
+	}
+
+	public String getEtatsupervise() {
+		return etatsupervise;
+	}
+
+	public void setEtatsupervise(String etatsupervise) {
+		this.etatsupervise = etatsupervise;
 	}
 
  

@@ -114,11 +114,13 @@ public class PlanBean implements Serializable{
 //    	 
 //    }
     
-  
+
 	
 
 	public void addNewPlanner(){
 	 System.out.println("----start add Planner---");
+	 AffectationPlannerUser affectationPlannerUser1 = new AffectationPlannerUser();
+	 
 	 if (selectedUserMail !=null)
 	 user=userDao.getUserByMailId(selectedUserMail);
 	 
@@ -131,7 +133,23 @@ public class PlanBean implements Serializable{
 			planner.setSuperviseur_id(logedUser.getId());
 		plannerDao.AddPlanner(planner); 
 		
- 		AffectationPlannerUser affectationPlannerUser1 = new AffectationPlannerUser();
+		
+		if(selectedUserMail !=null && user !=null )
+		{
+			sup.setUser(user);
+			sup.setEtatsupervise("oui");
+			affectationPlannerUser1.setEtatsupervise("oui");
+		}
+		else
+			{
+			sup.setUser(logedUser);
+			sup.setEtatsupervise("non");
+			affectationPlannerUser1.setEtatsupervise("non");
+			}
+		sup.setPlanner(planner);
+		supPlannerDao.addSuperviseur(sup);
+		
+ 		
  		affectationPlannerUser1.setPlanner(planner);
  		affectationPlannerUser1.setNomSociete(logedUser.getNomSociete());
  		affectationPlannerUser1.setUser(logedUser);
@@ -162,7 +180,7 @@ public class PlanBean implements Serializable{
 //		    		List<User> user1 = userDao.getUser();
 //		    		for (User u : user1)
 //		    		{
-//		    			AffectationPlannerUser affectationPlannerUser2 = new AffectationPlannerUser();
+//		    			 AffectationPlannerUser affectationPlannerUser2 = new AffectationPlannerUser();
 //		    			 affectationPlannerUser2.setPlanner(planner);
 //		    			 affectationPlannerUser2.setEtat(true);
 //		    			 affectationPlannerUser2.setUser(u);
@@ -172,15 +190,37 @@ public class PlanBean implements Serializable{
 //	    		
 //	    	}	
 //					 
-		planner=new Planner();		
+		planner=new Planner();	
+		affectationPlannerUser1=new AffectationPlannerUser();
+		sup=new SupPlanner();
 		System.out.println("----end add Planner---");		 
 		 
 		
 	}
+	public List<SupPlanner> listeplSuper(){
+		List<SupPlanner> lplPublic=new ArrayList<>();
+		if(logedUser.getGrade().equalsIgnoreCase("admin"))
+			lplPublic=supPlannerDao.getAllSupPlanner();
+		else
+		lplPublic=supPlannerDao.getSupPlanner(logedUser.getId());
+		
+		return lplPublic;
+	}
+	
+	public List<SupPlanner> listeplSuperv(){
+		List<SupPlanner> lplPublic=new ArrayList<>();		 
+		lplPublic=supPlannerDao.getAllSupPlanner();
+		return lplPublic;
+	}
+	
 
 	public List<AffectationPlannerUser> listePlannerPublic(){
 		List<AffectationPlannerUser> lplPublic=new ArrayList<>();
-		lplPublic=affectationPlannerUserDao.getPublicPlanner(logedUser.getNomSociete());
+//		List<AffectationPlannerUser> lplPrive=new ArrayList<>();
+		 
+//		lplPrive=affectationPlannerUserDao.getPublicPlannerSuper();
+		lplPublic=affectationPlannerUserDao.getPublicPlanner();
+//		lplPublic.addAll(lplPrive);
 		return lplPublic;
 	}
 	public List<AffectationPlannerUser> listePlannerPrive(){
@@ -189,6 +229,16 @@ public class PlanBean implements Serializable{
 		lplPrive=affectationPlannerUserDao.getAllPlanner(logedUser.getId());
 		return lplPrive;
 	}
+	
+	public List<AffectationPlannerUser> listePlannerPublicSuper(){
+		List<AffectationPlannerUser> lplPrive=new ArrayList<>();
+		 
+		lplPrive=affectationPlannerUserDao.getPublicPlannerSuper();
+		return lplPrive;
+	}
+	
+	
+	
 	
 	public List<AffectationPlannerUser> listePlannerSupervise(){
 		
@@ -319,7 +369,7 @@ public class PlanBean implements Serializable{
 		sup.setPlanner(newPlanner);
 		user=userDao.getUserByMailId(selectedUserMail);
 		sup.setUser(user);
-		sup.setMail(logedUser.getMail());
+	 
 		supPlannerDao.addSuperviseur(sup);
 	}
 
@@ -347,6 +397,18 @@ public class PlanBean implements Serializable{
 			return display=true;
 		
 	}
+	
+	
+	  public List<AffectationPlannerUser> getAllPlannerAd(){
+		  List<AffectationPlannerUser> liste=new ArrayList<>();			 
+			liste= affectationPlannerUserDao.getAllPlannerAdmin();	 
+			
+			return liste;
+	  }
+	  
+	  
+	  
+	  //seter and getter
 	
 
 	public String getMail() {

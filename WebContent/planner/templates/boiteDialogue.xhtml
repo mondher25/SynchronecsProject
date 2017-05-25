@@ -20,10 +20,10 @@
 <p:dialog id="diagAddPlanner" widgetVar="diagAddPlanner" modal="true" footer="Fin" resizable="false" header="Ajouter Planner " hideEffect="clip">
 	
 	<h:form id="formAddPlanner">
-	    <p:growl id="grow"></p:growl> 
+	    <p:growl id="grow" /> 
 	 <h:panelGrid columns="2" cellpadding="5">
 	    <h:outputText   value="Nom Planner" /> 
-		<p:inputText   value="#{plan.planner.namePlanner}" placeholder="Nom de Planner" required="true" requiredMessage="Ecrire Nom de Planner " />
+		<p:inputText   value="#{plan.planner.namePlanner}" placeholder="Nom de Planner" required="true" requiredMessage="Champ Obligatoire :nom du Planner " />
 	
 		<h:outputText value="Type Planner " />			   			    									   			        
 		<p:selectOneMenu id="console"  style="width:125px" value="#{plan.planner.type}" >
@@ -50,7 +50,7 @@
 	      
 	    </h:panelGrid>    
 	    
-	     <p:commandButton style="background-color:green;" styleClass="Fright" value="Terminer"   actionListener="#{plan.addNewPlanner()}"    onsuccess="PF('diagAddPlanner').hide()" update="grow formPlanner" />
+	     <p:commandButton style="background-color:green;" styleClass="Fright" value="Terminer"   actionListener="#{plan.addNewPlanner()}"  oncomplete="formPlanner"   onsuccess="PF('diagAddPlanner').hide()" update="grow formPlanner" />
 	    
 	 
 	</h:form>	
@@ -60,25 +60,29 @@
 			 
 				<h:form id="formModifTache">
 				 
-				 <h:panelGrid id="eventDetails" columns="2">
+				 <h:panelGrid id="eventDetails" columns="2" cellpadding="5" cellspacing="5">
+				 						    <p:outputLabel for="nomtache" value=" Nom du Tache:" />
+				 						     <h:outputText id="nomtache"   value="#{tacheMangementBean.selectedTache.nomTache}"  /> 
+				 						    
+				 
 						    <!--  calendar date Debut -->
-						    <p:outputLabel for="popup" value="date Debut:" />
-			        	 	<p:calendar id="popup" value="#{tacheMangementBean.selectedTache.dateDebut}" disabled="true"  />
+						    <p:outputLabel for="popup" value="Date de Debut:" />
+			        	 	<p:calendar id="popup" value="#{tacheMangementBean.selectedTache.dateDebut}" disabled="#{tacheCP.disabledSup()}"  />
 			    	 
 					      <!--  calendar date  écheance -->
-					        <p:outputLabel for="popup1" value="date D'écheance" />
-			        	 	<p:calendar id="popup1" value="#{tacheMangementBean.selectedTache.dateEcheance}" disabled="true"  />   
+					        <p:outputLabel for="popup1" value="Date D'écheance :" />
+			        	 	<p:calendar id="popup1" value="#{tacheMangementBean.selectedTache.dateEcheance}" disabled="#{tacheCP.disabledSup()}"  />   
 					 
-			        		        <p:outputLabel for="console" value="Etat" />
+			        		        <p:outputLabel for="console" value="Etat :" />
 							        <p:selectOneMenu id="console" value="#{tacheMangementBean.selectedTache.etat}" style="width:125px">
 							            <f:selectItem itemLabel="non-commencé" itemValue="non-commencé" itemDisabled="true" />
 							            <f:selectItem itemLabel="en-cours" itemValue="en-cours" />
 							            <f:selectItem itemLabel="Terminé" itemValue="terminé" />
 							   </p:selectOneMenu>		   			    									   			        
 					 
-						 <h:outputLabel for="desc" value="Description:" />
+						 <h:outputLabel for="desc" value="Description :" />
 			        	 <h:outputText id="desc" style="height:100px;" value="#{tacheMangementBean.selectedTache.description}"  /> 
-			         
+		 
 			        	 
  					<p:commandButton value="modifier" actionListener="#{tacheMangementBean.update}"  onsuccess="PF('diagModifTache').hide()"   process="formModifTache" rendered="#{ tacheMangementBean.rendered()}" />
 					
@@ -126,8 +130,7 @@
 			
 			
 			
-			
-			
+	 
 			
 			
 			

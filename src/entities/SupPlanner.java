@@ -21,7 +21,8 @@ public class SupPlanner {
 	@ManyToOne
 	private Planner planner;
 	
-	private String mail;
+	private String etatsupervise;
+ 
 
 
 	
@@ -53,13 +54,14 @@ public class SupPlanner {
 		this.planner = planner;
 	}
 
-	public String getMail() {
-		return mail;
+	public String getEtatsupervise() {
+		return etatsupervise;
 	}
 
-	public void setMail(String mail) {
-		this.mail = mail;
+	public void setEtatsupervise(String etatsupervise) {
+		this.etatsupervise = etatsupervise;
 	}
-	
+
+ 
 	
 }

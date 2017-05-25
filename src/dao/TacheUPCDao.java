@@ -22,5 +22,11 @@ public interface TacheUPCDao {
 	public List<TacheUPC> getTacheTermine(Long idUser);
 	public List<TacheUPC> getTacheEnCour(Long idUser);
 	public void updateTacheUPC(Long idTache,String etat);
+	
+	
+	public List<TacheUPC> getAllTacheByDate();
+	public List<TacheUPC> getAllTacheNonCommence();
+	public List<TacheUPC> getAllTacheTermine();
+	public List<TacheUPC> getAllTacheEnCour();
 	 
 }

@@ -18,9 +18,21 @@
 	>
 	
 	<ui:define  name="option" >
+	<div class="ui-g-12">
+			
+	   
+				 
+				<p:outputLabel value="#{tacheCP.filtrageParEtat()}" style="visible:false;"/>
+			<h:panelGrid columns="3" style="margin:0 auto;">
+			<p:chart type="pie" model="#{tacheCP.initializeModelTache()}" style="width: 800px;
+			height: 400px;"/>
+			</h:panelGrid>
+		  
 	
+	
+	</div>
     
-   	<div class="ui-g-6">
+   	<div class="ui-g-3">
  
 	<h:form > 	   
 	 <p:dataTable  style="border:none;margin-top:10px;" var="vartca" value="#{tacheCP.getDateTache()}"   >
@@ -31,7 +43,7 @@
 	</h:form>
 	</div>
    
-     	<div class="ui-g-6">
+     	<div class="ui-g-3">
      	 
      	 
 	<h:form > 	   
@@ -43,7 +55,7 @@
 	</h:form>
 	</div>
    
-      	<div class="ui-g-6">
+      	<div class="ui-g-3">
        
     
 	<h:form > 	   
@@ -55,7 +67,7 @@
 	</h:form>
 	</div>
    
-         	<div class="ui-g-6">
+         	<div class="ui-g-3">
           
 	<h:form > 	   
 	 <p:dataTable  style="border:none;margin-top:10px;" var="ta" value="#{tacheCP.listeTacheNonCommence()}"   >

@@ -83,7 +83,11 @@ public class AffectationPlannerUserJPA implements AffectationPlannerUserDao{
 	public List<AffectationPlannerUser> getAllPlanner(Long idUser) {
 		List<AffectationPlannerUser> liste=new ArrayList<>();
 		boolean etat=false;
-		liste=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE user_id=:id AND etat=:etat").setParameter("id", idUser).setParameter("etat", etat).getResultList();
+//		String etatsup="non";
+//		liste=em.createQuery("SELECT DISTINCT(a.planner) FROM   AffectationPlannerUser a WHERE a.etat=:etat").setParameter("etat", etat).getResultList();
+ 	liste=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE user_id=:id  AND etat=:etat").setParameter("id", idUser).setParameter("etat", etat).getResultList();
+
+//		liste=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE user_id=:id AND etat=:etat").setParameter("id", idUser).setParameter("etat", etat).getResultList();
 		return liste;
 	}
 
@@ -128,12 +132,15 @@ public class AffectationPlannerUserJPA implements AffectationPlannerUserDao{
 
 
 	@Override
-	public List<AffectationPlannerUser> getPublicPlanner(String nomSociete) {
+	public List<AffectationPlannerUser> getPublicPlanner() {
 		List<AffectationPlannerUser> listPlanner=new ArrayList<>();
 		boolean etat=true;
-		listPlanner=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE etat=:etat AND nomSociete=:nomSociete ").setParameter("etat",etat).setParameter("nomSociete", nomSociete).getResultList();
+// 		String sup="non";
+//		listPlanner=em.createNativeQuery("select DISTINCT planner_id  FROM AffectationPlannerUser WHERE etat=:etat").setParameter("etat",etat).getResultList();
+ 		listPlanner=em.createQuery("SELECT DISTINCT(a.planner) FROM AffectationPlannerUser a WHERE a.etat=:etat ").setParameter("etat",etat).getResultList();
 		
-		
+//		listPlanner=em.createQuery("SELECT DISTINCT(a.planner_id)  FROM AffectationPlannerUser a WHERE etat=:etat").setParameter("etat",etat).getResultList();
+
 		return listPlanner;
 	}
 
@@ -145,8 +152,11 @@ public class AffectationPlannerUserJPA implements AffectationPlannerUserDao{
 		List<AffectationPlannerUser> liste=new ArrayList<>();
 //		Set set = new HashSet();
 //		List<AffectationPlannerUser> liste2=new ArrayList<>();
-//		liste=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE superviseur_id=:id AND user_id<>:id ").setParameter("id", id).getResultList();
-		liste=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE superviseur_id=:id  ").setParameter("id", id).getResultList();
+//		String etatsup="oui";
+ 		liste=em.createQuery("SELECT DISTINCT(a.planner) FROM AffectationPlannerUser a WHERE a.superviseur_id=:id ").setParameter("id", id).getResultList();
+
+// 		liste=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE superviseur_id=:id AND user_id<>superviseur_id ").setParameter("id", id).getResultList();
+//		liste=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE superviseur_id=:id  ").setParameter("id", id).getResultList();
 //		set.addAll(liste);
 //		liste.clear();
 //		liste.addAll(set);
@@ -163,20 +173,60 @@ public class AffectationPlannerUserJPA implements AffectationPlannerUserDao{
 
 
 	@Override
-	public AffectationPlannerUser getSuperviseurPlanner(Long idp,Long idS) {
-		AffectationPlannerUser userAffPl=null;
+	public List<Long> getSuperviseurPlanner(Long idp) {
+		List<Long> listPlanner=new ArrayList<>();
+		listPlanner=em.createQuery("SELECT a.superviseur_id FROM AffectationPlannerUser a WHERE planner_id=:idp ").setParameter("idp", idp).getResultList();
+		return listPlanner;
 		 
-		try{
-		userAffPl=(AffectationPlannerUser)em.createQuery("SELECT a FROM AffectationPlannerUser WHERE planner_id=:idp AND supreviseur_id=:id").setParameter("idp", idp).setParameter("id", idS).getSingleResult();
-		}catch(Exception e){
-			
-			return userAffPl;
-		}
-		return userAffPl;
+	}
+
+
+	public List<AffectationPlannerUser> getAllPlannerAdministration() {
+		List<AffectationPlannerUser> listPlanner=new ArrayList<>();
+		String etatsup="non";
+		listPlanner=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE etatsupervise=:etatsup ").setParameter("etatsup", etatsup).getResultList();
+
+		
+		
+		return listPlanner;
 	}
 
 
 
+	@Override
+	public List<AffectationPlannerUser> getPublicPlannerSuper() {
+		List<AffectationPlannerUser> listPlanner=new ArrayList<>();
+		boolean etat=true;
+ 		String sup="oui";
+//		listPlanner=em.createNativeQuery("select DISTINCT planner_id  FROM AffectationPlannerUser WHERE etat=:etat").setParameter("etat",etat).getResultList();
+ 		listPlanner=em.createQuery("SELECT a FROM AffectationPlannerUser a WHERE etat=:etat AND etatsupervise=:sup ").setParameter("etat",etat).setParameter("sup", sup).getResultList();
+		
+//		listPlanner=em.createQuery("SELECT DISTINCT(a.planner_id)  FROM AffectationPlannerUser a WHERE etat=:etat").setParameter("etat",etat).getResultList();
+
+		return listPlanner;
+	}
+
+
+
+	@Override
+	public List<AffectationPlannerUser> getAllPlannerAdmin() {
+		List<AffectationPlannerUser> listPlanner=new ArrayList<>();
+		 
+		listPlanner=em.createQuery("SELECT DISTINCT(a.planner) FROM AffectationPlannerUser a  ").getResultList();
+
+		
+		
+		return listPlanner;
+	}
+
+
+
+	@Override
+	public List<AffectationPlannerUser> getAllPlannerUser(Long idUser) {
+		List<AffectationPlannerUser> listPlanner=new ArrayList<>();		 
+		listPlanner=em.createQuery("SELECT DISTINCT(a.planner) FROM AffectationPlannerUser a WHERE a.user_id=:id  ").setParameter("id", idUser).getResultList();
+		return listPlanner;
+	}
  
 
 

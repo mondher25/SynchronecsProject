@@ -30,10 +30,10 @@
 
 																        -->
           <h:form id="panel"> 
-			        <p:messages id="messages" />
+			        <p:growl id="grl" showDetail="false" sticky="true" />
 			        <h:panelGrid columns="2" cellspacing="0" >
-			            <p:inputText styleClass="Wid100" placeholder="Ajout  Compartiment" id="name" value="#{com.comp.nomCompartiment}" required="true"  />
-			            <p:commandButton icon="ui-icon-plus" actionListener="#{com.addCom}" process="panel" update="listpanel"/>
+			            <p:inputText styleClass="Wid100" placeholder="Nom du Compartiment" requiredMessage="Champ Obligatoire" id="name" value="#{com.comp.nomCompartiment}" required="true"  />
+			            <p:commandButton value="Ajouter" icon="ui-icon-plus" actionListener="#{com.addCom}" process="panel" update="listpanel grl"/>
 			        </h:panelGrid>
 	   	 </h:form>	
 			    
@@ -44,8 +44,9 @@
 																           -->
 		
 	<h:form id="listpanel"> 	   
-	 <p:dataTable id="eventsDT" style="border:none;margin-top:10px;" var="cm" value="#{com.ListeCompByPlanner()}" rendered="#{not empty com.ListeCompByPlanner()}"  >
-       	  <p:column style="border:none;">
+	 <p:dataTable id="eventsDT" style="border:none;margin-top:10px;" var="cm" value="#{com.ListeCompByPlanner()}"  >
+	 
+       	  <p:column style="border:none;" headerText="Mes Compartiment">
  			    	<p:commandLink  value="#{cm.nomCompartiment}" update="allPan"  >
 					  <f:setPropertyActionListener target="#{tacheCP.idCom}" value="#{cm.id}"/>
 					</p:commandLink>		         
@@ -78,7 +79,7 @@
 	 <f:facet name="header">
 	 <p:toolbar style="border:0;background:none;">
 	      <f:facet name="left">
-	      <p:commandButton icon="ui-icon-plus"  oncomplete="PF('addtach').show()" update="addtach" style="margin-left:0;" />
+	      <p:commandButton value="Nouveau Tache" icon="ui-icon-plus"  oncomplete="PF('addtach').show()" update="addtach" style="margin-left:0;" />
 	      </f:facet>
 	       <f:facet name="left">
 	       
@@ -108,19 +109,19 @@
 		<p:dialog id="addtach" widgetVar="addtach" header="Nouveau Tache" modal="true" resizable="false">
 			<h:form id="formTache" rendered="#{not empty tacheCP.idCom}" >
 		
-					<p:growl id="msgs" showDetail="true" />	
+					<p:growl id="msgs" showDetail="false" sticky="true" />	
 
 					<h:panelGrid columns="2" cellpadding="5">
 							  <h:outputLabel for="nom" value="Nom" />
-			        		    <p:inputText  id="nom"    value="#{tacheCP.newTache.nomTache}" required="true" requiredMessage="Nom Invalide"/>
+			        		    <p:inputText  id="nom"    value="#{tacheCP.newTache.nomTache}" required="true" requiredMessage="Nom Tache Invalide"/>
 			        		    
 						    <!--  calendar date Debut -->
 						    <p:outputLabel for="popup" value="Date Debut:" />
-			        		<p:calendar id="popup" value="#{tacheCP.newTache.dateDebut}" />
+			        		<p:calendar id="popup" required="true" requiredMessage="Date debut Invalide" value="#{tacheCP.newTache.dateDebut}" />
 			     
 					      <!--  calendar date  écheance -->
 					        <p:outputLabel for="popup1" value="Date D'écheance" />
-			        		<p:calendar id="popup1" value="#{tacheCP.newTache.dateEcheance}" />
+			        		<p:calendar id="popup1" required="true" requiredMessage="Date d'echeance Invalide" value="#{tacheCP.newTache.dateEcheance}" />
 			        		
 			        		<h:outputLabel for="desc" value="Description:" />
 			        		    <p:inputTextarea id="desc" required="true" requiredMessage="champ obligatoire" rows="3" cols="22"  autoResize="true"  value="#{tacheCP.newTache.description}"/>
